@@ -100,13 +100,13 @@ async function getCachedJSON(url) {
       }
     }
     const res = await fetch(url)
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`)
+    if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for URL: ${url}`)
     const data = await res.json()
     await KV.put(cacheKey, JSON.stringify(data), { expirationTtl: 600 })   // 缓存十分钟
     return data
   } else {
     const res = await fetch(url)
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`)
+    if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for URL: ${url}`)
     return await res.json()
   }
 }
@@ -225,6 +225,9 @@ async function handleFormatRequest(formatParam, sourceParam, prefixParam, defaul
     }
 
     const selectedSource = JSON_SOURCES[sourceParam] || JSON_SOURCES['full']
+    // 添加调试日志
+    console.log('Fetching data from:', selectedSource)
+    
     const data = await getCachedJSON(selectedSource)
     
     const newData = config.proxy
@@ -242,8 +245,8 @@ async function handleFormatRequest(formatParam, sourceParam, prefixParam, defaul
       })
     }
   } catch (err) {
-    await logError('json', { message: err.message })
-    return errorResponse(err.message, {}, 500)
+    await logError('json', { message: err.message, stack: err.stack })
+    return errorResponse('Failed to fetch or process JSON data: ' + err.message, {}, 500)
   }
 }
 
