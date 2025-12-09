@@ -24,9 +24,9 @@ const EXCLUDE_HEADERS = new Set([
 ])
 
 const JSON_SOURCES = {
-  'jin18': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/jin18.json',
-  'jingjian': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/jingjian.json',
-  'full': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/LunaTV-config.json'
+  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json',
+  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json',
+  'full': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/LunaTV-config.json'
 }
 
 const FORMAT_CONFIG = {
@@ -254,95 +254,301 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API 中转代理服务</title>
+  <title>CORSAPI - LunaTV API 中转代理服务</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; line-height: 1.6; }
-    h1 { color: #333; }
-    h2 { color: #555; margin-top: 30px; }
-    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 14px; }
-    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
-    .example { background: #e8f5e9; padding: 15px; border-left: 4px solid #4caf50; margin: 20px 0; }
-    .section { background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 15px 0; }
-    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-    table td { padding: 8px; border: 1px solid #ddd; }
-    table td:first-child { background: #f5f5f5; font-weight: bold; width: 30%; }
+    :root {
+      --primary-color: #4a6cf7;
+      --secondary-color: #6c757d;
+      --success-color: #28a745;
+      --background-color: #f8f9fa;
+      --card-background: #ffffff;
+      --border-color: #e9ecef;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+      background-color: var(--background-color);
+      color: var(--text-primary);
+      line-height: 1.6; 
+      padding: 16px;
+    }
+    
+    .container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 0 12px; 
+    }
+    
+    header { 
+      text-align: center; 
+      padding: 24px 0; 
+      margin-bottom: 24px; 
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    h1 { 
+      color: var(--primary-color); 
+      font-size: 2rem; 
+      margin-bottom: 8px; 
+    }
+    
+    h2 { 
+      color: var(--text-primary); 
+      font-size: 1.5rem; 
+      margin: 24px 0 16px; 
+      padding-bottom: 8px; 
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    h3 { 
+      color: var(--text-primary); 
+      font-size: 1.25rem; 
+      margin: 0 0 16px; 
+    }
+    
+    p { 
+      margin-bottom: 16px; 
+      color: var(--text-secondary); 
+    }
+    
+    code { 
+      background: var(--card-background); 
+      padding: 4px 8px; 
+      border-radius: 4px; 
+      font-size: 0.9rem; 
+      border: 1px solid var(--border-color);
+      word-break: break-all;
+    }
+    
+    pre { 
+      background: var(--card-background); 
+      padding: 16px; 
+      border-radius: 8px; 
+      overflow-x: auto; 
+      border: 1px solid var(--border-color);
+      margin: 16px 0;
+    }
+    
+    .card { 
+      background: var(--card-background); 
+      padding: 20px; 
+      border-radius: 8px; 
+      margin: 16px 0; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border: 1px solid var(--border-color);
+    }
+    
+    .section { 
+      background: var(--card-background); 
+      padding: 20px; 
+      border-radius: 8px; 
+      margin: 16px 0; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border: 1px solid var(--border-color);
+    }
+    
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin: 16px 0; 
+      background: var(--card-background);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    table td { 
+      padding: 12px; 
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    table tr:last-child td { 
+      border-bottom: none; 
+    }
+    
+    table td:first-child { 
+      background: #f8f9fa; 
+      font-weight: 600; 
+      width: 30%; 
+    }
+    
+    ul { 
+      padding-left: 20px; 
+      margin: 16px 0; 
+    }
+    
+    li { 
+      margin-bottom: 8px; 
+    }
+    
+    .btn { 
+      display: inline-block;
+      padding: 8px 16px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      margin: 4px 0;
+    }
+    
+    .btn:hover { 
+      background: #3a5af5; 
+      transform: translateY(-1px);
+    }
+    
+    .btn-copy { 
+      background: #28a745; 
+    }
+    
+    .btn-copy:hover { 
+      background: #218838; 
+    }
+    
+    .grid { 
+      display: grid; 
+      gap: 16px; 
+    }
+    
+    @media (min-width: 768px) {
+      .grid { 
+        grid-template-columns: repeat(2, 1fr); 
+      }
+      
+      body { 
+        padding: 24px; 
+      }
+      
+      h1 { 
+        font-size: 2.5rem; 
+      }
+      
+      h2 { 
+        font-size: 1.75rem; 
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .grid { 
+        grid-template-columns: repeat(3, 1fr); 
+      }
+    }
+    
+    .notification { 
+      position: fixed; 
+      top: 20px; 
+      right: 20px; 
+      padding: 12px 20px; 
+      background: var(--success-color); 
+      color: white; 
+      border-radius: 4px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateX(200%);
+      transition: transform 0.3s ease-out;
+      z-index: 1000;
+    }
+    
+    .notification.show { 
+      transform: translateX(0); 
+    }
   </style>
 </head>
 <body>
-  <h1>🔄 API 中转代理服务</h1>
-  <p>通用 API 中转代理，用于访问被墙或限制的接口。</p>
-  
-  <h2>使用方法</h2>
-  <p>中转任意 API：在请求 URL 后添加 <code>?url=目标地址</code> 参数</p>
-  <pre>${defaultPrefix}<示例API地址></pre>
-  
-  <h2>配置订阅参数说明</h2>
-  <div class="section">
-    <table>
-      <tr>
-        <td>format</td>
-        <td><code>0</code> 或 <code>raw</code> = 原始 JSON<br>
-            <code>1</code> 或 <code>proxy</code> = 添加代理前缀<br>
-            <code>2</code> 或 <code>base58</code> = 原始 Base58 编码<br>
-            <code>3</code> 或 <code>proxy-base58</code> = 代理 Base58 编码</td>
-      </tr>
-      <tr>
-        <td>source</td>
-        <td><code>jin18</code> = 精简版<br>
-            <code>jingjian</code> = 精简版+成人<br>
-            <code>full</code> = 完整版（默认）</td>
-      </tr>
-      <tr>
-        <td>prefix</td>
-        <td>自定义代理前缀（仅在 format=1 或 3 时生效）</td>
-      </tr>
-    </table>
-  </div>
-  
-  <h2>配置订阅链接示例</h2>
+  <div class="container">
+    <header>
+      <h1>🔄 CORSAPI 中转代理服务</h1>
+      <p>通用 API 中转代理，用于访问被墙或限制的接口</p>
+    </header>
     
-  <div class="section">
-    <h3>📦 精简版（jin18）</h3>
-    <p>原始 JSON：<br><code class="copyable">${currentOrigin}?format=0&source=jin18</code> <button class="copy-btn">复制</button></p>
-    <p>中转代理 JSON：<br><code class="copyable">${currentOrigin}?format=1&source=jin18</code> <button class="copy-btn">复制</button></p>
-    <p>原始 Base58：<br><code class="copyable">${currentOrigin}?format=2&source=jin18</code> <button class="copy-btn">复制</button></p>
-    <p>中转 Base58：<br><code class="copyable">${currentOrigin}?format=3&source=jin18</code> <button class="copy-btn">复制</button></p>
+    <div class="card">
+      <h2>🔗 使用方法</h2>
+      <p>中转任意 API：在请求 URL 后添加 <code>?url=目标地址</code> 参数</p>
+      <pre>${defaultPrefix}&lt;示例API地址&gt;</pre>
+    </div>
+    
+    <div class="card">
+      <h2>⚙️ 配置订阅参数说明</h2>
+      <table>
+        <tr>
+          <td>format</td>
+          <td><code>0</code> 或 <code>raw</code> = 原始 JSON<br>
+              <code>1</code> 或 <code>proxy</code> = 添加代理前缀<br>
+              <code>2</code> 或 <code>base58</code> = 原始 Base58 编码<br>
+              <code>3</code> 或 <code>proxy-base58</code> = 代理 Base58 编码</td>
+        </tr>
+        <tr>
+          <td>source</td>
+          <td><code>jin18</code> = 精简版<br>
+              <code>jingjian</code> = 精简版+成人<br>
+              <code>full</code> = 完整版（默认）</td>
+        </tr>
+        <tr>
+          <td>prefix</td>
+          <td>自定义代理前缀（仅在 format=1 或 3 时生效）</td>
+        </tr>
+      </table>
+    </div>
+    
+    <h2>📋 配置订阅链接示例</h2>
+    
+    <div class="grid">
+      <div class="card">
+        <h3>📱 精简版（jin18）</h3>
+        <p><strong>原始 JSON：</strong><br><code class="copyable">${currentOrigin}?format=0&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="0">复制</button></p>
+        <p><strong>中转代理 JSON：</strong><br><code class="copyable">${currentOrigin}?format=1&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="1">复制</button></p>
+        <p><strong>原始 Base58：</strong><br><code class="copyable">${currentOrigin}?format=2&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="2">复制</button></p>
+        <p><strong>中转 Base58：</strong><br><code class="copyable">${currentOrigin}?format=3&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="3">复制</button></p>
+      </div>
+      
+      <div class="card">
+        <h3>📺 精简版+成人（jingjian）</h3>
+        <p><strong>原始 JSON：</strong><br><code class="copyable">${currentOrigin}?format=0&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="4">复制</button></p>
+        <p><strong>中转代理 JSON：</strong><br><code class="copyable">${currentOrigin}?format=1&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="5">复制</button></p>
+        <p><strong>原始 Base58：</strong><br><code class="copyable">${currentOrigin}?format=2&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="6">复制</button></p>
+        <p><strong>中转 Base58：</strong><br><code class="copyable">${currentOrigin}?format=3&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="7">复制</button></p>
+      </div>
+      
+      <div class="card">
+        <h3>🎬 完整版（full，默认）</h3>
+        <p><strong>原始 JSON：</strong><br><code class="copyable">${currentOrigin}?format=0&source=full</code> <button class="btn btn-copy copy-btn" data-idx="8">复制</button></p>
+        <p><strong>中转代理 JSON：</strong><br><code class="copyable">${currentOrigin}?format=1&source=full</code> <button class="btn btn-copy copy-btn" data-idx="9">复制</button></p>
+        <p><strong>原始 Base58：</strong><br><code class="copyable">${currentOrigin}?format=2&source=full</code> <button class="btn btn-copy copy-btn" data-idx="10">复制</button></p>
+        <p><strong>中转 Base58：</strong><br><code class="copyable">${currentOrigin}?format=3&source=full</code> <button class="btn btn-copy copy-btn" data-idx="11">复制</button></p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>✨ 支持的功能</h2>
+      <ul>
+        <li>✅ 支持 GET、POST、PUT、DELETE 等所有 HTTP 方法</li>
+        <li>✅ 自动转发请求头和请求体</li>
+        <li>✅ 保留原始响应头（除敏感信息）</li>
+        <li>✅ 完整的 CORS 支持</li>
+        <li>✅ 超时保护（9 秒）</li>
+        <li>✅ 支持多种配置源切换</li>
+        <li>✅ 支持 Base58 编码输出</li>
+      </ul>
+    </div>
   </div>
   
-  <div class="section">
-    <h3>📦 精简版+成人（jingjian）</h3>
-    <p>原始 JSON：<br><code class="copyable">${currentOrigin}?format=0&source=jingjian</code> <button class="copy-btn">复制</button></p>
-    <p>中转代理 JSON：<br><code class="copyable">${currentOrigin}?format=1&source=jingjian</code> <button class="copy-btn">复制</button></p>
-    <p>原始 Base58：<br><code class="copyable">${currentOrigin}?format=2&source=jingjian</code> <button class="copy-btn">复制</button></p>
-    <p>中转 Base58：<br><code class="copyable">${currentOrigin}?format=3&source=jingjian</code> <button class="copy-btn">复制</button></p>
-  </div>
-  
-  <div class="section">
-    <h3>📦 完整版（full，默认）</h3>
-    <p>原始 JSON：<br><code class="copyable">${currentOrigin}?format=0&source=full</code> <button class="copy-btn">复制</button></p>
-    <p>中转代理 JSON：<br><code class="copyable">${currentOrigin}?format=1&source=full</code> <button class="copy-btn">复制</button></p>
-    <p>原始 Base58：<br><code class="copyable">${currentOrigin}?format=2&source=full</code> <button class="copy-btn">复制</button></p>
-    <p>中转 Base58：<br><code class="copyable">${currentOrigin}?format=3&source=full</code> <button class="copy-btn">复制</button></p>
-  </div>
-  
-  <h2>支持的功能</h2>
-  <ul>
-    <li>✅ 支持 GET、POST、PUT、DELETE 等所有 HTTP 方法</li>
-    <li>✅ 自动转发请求头和请求体</li>
-    <li>✅ 保留原始响应头（除敏感信息）</li>
-    <li>✅ 完整的 CORS 支持</li>
-    <li>✅ 超时保护（9 秒）</li>
-    <li>✅ 支持多种配置源切换</li>
-    <li>✅ 支持 Base58 编码输出</li>
-  </ul>
+  <div id="notification" class="notification">已复制到剪贴板！</div>
   
   <script>
-    document.querySelectorAll('.copy-btn').forEach((btn, idx) => {
+    document.querySelectorAll('.copy-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-idx'));
         const text = document.querySelectorAll('.copyable')[idx].innerText;
         navigator.clipboard.writeText(text).then(() => {
-          btn.innerText = '已复制！';
-          setTimeout(() => (btn.innerText = '复制'), 1500);
+          const notification = document.getElementById('notification');
+          notification.classList.add('show');
+          setTimeout(() => {
+            notification.classList.remove('show');
+          }, 2000);
         });
       });
     });
