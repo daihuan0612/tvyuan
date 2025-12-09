@@ -87,6 +87,19 @@ function addOrReplacePrefix(obj, newPrefix) {
 
 // ---------- 安全版：KV 缓存 ----------
 async function getCachedJSON(url) {
+  // 使用内嵌配置数据，避免依赖外部文件
+  const sourceMap = {
+    'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/LunaTV-config.json': 'full',
+    'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json': 'jingjian',
+    'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json': 'jin18'
+  };
+  
+  const sourceType = sourceMap[url];
+  if (sourceType && EMBEDDED_CONFIGS[sourceType]) {
+    console.log(`Using embedded config for ${sourceType}`);
+    return EMBEDDED_CONFIGS[sourceType];
+  }
+
   const kvAvailable = typeof KV !== 'undefined' && KV && typeof KV.get === 'function'
 
   if (kvAvailable) {
@@ -115,18 +128,12 @@ async function getCachedJSON(url) {
       throw new Error(`JSON parse failed: ${parseError.message} for URL: ${url}`)
     }
   } else {
-    const res = await fetch(url)
-    console.log(`Fetch status for ${url}:`, res.status)
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for URL: ${url}`)
-    const text = await res.text()
-    console.log(`Response text length:`, text.length)
-    try {
-      return JSON.parse(text)
-    } catch (parseError) {
-      console.error('JSON parse error:', parseError.message)
-      console.error('Response text preview:', text.substring(0, 500))
-      throw new Error(`JSON parse failed: ${parseError.message} for URL: ${url}`)
-    }
+    // 如果无法从外部获取，使用内嵌配置作为后备
+    console.log(`Using embedded config as fallback for ${url}`);
+    return EMBEDDED_CONFIGS['full'] || {
+      "cache_time": 7200,
+      "api_site": {}
+    };
   }
 }
 
@@ -590,4 +597,187 @@ function errorResponse(error, data = {}, status = 400) {
     status,
     headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
   })
+}
+
+// JSON配置数据（内嵌版本，避免依赖外部文件）
+const EMBEDDED_CONFIGS = {
+  'full': {
+  "cache_time": 7200,
+  "api_site": {
+    "iqiyizyapi.com": {
+      "name": "🎬-爱奇艺-",
+      "api": "https://iqiyizyapi.com/api.php/provide/vod",
+      "detail": "https://iqiyizyapi.com"
+    },
+    "dbzy.tv": {
+      "name": "🎬豆瓣资源",
+      "api": "https://caiji.dbzy5.com/api.php/provide/vod",
+      "detail": "dbzy.tv"
+    },
+    "tyyszy.com": {
+      "name": "🎬天涯影视",
+      "api": "https://tyyszy.com/api.php/provide/vod",
+      "detail": "https://tyyszy.com"
+    },
+    "mtzy.me": {
+      "name": "🎬茅台资源",
+      "api": "https://caiji.maotaizy.cc/api.php/provide/vod",
+      "detail": "https://mtzy.me"
+    },
+    "wolongzyw.com": {
+      "name": "🎬卧龙资源",
+      "api": "https://wolongzyw.com/api.php/provide/vod",
+      "detail": "https://wolongzyw.com"
+    },
+    "ikunzy.com": {
+      "name": "🎬iKun资源",
+      "api": "https://ikunzyapi.com/api.php/provide/vod",
+      "detail": "https://ikunzy.com"
+    },
+    "dyttzyapi.com": {
+      "name": "🎬电影天堂",
+      "api": "http://caiji.dyttzyapi.com/api.php/provide/vod",
+      "detail": "http://caiji.dyttzyapi.com"
+    },
+    "www.maoyanzy.com": {
+      "name": "🎬猫眼资源",
+      "api": "https://api.maoyanapi.top/api.php/provide/vod",
+      "detail": "https://www.maoyanzy.com"
+    },
+    "cj.lzcaiji.com": {
+      "name": "🎬量子资源",
+      "api": "https://cj.lzcaiji.com/api.php/provide/vod",
+      "detail": "https://cj.lzcaiji.com"
+    },
+    "360zy.com": {
+      "name": "🎬360 资源",
+      "api": "https://360zy.com/api.php/provide/vod",
+      "detail": "https://360zy.com"
+    },
+    "jszyapi.com": {
+      "name": "🎬极速资源",
+      "api": "https://jszyapi.com/api.php/provide/vod",
+      "detail": "https://jszyapi.com"
+    },
+    "www.moduzy.net": {
+      "name": "🎬魔都资源",
+      "api": "https://www.mdzyapi.com/api.php/provide/vod",
+      "detail": "https://www.moduzy.net"
+    },
+    "ffzyapi.com": {
+      "name": "🎬非凡资源",
+      "api": "https://api.ffzyapi.com/api.php/provide/vod",
+      "detail": "https://cj.ffzyapi.com"
+    },
+    "bfzy.tv": {
+      "name": "🎬暴风资源",
+      "api": "https://bfzyapi.com/api.php/provide/vod",
+      "detail": "https://bfzy.tv"
+    },
+    "zuida.xyz": {
+      "name": "🎬最大资源",
+      "api": "https://api.zuidapi.com/api.php/provide/vod",
+      "detail": "https://zuida.xyz"
+    },
+    "wujinzy.me": {
+      "name": "🎬无尽资源",
+      "api": "https://api.wujinapi.me/api.php/provide/vod",
+      "detail": "https://wujinzy.com"
+    },
+    "xinlangapi.com": {
+      "name": "🎬新浪资源",
+      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod",
+      "detail": "https://xinlangapi.com"
+    },
+    "api.wwzy.tv": {
+      "name": "🎬旺旺资源",
+      "api": "https://api.wwzy.tv/api.php/provide/vod",
+      "detail": "https://api.wwzy.tv"
+    },
+    "www.subozy.com": {
+      "name": "🎬速播资源",
+      "api": "https://subocaiji.com/api.php/provide/vod",
+      "detail": "www.subozy.com"
+    },
+    "jinyingzy.com": {
+      "name": "🎬金鹰点播",
+      "api": "https://jinyingzy.com/api.php/provide/vod",
+      "detail": "https://jinyingzy.com"
+    },
+    "p2100.net": {
+      "name": "🎬飘零资源",
+      "api": "https://p2100.net/api.php/provide/vod",
+      "detail": "https://p2100.net"
+    },
+    "api.ukuapi88.com": {
+      "name": "🎬U酷影视",
+      "api": "https://api.ukuapi88.com/api.php/provide/vod",
+      "detail": "https://www.ukuzy.com"
+    },
+    "api.guangsuapi.com": {
+      "name": "🎬光速资源",
+      "api": "https://api.guangsuapi.com/api.php/provide/vod",
+      "detail": "https://api.guangsuapi.com"
+    },
+    "www.hongniuzy.com": {
+      "name": "🎬红牛资源",
+      "api": "https://www.hongniuzy2.com/api.php/provide/vod",
+      "detail": "https://www.hongniuzy.com"
+    },
+    "caiji.moduapi.cc": {
+      "name": "🎬魔都动漫",
+      "api": "https://caiji.moduapi.cc/api.php/provide/vod",
+      "detail": "https://caiji.moduapi.cc"
+    },
+    "www.ryzyw.com": {
+      "name": "🎬如意资源",
+      "api": "https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod",
+      "detail": "https://www.ryzyw.com"
+    },
+    "www.haohuazy.com": {
+      "name": "🎬豪华资源",
+      "api": "https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod",
+      "detail": "https://www.haohuazy.com"
+    },
+    "bdzy1.com": {
+      "name": "🎬百度云zy",
+      "api": "https://pz.168188.dpdns.org/?url=https://api.apibdzy.com/api.php/provide/vod",
+      "detail": "https://bdzy1.com"
+    },
+    "zy.sh0o.cn": {
+      "name": "🎬山海资源",
+      "api": "https://zy.sh0o.cn/api.php/provide/vod",
+      "detail": "https://zy.sh0o.cn"
+    },
+    "lzizy.net": {
+      "_comment": "备用",
+      "name": "🎬量子影视",
+      "api": "https://cj.lziapi.com/api.php/provide/vod",
+      "detail": "https://lzizy.net"
+    },
+    "zuidazy.co": {
+      "name": "🎬最大点播",
+      "api": "https://zuidazy.me/api.php/provide/vod",
+      "detail": "https://zuidazy.co"
+    },
+    "wujinzy.com": {
+      "name": "🎬无尽影视",
+      "api": "https://api.wujinapi.com/api.php/provide/vod",
+      "detail": "https://wujinzy.com"
+    },
+    "wwzy.tv": {
+      "_comment": "备用",
+      "name": "🎬旺旺短剧",
+      "api": "https://wwzy.tv/api.php/provide/vod",
+      "detail": "https://wwzy.tv"
+    },
+    "1080zyk4.com": {
+      "name": "🎬优质资源",
+      "api": "https://api.yzzy-api.com/inc/apijson.php",
+      "detail": "https://1080zyk4.com"
+    },
+    "91md.me": {
+      "name": "
+    }
+  }
 }
