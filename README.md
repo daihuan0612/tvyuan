@@ -200,7 +200,13 @@ https://api.example.workers.dev/?format=1&source=full&prefix=https://my-proxy.co
   
 # 
 
-将 `\<你的域名\>` 替换为你的实际 Worker 地址：
+将 `<你的域名>` 替换为你的实际域名地址：
+
+> **域名说明**：
+> - **分配域名**：Cloudflare自动分配的域名，如 `xpgyuan.pages.dev`
+> - **自定义域名**：您绑定的个性化域名，如 `xfl.de5.net`
+> 
+> 无论使用哪种域名，订阅链接的格式和功能完全相同，您可以根据需要选择使用。
 
 ### 精简版（jin18）
 
@@ -218,6 +224,8 @@ https://<你的域名>/?format=2&source=jin18
 https://<你的域名>/?format=3&source=jin18
 ```
 
+> **说明**：精简版包含31个精选资源，不含成人内容，适合家庭使用。
+
 ### 精简+成人版（jingjian）
 
 ```jsx
@@ -234,6 +242,8 @@ https://<你的域名>/?format=2&source=jingjian
 https://<你的域名>/?format=3&source=jingjian
 ```
 
+> **说明**：精简+成人版包含61个资源，包含经过筛选的成人内容。
+
 ### 完整版（full，默认）
 
 ```jsx
@@ -249,6 +259,8 @@ https://<你的域名>/?format=2&source=full
 # 代理 Base58 编码（推荐用于订阅）
 https://<你的域名>/?format=3&source=full
 ```
+
+> **说明**：完整版包含88个资源，提供最全面的内容覆盖。
 
 ---   
 
@@ -271,21 +283,79 @@ https://<你的域名>/?format=3&source=full
 </details>
 
 <details>
+<summary>⚠️ 重要提醒：关于三个核心链接</summary>
+  
+# 
+  
+项目中的三个核心链接对应三种不同的配置源：
+
+1. **`jin18` - 精简版**：
+   - 链接：`https://<你的域名>/?format=3&source=jin18`
+   - 特点：不含成人内容，适合家庭使用
+
+2. **`jingjian` - 精简+成人版**：
+   - 链接：`https://<你的域名>/?format=3&source=jingjian`
+   - 特点：包含精选的成人内容
+
+3. **`full` - 完整版（默认）**：
+   - 链接：`https://<你的域名>/?format=3&source=full`
+   - 特点：提供最全面的资源覆盖
+
+> **关键要点**：
+> - 以上三个链接中的 `<你的域名>` 可以替换为分配域名（如 `xpgyuan.pages.dev`）或自定义域名（如 `xfl.de5.net`）
+> - 所有域名下的链接功能完全相同
+> - 推荐使用 `format=3`（代理 Base58 编码）格式作为订阅链接，兼容性最好
+
+</details>
+
+<details>
+<summary>🔗 三种域名访问说明</summary>
+  
+# 
+  
+项目支持通过三种不同的域名访问，所有订阅链接在任何域名下都可正常使用：
+
+### 1. Cloudflare分配域名
+- **格式**：`<项目名>.pages.dev`
+- **示例**：`xpgyuan.pages.dev`
+- **特点**：Cloudflare自动分配，永久可用
+
+### 2. 带版本哈希的预览域名
+- **格式**：`<哈希值>.<项目名>.pages.dev`
+- **示例**：`87c67cff.xpgyuan.pages.dev`
+- **特点**：用于预览特定部署版本
+
+### 3. 自定义域名
+- **格式**：您绑定的个性化域名
+- **示例**：`xfl.de5.net`
+- **特点**：更易记，专业性强
+
+> **使用建议**：日常使用推荐自定义域名，稳定性好且易记。
+
+</details>
+
+<details>
 <summary>🔧 高级配置</summary>
   
 # 
 
 ### 修改配置源地址
 
-在 `worker.js` 中找到 `JSON_SOURCES` 对象并修改：
+在 `_worker.js` 中找到 `JSON_SOURCES` 对象并修改：
 
 ```jsx
 const JSON_SOURCES = {
-  'jin18': 'https://raw.githubusercontent.com/your-repo/jin18.json',
-  'jingjian': 'https://raw.githubusercontent.com/your-repo/jingjian.json',
-  'full': 'https://raw.githubusercontent.com/your-repo/full.json'
+  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json',
+  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json',
+  'full': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/LunaTV-config.json'
 }
 ```
+
+> **重要说明**：
+> - 这三个链接指向GitHub仓库中的JSON配置文件
+> - 部署后需要确保这些文件存在于您的GitHub仓库中
+> - 文件名必须与链接中的文件名完全一致
+> - 如果使用自己的仓库，请将 `daihuan0612/tvyuan` 替换为您的GitHub用户名和仓库名
 
 ### 修改超时时间
 
