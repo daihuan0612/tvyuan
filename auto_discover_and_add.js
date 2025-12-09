@@ -37,25 +37,9 @@ try {
   // 4. 重新生成相关文件
   console.log('\n=== 第三步：重新生成相关文件 ===');
   
-  // 生成 jingjian.json (去除带_comment的项)
-  console.log('🔧 生成 jingjian.json...');
-  execSync(`jq '{
-    cache_time: .cache_time,
-    api_site: (
-      .api_site
-      | with_entries(select(.value._comment | not))
-    )
-  }' ${CONFIG_PATH} > jingjian.json`, { stdio: 'inherit' });
-  
-  // 生成 jin18.json (去除成人内容)
-  console.log('🔧 生成 jin18.json...');
-  execSync(`jq '{
-    cache_time: .cache_time,
-    api_site: (
-      .api_site
-      | with_entries(select(.value.name | startswith("🔞") | not))
-    )
-  }' jingjian.json > jin18.json`, { stdio: 'inherit' });
+  // 生成 jingjian.json 和 jin18.json
+  console.log('🔧 生成 JSON 文件...');
+  execSync('node generate_json_files.js', { stdio: 'inherit' });
   
   // Base58 编码
   console.log('🔧 执行 Base58 编码...');
