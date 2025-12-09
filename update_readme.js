@@ -4,6 +4,19 @@ const path = require('path');
 
 const reportPath = path.join(__dirname, 'report.md');
 const readmePath = path.join(__dirname, 'README.md');
+const configPath = path.join(__dirname, 'LunaTV-config.json');  // 添加配置文件路径
+
+// 读取 LunaTV-config.json 来获取实际的API总数
+let totalApisInConfig = 0;
+if (fs.existsSync(configPath)) {
+    try {
+        const configContent = fs.readFileSync(configPath, 'utf-8');
+        const config = JSON.parse(configContent);
+        totalApisInConfig = Object.keys(config.api_site).length;
+    } catch (e) {
+        console.error('❌ 解析 LunaTV-config.json 失败:', e.message);
+    }
+}
 
 // 读取 report.md
 if (!fs.existsSync(reportPath)) {
@@ -14,12 +27,13 @@ if (!fs.existsSync(reportPath)) {
 const reportContent = fs.readFileSync(reportPath, 'utf-8');
 
 // 提取 Markdown 表格
-const tableMatch = reportContent.match(/\| 状态 \|[\s\S]+?\n\n/);
-if (!tableMatch) {
+const tableStart = reportContent.indexOf('| 状态 |');
+const tableEnd = reportContent.indexOf('<details>');
+if (tableStart === -1) {
     console.error('❌ report.md 中未找到表格');
     process.exit(1);
 }
-let tableMd = tableMatch[0].trim();
+let tableMd = tableEnd === -1 ? reportContent.substring(tableStart).trim() : reportContent.substring(tableStart, tableEnd).trim();
 
 // 拆分表格行
 const lines = tableMd.split('\n');
@@ -69,8 +83,8 @@ const sortedRows = rowsWithData.map(row => row.line);
 // 更新表格
 tableMd = [...header, ...sortedRows].join('\n');
 
-// 统计数据
-const totalApis = rowsWithData.length;
+// 统计数据 - 使用配置文件中的实际API数量
+const totalApis = totalApisInConfig > 0 ? totalApisInConfig : rowsWithData.length;
 const successApis = rowsWithData.filter(row => row.isSuccess).length;
 const failApis = totalApis - successApis;
 
