@@ -24,9 +24,9 @@ const EXCLUDE_HEADERS = new Set([
 ])
 
 const JSON_SOURCES = {
-  'jin18': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/jin18.json',
-  'jingjian': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/jingjian.json',
-  'full': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/LunaTV-config.json'
+  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json',
+  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json',
+  'full': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/LunaTV-config.json'
 }
 
 const FORMAT_CONFIG = {
