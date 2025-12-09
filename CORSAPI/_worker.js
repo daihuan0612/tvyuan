@@ -147,9 +147,17 @@ async function getCachedJSON(url) {
     }
   }
   
-  // 如果无法从网络获取，使用内嵌配置作为后备
-  console.log(`Using embedded config as fallback for ${url}`);
-  // 返回默认的full配置
+  // 如果无法从网络获取，且是已知源但缺少内嵌配置，则返回空对象
+  if (sourceType) {
+    console.log(`No embedded config found for ${sourceType}, returning empty config`);
+    return {
+      "cache_time": 7200,
+      "api_site": {}
+    };
+  }
+  
+  // 对于未知源，返回默认的full配置
+  console.log(`Using embedded config as fallback for unknown source ${url}`);
   return EMBEDDED_CONFIGS['full'] || {
     "cache_time": 7200,
     "api_site": {}
@@ -794,6 +802,71 @@ const EMBEDDED_CONFIGS = {
         "name": "🎬优质资源",
         "api": "https://api.yzzy-api.com/inc/apijson.php",
         "detail": "https://1080zyk4.com"
+      }
+    }
+  },
+  'jin18': {
+    "cache_time": 7200,
+    "api_site": {
+      "iqiyizyapi.com": {
+        "name": "🎬-爱奇艺-",
+        "api": "https://iqiyizyapi.com/api.php/provide/vod",
+        "detail": "https://iqiyizyapi.com"
+      },
+      "dbzy.tv": {
+        "name": "🎬豆瓣资源",
+        "api": "https://caiji.dbzy5.com/api.php/provide/vod",
+        "detail": "dbzy.tv"
+      },
+      "tyyszy.com": {
+        "name": "🎬天涯影视",
+        "api": "https://tyyszy.com/api.php/provide/vod",
+        "detail": "https://tyyszy.com"
+      },
+      "mtzy.me": {
+        "name": "🎬茅台资源",
+        "api": "https://caiji.maotaizy.cc/api.php/provide/vod",
+        "detail": "https://mtzy.me"
+      },
+      "wolongzyw.com": {
+        "name": "🎬卧龙资源",
+        "api": "https://wolongzyw.com/api.php/provide/vod",
+        "detail": "https://wolongzyw.com"
+      },
+      "ikunzy.com": {
+        "name": "🎬iKun资源",
+        "api": "https://ikunzyapi.com/api.php/provide/vod",
+        "detail": "https://ikunzy.com"
+      }
+    }
+  },
+  'jingjian': {
+    "cache_time": 7200,
+    "api_site": {
+      "iqiyizyapi.com": {
+        "name": "🎬-爱奇艺-",
+        "api": "https://iqiyizyapi.com/api.php/provide/vod",
+        "detail": "https://iqiyizyapi.com"
+      },
+      "dbzy.tv": {
+        "name": "🎬豆瓣资源",
+        "api": "https://caiji.dbzy5.com/api.php/provide/vod",
+        "detail": "dbzy.tv"
+      },
+      "tyyszy.com": {
+        "name": "🎬天涯影视",
+        "api": "https://tyyszy.com/api.php/provide/vod",
+        "detail": "https://tyyszy.com"
+      },
+      "91md.me": {
+        "name": "🔞麻豆视频",
+        "api": "https://91md.me/api.php/provide/vod",
+        "detail": "https://91md.me"
+      },
+      "91jpzyw.com": {
+        "name": "🔞91-精品-",
+        "api": "https://91jpzyw.com/api.php/provide/vod",
+        "detail": "https://91jpzyw.com"
       }
     }
   }
