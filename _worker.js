@@ -96,18 +96,37 @@ async function getCachedJSON(url) {
       try {
         return JSON.parse(cached)
       } catch (e) {
+        console.error('Cache parse error:', e.message)
         await KV.delete(cacheKey)
       }
     }
     const res = await fetch(url)
+    console.log(`Fetch status for ${url}:`, res.status)
     if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for URL: ${url}`)
-    const data = await res.json()
-    await KV.put(cacheKey, JSON.stringify(data), { expirationTtl: 600 })   // 缓存十分钟
-    return data
+    const text = await res.text()
+    console.log(`Response text length:`, text.length)
+    try {
+      const data = JSON.parse(text)
+      await KV.put(cacheKey, text, { expirationTtl: 600 })   // 缓存十分钟
+      return data
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError.message)
+      console.error('Response text preview:', text.substring(0, 500))
+      throw new Error(`JSON parse failed: ${parseError.message} for URL: ${url}`)
+    }
   } else {
     const res = await fetch(url)
+    console.log(`Fetch status for ${url}:`, res.status)
     if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} for URL: ${url}`)
-    return await res.json()
+    const text = await res.text()
+    console.log(`Response text length:`, text.length)
+    try {
+      return JSON.parse(text)
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError.message)
+      console.error('Response text preview:', text.substring(0, 500))
+      throw new Error(`JSON parse failed: ${parseError.message} for URL: ${url}`)
+    }
   }
 }
 
