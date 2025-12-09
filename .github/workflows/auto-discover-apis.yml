@@ -1,0 +1,65 @@
+name: Auto Discover and Add APIs
+
+on:
+  schedule:
+    - cron: "0 16 * * 0"  # 每周北京时间周日凌晨0点运行 (UTC 16点周日)
+  workflow_dispatch:
+
+jobs:
+  auto-discover-apis:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # 允许推送
+
+    steps:
+      # 1️⃣ 检出仓库
+      - uses: actions/checkout@v4
+
+      # 2️⃣ 安装系统依赖 & Node.js
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq curl
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          npm install bs58 axios
+
+      # 3️⃣ 运行自动发现并添加API工作流
+      - name: Run auto discover and add APIs workflow
+        run: |
+          echo "🚀 开始自动发现并添加API工作流..."
+          node auto_discover_and_add.js
+
+      # 4️⃣ 提交并推送所有生成文件
+      - name: Commit and push all generated files
+        run: |
+          # 配置 Git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 检查是否有变更
+          if git diff --quiet; then
+            echo "没有文件变化，无需提交"
+            exit 0
+          fi
+          
+          # 拉取远程 main 分支，避免冲突
+          git fetch origin main
+          git reset --soft origin/main
+
+          # 添加所有生成文件
+          git add LunaTV-config.json jingjian.json jin18.json LunaTV-config.txt jingjian.txt jin18.txt report.md README.md discovered_apis.json
+
+          # 提交更新
+          git commit -m "自动发现并添加新API ($(date -d '+8 hour' +'%Y-%m-%d %H:%M:%S CST'))"
+
+          # 推送到远程 main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+
+      - name: Delete workflow runs
+      # 删除工作流记录/只保留1天记录
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          retain_days: 0
+          keep_minimum_runs: 5
