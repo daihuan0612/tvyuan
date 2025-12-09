@@ -17,9 +17,36 @@ try {
   
   // 读取发现的API
   const discoveredData = JSON.parse(fs.readFileSync(DISCOVERED_APIS_PATH, 'utf8'));
-  const discoveredApis = discoveredData.discoveredApis;
+  let discoveredApis = discoveredData.discoveredApis;
   
-  if (!discoveredApis || discoveredApis.length === 0) {
+  // 处理不同格式的API数据
+  if (Array.isArray(discoveredApis)) {
+    // 如果是字符串数组，转换为对象数组
+    if (discoveredApis.length > 0 && typeof discoveredApis[0] === 'string') {
+      console.log('🔄 转换API格式...');
+      discoveredApis = discoveredApis.map(apiUrl => {
+        // 生成API名称
+        let apiName = '🎬 新API';
+        const domainMatch = apiUrl.match(/https?:\/\/([^\/]+)/);
+        if (domainMatch) {
+          const domain = domainMatch[1].replace('www.', '').split('.')[0];
+          apiName = `🎬 ${domain}资源`;
+        }
+        
+        return {
+          name: apiName,
+          api: apiUrl,
+          detail: apiUrl.replace('/api.php/provide/vod/', '').replace('/api.php/provide/vod', '')
+        };
+      });
+    }
+    // 如果已经是对象数组，则直接使用
+  } else {
+    console.log('📭 没有发现的API需要添加');
+    process.exit(0);
+  }
+  
+  if (discoveredApis.length === 0) {
     console.log('📭 没有发现的API需要添加');
     process.exit(0);
   }
@@ -46,6 +73,12 @@ try {
   
   // 添加新API
   for (const apiInfo of discoveredApis) {
+    // 检查必要属性
+    if (!apiInfo.api) {
+      console.log(`⏭️  跳过无效API条目: ${JSON.stringify(apiInfo)}`);
+      continue;
+    }
+    
     // 标准化URL
     const normalizedUrl = apiInfo.api.replace(/\/$/, '');
     
@@ -56,7 +89,9 @@ try {
     }
     
     // 生成唯一键名
-    let keyName = apiInfo.name.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '');
+    let keyName = (apiInfo.name || '🎬 新API').replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '');
+    if (!keyName) keyName = 'new_api';
+    
     if (config.api_site[keyName]) {
       // 如果键名已存在，添加数字后缀
       let counter = 1;
@@ -68,12 +103,12 @@ try {
     
     // 添加到配置中
     config.api_site[keyName] = {
-      name: apiInfo.name,
+      name: apiInfo.name || '🎬 新API',
       api: apiInfo.api,
-      detail: apiInfo.detail
+      detail: apiInfo.detail || apiInfo.api.replace('/api.php/provide/vod/', '').replace('/api.php/provide/vod', '')
     };
     
-    console.log(`➕ 已添加: ${apiInfo.name}(${apiInfo.api})`);
+    console.log(`➕ 已添加: ${config.api_site[keyName].name}(${apiInfo.api})`);
     addedCount++;
   }
   
