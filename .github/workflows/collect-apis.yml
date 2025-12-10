@@ -31,7 +31,13 @@ jobs:
           echo "开始搜集网络API资源..."
           node collect_apis.js
 
-      # 4️⃣ 如果配置文件有变化，则重新生成相关文件
+      # 4️⃣ 清理无法搜索的API
+      - name: Clean unsearchable APIs
+        run: |
+          echo "清理无法搜索的API..."
+          node clean_unsearchable_apis.js
+
+      # 5️⃣ 如果配置文件有变化，则重新生成相关文件
       - name: Regenerate files if config changed
         run: |
           # 检查是否有变更
