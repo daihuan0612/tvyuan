@@ -23,10 +23,11 @@ const EXCLUDE_HEADERS = new Set([
   'connection', 'keep-alive', 'set-cookie', 'set-cookie2'
 ])
 
+// 使用当前仓库的配置文件URL，确保能获取到最新的配置数据
 const JSON_SOURCES = {
-  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json',
-  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json',
-  'full': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/LunaTV-config.json'
+  'jin18': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/main/jin18.json',
+  'jingjian': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/main/jingjian.json',
+  'full': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/main/LunaTV-config.json'
 }
 
 const FORMAT_CONFIG = {
@@ -88,7 +89,7 @@ function addOrReplacePrefix(obj, newPrefix) {
 // ---------- 安全版：KV 缓存 ----------
 async function getCachedJSON(url) {
   try {
-    // 直接从网络获取数据，避免内嵌配置过大导致的部署问题
+    // 直接从网络获取数据，使用配置的URL
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Failed to fetch ${url}: ${response.status}`);
@@ -99,7 +100,7 @@ async function getCachedJSON(url) {
     return data;
   } catch (error) {
     console.error('Error fetching JSON:', error);
-    // 如果获取失败，返回空结构而不是内嵌数据
+    // 如果获取失败，返回默认的空配置
     return {
       "cache_time": 7200,
       "api_site": {}
