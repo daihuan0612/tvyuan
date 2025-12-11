@@ -1,4 +1,4 @@
-# 🌐 CORSAPI（API 自动搜集 & API 代理 & JSON 订阅器）
+# API 自动搜集 & API 代理 & JSON 订阅器
 
 这是一个基于 **Cloudflare Pages** 的API自动搜集 + 中转代理 + JSON 配置前缀替换工具。
 
