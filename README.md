@@ -1,7 +1,4 @@
 # MoonTV/LunaTV 配置编辑器（自用）
-https://hafrey1.github.io/LunaTV-config  
-
---- 
 
 ##  MoonTV/LunaTV配置
 订阅使用：复制下面链接  
