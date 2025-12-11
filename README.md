@@ -1,8 +1,8 @@
-# 🌐 CORSAPI（API 代理 & JSON 订阅器）
+# 🌐 CORSAPI（API 自动搜集 & API 代理 & JSON 订阅器）
 
-这是一个基于 **Cloudflare Pages** 的中转代理 + JSON 配置前缀替换工具。
+这是一个基于 **Cloudflare Pages** 的API自动搜集 + 中转代理 + JSON 配置前缀替换工具。
 
-支持将 API 请求通过 Worker 转发，并自动为 JSON 配置中的 `api` 字段添加/替换前缀。
+支持全网自动搜集可用 API 将 API 请求通过 Worker 转发，并自动为 JSON 配置中的 `api` 字段添加/替换前缀。
 
 同时支持生成 **Base58 编码的订阅格式**，并提供**多种配置源选择**，方便在外部应用中快速使用。
 
