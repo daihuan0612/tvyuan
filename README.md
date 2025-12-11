@@ -1,37 +1,6 @@
-# MoonTV/LunaTV 配置编辑器（自用）
-
-##  MoonTV/LunaTV配置
-订阅使用：复制下面链接  
-
-👉 Base58编码订阅链接[精简版🎬源链接](https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/jin18.txt)    （推荐使用自己部署的代理）精简版禁18源
-
-```bash
-https://pz.v88.qzz.io?format=2&source=jin18
-```
-```bash
-https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/jin18.txt
-```
-👉 Base58编码订阅链接[精简版🎬+🔞源链接](https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/jingjian.txt) （推荐使用自己部署的代理）精简版剔除无搜索结果和污染搜索结果源                             
-```bash
-https://pz.v88.qzz.io?format=2&source=jingjian
-```
-```bash
-https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/jingjian.txt
-```
-
-👉 Base58编码订阅链接[完整版🎬+🔞源链接](https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/LunaTV-config.txt) （推荐使用自己部署的代理）                          
-```bash
-https://pz.v88.qzz.io?format=2&source=full
-```
-```bash
-https://raw.githubusercontent.com/hafrey1/LunaTV-config/refs/heads/main/LunaTV-config.txt
-```
-
---- 
-
 # 🌐 CORSAPI（API 代理 & JSON 订阅器）
 
-这是一个基于 **Cloudflare Workers** 的中转代理 + JSON 配置前缀替换工具。
+这是一个基于 **Cloudflare Pages** 的中转代理 + JSON 配置前缀替换工具。
 
 支持将 API 请求通过 Worker 转发，并自动为 JSON 配置中的 `api` 字段添加/替换前缀。
 
@@ -79,21 +48,7 @@ https://<你的域名>/?url=https://ikunzyapi.com/api.php/provide/vod/
 <details>
   
 <summary>🚀 部署方法</summary>
-  
-#   
-
-🌐 部署到 Cloudflare Workers
-
-1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com)。
-2. 进入 Workers & Pages → 创建应用程序（Create Application） → Workers → 从 Hello World! 开始 → 项目命名 → 部署 → 编辑代码。
-3. 将项目中的 _worker.js 文件内容复制到在线编辑器中。
-4. 点击 保存并部署（Save and Deploy） 完成上线。
-5. （可选）若项目使用 KV 存储：
-- 存储和数据库 → Workers KV → Ceate instance  → 命名空间名称（KV Namespaces） 创建一个新的命名空间。
-- 命名空间名称可自定义，例如：MyKVNamespace。
-- 在 Worker设置 绑定 → 添加绑定 → KV命名空间 → 添加绑定 → 变量名为：CONFIG_KV → 创建的KV命名空间 → 添加绑定 。
-6. 绑定自定义域名：打开 Worker 设置 → Triggers(域和路由) → 添加 → Custom Domains(自定义域名)，添加你的域名并保存。
-
+ 
 📦 部署到 Cloudflare Pages
 
 1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com)。
