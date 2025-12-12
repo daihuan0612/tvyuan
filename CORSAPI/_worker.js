@@ -928,11 +928,7 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
               <code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jin18</code>
               <button class="btn btn-copy copy-btn" data-idx="2">复制</button>
             </div>
-            <div class="subscription-item tvbox-item">
-              <strong>TVBox中转订阅：</strong><br>
-              <code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jin18</code>
-              <button class="btn btn-copy copy-btn" data-idx="3">复制</button>
-            </div>
+
           </div>
         </div>
         
@@ -942,23 +938,19 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
             <div class="subscription-item">
               <strong>原始 Base58订阅：</strong><br>
               <code class="copyable">${currentOrigin}?format=2&source=jingjian</code>
-              <button class="btn btn-copy copy-btn" data-idx="4">复制</button>
+              <button class="btn btn-copy copy-btn" data-idx="3">复制</button>
             </div>
             <div class="subscription-item">
               <strong>中转 Base58订阅：</strong><br>
               <code class="copyable">${currentOrigin}?format=3&source=jingjian</code>
-              <button class="btn btn-copy copy-btn" data-idx="5">复制</button>
+              <button class="btn btn-copy copy-btn" data-idx="4">复制</button>
             </div>
             <div class="subscription-item tvbox-item">
               <strong>TVBox原始订阅：</strong><br>
               <code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jingjian</code>
-              <button class="btn btn-copy copy-btn" data-idx="6">复制</button>
+              <button class="btn btn-copy copy-btn" data-idx="5">复制</button>
             </div>
-            <div class="subscription-item tvbox-item">
-              <strong>TVBox中转订阅：</strong><br>
-              <code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jingjian</code>
-              <button class="btn btn-copy copy-btn" data-idx="7">复制</button>
-            </div>
+
           </div>
         </div>
       </div>
