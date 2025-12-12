@@ -210,7 +210,7 @@ function generateTvboxConfig(
         {
           name: '默认解析',
           type: 0,
-          url: 'https://jx.xmflv.com/?url=',
+          url: 'https://jx.haoduoge.com/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'iqiyi'],
             header: { 'User-Agent': 'Mozilla/5.0' }
@@ -219,7 +219,7 @@ function generateTvboxConfig(
         {
           name: '备用解析',
           type: 0,
-          url: 'https://www.yemu.xyz/?url=',
+          url: 'https://jx.m3u8tx.com/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv'],
             header: { 'User-Agent': 'Mozilla/5.0' }
@@ -278,7 +278,7 @@ function generateTvboxConfig(
       }),
       lives: liveSources,
       parses: [
-        { name: '极速解析', type: 0, url: 'https://jx.xmflv.com/?url=', ext: { flag: ['all'] } },
+        { name: '极速解析', type: 0, url: 'https://jx.haoduoge.com/?url=', ext: { flag: ['all'] } },
         { name: 'Json并发', type: 2, url: 'Parallel' }
       ],
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'mgtv'],
@@ -292,8 +292,8 @@ function generateTvboxConfig(
       sites,
       lives: liveSources,
       parses: [
-        { name: '默认解析', type: 0, url: 'https://jx.xmflv.com/?url=' },
-        { name: '夜幕解析', type: 0, url: 'https://www.yemu.xyz/?url=' }
+        { name: '默认解析', type: 0, url: 'https://jx.haoduoge.com/?url=' },
+        { name: '备用解析', type: 0, url: 'https://jx.m3u8tx.com/?url=' }
       ]
     };
   } else {
@@ -307,25 +307,25 @@ function generateTvboxConfig(
         {
           name: '默认解析',
           type: 0,
-          url: 'https://jx.xmflv.com/?url=',
+          url: 'https://jx.haoduoge.com/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'xigua', 'cntv'],
             header: { 'User-Agent': 'Mozilla/5.0' }
           }
         },
         {
-          name: '夜幕解析',
+          name: '备用解析',
           type: 0,
-          url: 'https://www.yemu.xyz/?url=',
+          url: 'https://jx.m3u8tx.com/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu'],
             header: { 'User-Agent': 'Mozilla/5.0' }
           }
         },
         {
-          name: '爱豆解析',
+          name: '紧急解析',
           type: 0,
-          url: 'https://jx.aidouer.net/?url=',
+          url: 'https://jx.one97.one/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv'],
             header: { 'User-Agent': 'Mozilla/5.0' }
