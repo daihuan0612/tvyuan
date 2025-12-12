@@ -488,9 +488,16 @@ async function handleRequest(request) {
 
 // ---------- 代理请求处理子模块 ----------
 async function handleProxyRequest(request, targetUrlParam, currentOrigin) {
-  // 🚨 防止递归调用自身
-  if (targetUrlParam.startsWith(currentOrigin)) {
-    return errorResponse('Loop detected: self-fetch blocked', { url: targetUrlParam }, 400)
+  // 🚨 防止递归调用自身 - 只检查直接递归，允许代理请求
+  const parsedTarget = new URL(targetUrlParam);
+  if (parsedTarget.origin === currentOrigin) {
+    // 如果是相同origin，检查是否已经包含代理参数，避免无限递归
+    const nestedUrl = parsedTarget.searchParams.get('url');
+    if (nestedUrl) {
+      // 已经包含代理参数，直接代理到嵌套的URL
+      return handleProxyRequest(request, nestedUrl, currentOrigin);
+    }
+    return errorResponse('Loop detected: self-fetch blocked', { url: targetUrlParam }, 400);
   }
   
   // 🚨 防止无效 URL
@@ -928,7 +935,11 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
               <code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jin18</code>
               <button class="btn btn-copy copy-btn" data-idx="2">复制</button>
             </div>
-
+            <div class="subscription-item tvbox-item">
+              <strong>TVBox中转订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jin18</code>
+              <button class="btn btn-copy copy-btn" data-idx="3">复制</button>
+            </div>
           </div>
         </div>
         
@@ -950,7 +961,11 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
               <code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jingjian</code>
               <button class="btn btn-copy copy-btn" data-idx="5">复制</button>
             </div>
-
+            <div class="subscription-item tvbox-item">
+              <strong>TVBox中转订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jingjian</code>
+              <button class="btn btn-copy copy-btn" data-idx="6">复制</button>
+            </div>
           </div>
         </div>
       </div>
