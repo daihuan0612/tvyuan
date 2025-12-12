@@ -175,44 +175,44 @@ function generateTvboxConfig(
     : [];
 
   // 根据模式生成不同的配置
-    let tvboxConfig;
+  let tvboxConfig;
 
-    if (mode === 'yingshicang') {
-      // 影视仓专用优化配置
-      tvboxConfig = {
-        // 移除spider jar配置，让TVBox使用默认spider
-        sites: sites.map((site) => {
-          const optimizedSite = { ...site };
+  if (mode === 'yingshicang') {
+    // 影视仓专用优化配置
+    tvboxConfig = {
+      // 移除spider jar配置，让TVBox使用默认spider
+      sites: sites.map((site) => {
+        const optimizedSite = { ...site };
 
-          // 影视仓优化：删除可能冲突的字段（如果存在）
-          if ('timeout' in optimizedSite) {
-            delete optimizedSite.timeout;
-          }
-          if ('retry' in optimizedSite) {
-            delete optimizedSite.retry;
-          }
+        // 影视仓优化：删除可能冲突的字段（如果存在）
+        if ('timeout' in optimizedSite) {
+          delete optimizedSite.timeout;
+        }
+        if ('retry' in optimizedSite) {
+          delete optimizedSite.retry;
+        }
 
-          // 影视仓稳定配置
-          if (optimizedSite.type === ApiType.CSP_SOURCE) {
-            optimizedSite.header = {
-              'User-Agent': 'okhttp/3.15',
-              Accept: '*/*'
-            };
-          } else {
-            optimizedSite.header = {
-              'User-Agent': 'Mozilla/5.0 (Linux; Android 11; SM-G973F) AppleWebKit/537.36',
-              Accept: 'application/json, */*',
-              Connection: 'close'
-            };
-          }
+        // 影视仓稳定配置
+        if (optimizedSite.type === ApiType.CSP_SOURCE) {
+          optimizedSite.header = {
+            'User-Agent': 'okhttp/3.15',
+            Accept: '*/*'
+          };
+        } else {
+          optimizedSite.header = {
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 11; SM-G973F) AppleWebKit/537.36',
+            Accept: 'application/json, */*',
+            Connection: 'close'
+          };
+        }
 
-          // 强制启用所有搜索功能
-          optimizedSite.searchable = 1;
-          optimizedSite.quickSearch = 1;
-          optimizedSite.filterable = 1;
+        // 强制启用所有搜索功能
+        optimizedSite.searchable = 1;
+        optimizedSite.quickSearch = 1;
+        optimizedSite.filterable = 1;
 
-          return optimizedSite;
-        }),
+        return optimizedSite;
+      }),
       lives: lives,
       parses: [
         { name: 'Json并发', type: 2, url: 'Parallel' },
