@@ -556,7 +556,7 @@ async function handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultP
     const proxy = proxyStr === 'true'
     const base58 = base58Str === 'true'
     
-    const selectedSource = JSON_SOURCES[sourceParam] || JSON_SOURCES['full']
+    const selectedSource = JSON_SOURCES[sourceParam] || JSON_SOURCES['jingjian']
     console.log('Fetching TVBOX data from:', selectedSource)
     
     const data = await getCachedJSON(selectedSource)
