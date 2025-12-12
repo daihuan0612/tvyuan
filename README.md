@@ -234,21 +234,21 @@ https://<你的域名>/?tvbox=standard:true:false&source=jingjian
 </details>
 
 <details>
-<summary>⚠️ 重要提醒：关于TV剥削订阅</summary>
+<summary>⚠️ 重要提醒：关于TVBox订阅</summary>
   
 # 
   
-项目现在支持TV剥削订阅功能，可以直接生成适合TVBOX/影视仓使用的配置：
+项目现在支持TVBox订阅功能，可以直接生成适合TVBOX/影视仓使用的配置：
 
-1. **TV剥削原始订阅**：
+1. **TVBox原始订阅**：
    - 链接：`https://<你的域名>/?tvbox=standard:false:false&source=<配置源>`
    - 特点：生成原始TVBOX配置，不经过代理中转
 
-2. **TV剥削中转订阅**：
+2. **TVBox中转订阅**：
    - 链接：`https://<你的域名>/?tvbox=standard:true:false&source=<配置源>`
    - 特点：生成经过代理中转的TVBOX配置，适合访问受限资源
 
-3. **TV剥削高级订阅**：
+3. **TVBox高级订阅**：
    - 链接：`https://<你的域名>/?tvbox=yingshicang:true:false&source=<配置源>`
    - 特点：影视仓专用优化配置，适合影视仓应用
 
@@ -389,9 +389,6 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 - 通过 CORSAPI 转发后，大幅提升视频源可用率。  
 - 可“复活”原本无法访问的资源。  
 
-### ⚙️ 精简版源更新
-- 去除污染源与无搜索结果源（如 🎬虎牙、🔞丝袜、🔞色猫）。  
-- 精简后共 **57 个可用源**，在中转代理下全部可访问。  
 <details>
 <summary>示例</summary>
 <img width="1025" height="486" alt="61" src="https://github.com/user-attachments/assets/81c80108-7c03-4583-87ab-b7b57cdfd3bd" />
