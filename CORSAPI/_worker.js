@@ -365,10 +365,13 @@ function addOrReplacePrefix(obj, newPrefix, visited = new Set()) {
   for (const key in obj) {
     if (key === 'api' && typeof obj[key] === 'string') {
       let apiUrl = obj[key]
-      const urlIndex = apiUrl.indexOf('?url=')
-      if (urlIndex !== -1) apiUrl = apiUrl.slice(urlIndex + 5)
-      if (!apiUrl.startsWith(newPrefix)) apiUrl = newPrefix + apiUrl
-      newObj[key] = apiUrl
+      // 直接添加前缀，不要删除已有内容
+      if (!apiUrl.startsWith(newPrefix)) {
+        newObj[key] = newPrefix + apiUrl
+      } else {
+        // 已经有前缀了，直接使用
+        newObj[key] = apiUrl
+      }
     } else {
       newObj[key] = addOrReplacePrefix(obj[key], newPrefix, visited)
     }
