@@ -935,11 +935,7 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
               <code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jin18</code>
               <button class="btn btn-copy copy-btn" data-idx="2">复制</button>
             </div>
-            <div class="subscription-item tvbox-item">
-              <strong>TVBox中转订阅：</strong><br>
-              <code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jin18</code>
-              <button class="btn btn-copy copy-btn" data-idx="3">复制</button>
-            </div>
+
           </div>
         </div>
         
@@ -961,11 +957,7 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
               <code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jingjian</code>
               <button class="btn btn-copy copy-btn" data-idx="5">复制</button>
             </div>
-            <div class="subscription-item tvbox-item">
-              <strong>TVBox中转订阅：</strong><br>
-              <code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jingjian</code>
-              <button class="btn btn-copy copy-btn" data-idx="6">复制</button>
-            </div>
+
           </div>
         </div>
       </div>
