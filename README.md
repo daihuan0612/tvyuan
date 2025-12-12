@@ -189,10 +189,10 @@ https://<你的域名>/?format=2&source=jin18
 # 代理 Base58 编码（推荐用于订阅）
 https://<你的域名>/?format=3&source=jin18
 
-# TV剥削原始订阅
+# TVBox原始订阅
 https://<你的域名>/?tvbox=standard:false:false&source=jin18
 
-# TV剥削中转订阅
+# TVBox中转订阅
 https://<你的域名>/?tvbox=standard:true:false&source=jin18
 ```
 
@@ -213,10 +213,10 @@ https://<你的域名>/?format=2&source=jingjian
 # 代理 Base58 编码（推荐用于订阅）
 https://<你的域名>/?format=3&source=jingjian
 
-# TV剥削原始订阅
+# TVBox原始订阅
 https://<你的域名>/?tvbox=standard:false:false&source=jingjian
 
-# TV剥削中转订阅
+# TVBox中转订阅
 https://<你的域名>/?tvbox=standard:true:false&source=jingjian
 ```
 
@@ -251,7 +251,7 @@ https://<你的域名>/?tvbox=standard:true:false&source=jingjian
   
 # 
   
-项目现在支持TV剥削订阅功能，可以直接生成适合TVBOX/影视仓使用的配置：
+项目现在支持TVBox订阅功能，可以直接生成适合TVBOX/影视仓使用的配置：
 
 1. **TVBox原始订阅**：
    - 链接：`https://<你的域名>/?tvbox=standard:false:false&source=<配置源>`
@@ -338,9 +338,11 @@ console.log(`Request from: ${request.headers.get('cf-connecting-ip')}`)
 ---
 
 ## 🆕 更新内容
-
-- 📄 🕵️ **自动搜集网络API**：定期从网络搜集新的API资源，验证有效性后自动添加到配置中。(2025.12.10)  
-- 🔍 **自动检测API状态**：每 1 天检测一次 API 可用性，并记录最近 100 次测试报告。  
+- 📄 **自动过滤不可搜索API源**：添加自动过滤不可搜索API源功能。(2025.12.12)
+- 📄 **密码登录功能**：添加自动简单的密码登录功能。(2025.12.12)   
+- 📄 **TVBox/影视仓订阅**：添加自动转换为TVBox/影视仓订阅链接。(2025.12.12)    
+- 🕵️ **自动搜集网络API**：定期从网络搜集新的API资源，验证有效性后自动添加到配置中。(2025.12.10)  
+- 🔍 **自动检测API状态**：每天凌晨1点检测一次 API 可用性，并记录最近 100 次测试报告。  
 - 🧩 **源名称前添加图标**：源名称前添加图标，方便区分。  
 - 🌐 **被墙资源自动中转**：为受限 API 提供 CF Worker 中转能力。  
 - 📄 **添加_comment参数**：为异常源添加_comment参数以方便维护,不影响正常使用!(2025.12.06)
