@@ -367,10 +367,20 @@ function base58Encode(obj) {
   return result
 }
 
-// JSON api 字段前缀替换
-function addOrReplacePrefix(obj, newPrefix) {
+// JSON api 字段前缀替换 - 带循环引用检测
+function addOrReplacePrefix(obj, newPrefix, visited = new Set()) {
   if (typeof obj !== 'object' || obj === null) return obj
-  if (Array.isArray(obj)) return obj.map(item => addOrReplacePrefix(item, newPrefix))
+  
+  // 检测循环引用
+  if (visited.has(obj)) return obj
+  visited.add(obj)
+  
+  if (Array.isArray(obj)) {
+    const result = obj.map(item => addOrReplacePrefix(item, newPrefix, visited))
+    visited.delete(obj)
+    return result
+  }
+  
   const newObj = {}
   for (const key in obj) {
     if (key === 'api' && typeof obj[key] === 'string') {
@@ -380,17 +390,25 @@ function addOrReplacePrefix(obj, newPrefix) {
       if (!apiUrl.startsWith(newPrefix)) apiUrl = newPrefix + apiUrl
       newObj[key] = apiUrl
     } else {
-      newObj[key] = addOrReplacePrefix(obj[key], newPrefix)
+      newObj[key] = addOrReplacePrefix(obj[key], newPrefix, visited)
     }
   }
+  
+  visited.delete(obj)
   return newObj
 }
 
 // ---------- 安全版：KV 缓存 ----------
 async function getCachedJSON(url) {
   try {
+    // 设置5秒超时，防止请求无限期挂起
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
     // 直接从网络获取数据，使用配置的URL
-    const response = await fetch(url);
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    
     if (!response.ok) {
       throw new Error(`Failed to fetch ${url}: ${response.status}`);
     }
@@ -472,8 +490,6 @@ async function handleProxyRequest(request, targetUrlParam, currentOrigin) {
   }
   
   let fullTargetUrl = targetUrlParam
-  const urlMatch = request.url.match(/[?&]url=([^&]+(?:&.*)?)/)
-  if (urlMatch) fullTargetUrl = decodeURIComponent(urlMatch[1])
   
   let targetURL
   try {
