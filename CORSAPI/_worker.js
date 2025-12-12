@@ -49,25 +49,26 @@ const ApiType = {
   CSP_SOURCE: 3
 }
 
-// 智能检测 API 类型
+// 智能检测 API 类型 - 优化性能
 function detectApiType(api) {
-  const url = api.toLowerCase().trim();
+  // 快速返回默认值，如果api为空或不是字符串
+  if (!api || typeof api !== 'string') return ApiType.MACCMS_JSON;
+  
+  const url = api.toLowerCase();
 
-  // CSP 源（插件源，优先判断）
+  // CSP 源（插件源，优先判断）- 最快的判断
   if (url.startsWith('csp_')) return ApiType.CSP_SOURCE;
 
-  // XML 采集接口 - 更精确匹配
+  // XML 采集接口 - 优化为更快的判断顺序
   if (
     url.includes('.xml') ||
     url.includes('xml.php') ||
-    url.includes('api.php/provide/vod/at/xml') ||
-    url.includes('provide/vod/at/xml') ||
-    (url.includes('maccms') && url.includes('xml'))
+    url.includes('provide/vod/at/xml')
   ) {
     return ApiType.MACCMS_XML;
   }
 
-  // JSON 采集接口 - 标准苹果CMS格式
+  // JSON 采集接口 - 优化为更快的判断顺序，移除昂贵的正则表达式
   if (
     url.includes('.json') ||
     url.includes('json.php') ||
@@ -75,9 +76,7 @@ function detectApiType(api) {
     url.includes('provide/vod') ||
     url.includes('api.php') ||
     url.includes('maccms') ||
-    url.includes('/api/') ||
-    url.match(/\/provide.*vod/) ||
-    url.match(/\/api.*vod/)
+    url.includes('/api/')
   ) {
     return ApiType.MACCMS_JSON;
   }
@@ -101,10 +100,20 @@ function generateTvboxConfig(
 
   // 过滤掉禁用的源和根据需要过滤成人源
   // 注意：实际数据源可能没有disabled和is_adult属性，所以需要提供默认值
-  let sourcesToUse = sources.filter((s) => !(s.disabled === true));
+  let sourcesToUse = sources.filter((s) => {
+    // 只保留有效的站点：必须有api和name字段
+    if (!s.api || typeof s.api !== 'string' || !s.name || typeof s.name !== 'string') {
+      return false;
+    }
+    // 过滤掉被禁用的站点
+    return !(s.disabled === true);
+  });
   if (filterAdult) {
     sourcesToUse = sourcesToUse.filter((s) => !(s.is_adult === true));
   }
+  
+  // 限制最大站点数量，避免配置过大导致加载缓慢
+  sourcesToUse = sourcesToUse.slice(0, 50);
 
   // 转换视频源为TVBOX格式
   const sites = sourcesToUse.map((s, index) => {
@@ -204,28 +213,19 @@ function generateTvboxConfig(
 
           return optimizedSite;
         }),
-      lives: liveSources,
+      lives: lives,
       parses: [
+        { name: 'Json并发', type: 2, url: 'Parallel' },
+        { name: 'Json轮询', type: 2, url: 'Sequence' },
         {
           name: '默认解析',
           type: 0,
-          url: 'https://jx.youkuapi.cc/?url=',
+          url: 'https://jx.aidouer.net/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'iqiyi'],
             header: { 'User-Agent': 'Mozilla/5.0' }
           }
-        },
-        {
-          name: '备用解析',
-          type: 0,
-          url: 'https://jx.bingdou.net/?url=',
-          ext: {
-            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv'],
-            header: { 'User-Agent': 'Mozilla/5.0' }
-          }
-        },
-        { name: 'Json并发', type: 2, url: 'Parallel' },
-        { name: 'Json轮询', type: 2, url: 'Sequence' }
+        }
       ],
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi'],
       rules: [
@@ -275,10 +275,10 @@ function generateTvboxConfig(
 
         return fastSite;
       }),
-      lives: liveSources,
+      lives: lives,
       parses: [
-        { name: '极速解析', type: 0, url: 'https://jx.youkuapi.cc/?url=', ext: { flag: ['all'] } },
-        { name: 'Json并发', type: 2, url: 'Parallel' }
+        { name: 'Json并发', type: 2, url: 'Parallel' },
+        { name: '极速解析', type: 0, url: 'https://jx.aidouer.net/?url=', ext: { flag: ['all'] } }
       ],
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'mgtv'],
       wallpaper: '',
@@ -289,10 +289,9 @@ function generateTvboxConfig(
     tvboxConfig = {
       // 移除spider jar配置，让TVBox使用默认spider
       sites,
-      lives: liveSources,
+      lives: lives,
       parses: [
-        { name: '默认解析', type: 0, url: 'https://jx.youkuapi.cc/?url=' },
-        { name: '备用解析', type: 0, url: 'https://jx.bingdou.net/?url=' }
+        { name: '默认解析', type: 0, url: 'https://jx.aidouer.net/?url=' }
       ]
     };
   } else {
@@ -301,37 +300,19 @@ function generateTvboxConfig(
       // 移除spider jar配置，让TVBox使用默认spider
       wallpaper: 'https://picsum.photos/1920/1080/?blur=2',
       sites,
-      lives: liveSources,
+      lives: lives,
       parses: [
+        { name: 'Json并发', type: 2, url: 'Parallel' },
+        { name: 'Json轮询', type: 2, url: 'Sequence' },
         {
           name: '默认解析',
           type: 0,
-          url: 'https://jx.youkuapi.cc/?url=',
+          url: 'https://jx.aidouer.net/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'xigua', 'cntv'],
             header: { 'User-Agent': 'Mozilla/5.0' }
           }
-        },
-        {
-          name: '备用解析',
-          type: 0,
-          url: 'https://jx.bingdou.net/?url=',
-          ext: {
-            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu'],
-            header: { 'User-Agent': 'Mozilla/5.0' }
-          }
-        },
-        {
-          name: '紧急解析',
-          type: 0,
-          url: 'https://jx.nine49.cn/?url=',
-          ext: {
-            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv'],
-            header: { 'User-Agent': 'Mozilla/5.0' }
-          }
-        },
-        { name: 'Json并发', type: 2, url: 'Parallel' },
-        { name: 'Json轮询', type: 2, url: 'Sequence' }
+        }
       ],
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi', 'xigua', 'cntv']
     };
@@ -397,12 +378,25 @@ function addOrReplacePrefix(obj, newPrefix, visited = new Set()) {
   return newObj
 }
 
+// ---------- 全局内存缓存 ----------
+// 简单的内存缓存，减少重复请求
+const MEMORY_CACHE = new Map();
+const CACHE_TTL = 300000; // 5分钟缓存
+
 // ---------- 安全版：KV 缓存 ----------
 async function getCachedJSON(url) {
   try {
-    // 设置5秒超时，防止请求无限期挂起
+    // 检查内存缓存
+    const cached = MEMORY_CACHE.get(url);
+    const now = Date.now();
+    if (cached && (now - cached.timestamp < CACHE_TTL)) {
+      console.log('Using cached data for:', url);
+      return cached.data;
+    }
+    
+    // 设置3秒超时，优化用户体验
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
     
     // 直接从网络获取数据，使用配置的URL
     const response = await fetch(url, { signal: controller.signal });
@@ -414,10 +408,23 @@ async function getCachedJSON(url) {
     
     // 解析获取到的JSON数据
     const data = await response.json();
+    
+    // 存入内存缓存
+    MEMORY_CACHE.set(url, {
+      data: data,
+      timestamp: Date.now()
+    });
+    
     return data;
   } catch (error) {
     console.error('Error fetching JSON:', error);
-    // 如果获取失败，返回默认的空配置
+    // 如果获取失败，检查是否有过期缓存可以使用
+    const cached = MEMORY_CACHE.get(url);
+    if (cached) {
+      console.log('Using stale cache for:', url);
+      return cached.data;
+    }
+    // 否则返回默认的空配置
     return {
       "cache_time": 7200,
       "api_site": {}
@@ -508,7 +515,7 @@ async function handleProxyRequest(request, targetUrlParam, currentOrigin) {
     })
     
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 9000)
+    const timeoutId = setTimeout(() => controller.abort(), 5000) // 缩短代理请求超时到5秒
     const response = await fetch(proxyRequest, { signal: controller.signal })
     clearTimeout(timeoutId)
     
