@@ -596,7 +596,7 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CORSAPI - LunaTV API 中转代理服务</title>
+  <title>API自动搜集中转代理服务</title>
   <style>
     :root {
       --primary-color: #4a6cf7;
@@ -776,109 +776,200 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
     }
     
     @media (min-width: 1024px) {
-      .grid { 
-        grid-template-columns: repeat(3, 1fr); 
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
     
-    .notification { 
-      position: fixed; 
-      top: 20px; 
-      right: 20px; 
-      padding: 12px 20px; 
-      background: var(--success-color); 
-      color: white; 
-      border-radius: 4px; 
+    /* 订阅链接网格布局 */
+    .subscription-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    
+    .subscription-item {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 6px;
+      border-left: 4px solid var(--primary-color);
+      transition: all 0.2s ease;
+    }
+    
+    .subscription-item:hover {
+      background: #e9ecef;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .subscription-item.tvbox-item {
+      border-left-color: #ff6b6b;
+      background: #fff5f5;
+    }
+    
+    .subscription-item.tvbox-item:hover {
+      background: #ffebee;
+    }
+    
+    .subscription-item strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    
+    .subscription-item code {
+      display: block;
+      margin-bottom: 8px;
+      word-break: break-all;
+      background: white;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      border: 1px solid #dee2e6;
+    }
+    
+    .subscription-item .btn {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: var(--success-color);
+      color: white;
+      border-radius: 4px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       transform: translateX(200%);
       transition: transform 0.3s ease-out;
       z-index: 1000;
     }
     
-    .notification.show { 
-      transform: translateX(0); 
+    .notification.show {
+      transform: translateX(0);
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🔄 CORSAPI 中转代理服务</h1>
-      <p>通用 API 中转代理，用于访问被墙或限制的接口</p>
+      <h1>API自动搜集中转代理服务</h1>
+      <p>API自动搜集中转代理服务，用于访问被墙或限制的接口</p>
     </header>
     
-    <div class="card">
-      <h2>🔗 使用方法</h2>
-      <p>中转任意 API：在请求 URL 后添加 <code>?url=目标地址</code> 参数</p>
-      <pre>${defaultPrefix}&lt;示例API地址&gt;</pre>
-    </div>
-    
-    <div class="card">
-      <h2>⚙️ 配置订阅参数说明</h2>
-      <table>
-        <tr>
-          <td>format</td>
-          <td><code>0</code> 或 <code>raw</code> = 原始 JSON<br>
-              <code>1</code> 或 <code>proxy</code> = 添加代理前缀<br>
-              <code>2</code> 或 <code>base58</code> = 原始 Base58 编码<br>
-              <code>3</code> 或 <code>proxy-base58</code> = 代理 Base58 编码</td>
-        </tr>
-        <tr>
-          <td>source</td>
-          <td><code>jin18</code> = 精简版<br>
-              <code>jingjian</code> = 精简版+成人<br>
-              <code>full</code> = 完整版（默认）</td>
-        </tr>
-        <tr>
-          <td>prefix</td>
-          <td>自定义代理前缀（仅在 format=1 或 3 时生效）</td>
-        </tr>
-      </table>
-    </div>
-    
-    <h2>📋 配置订阅链接示例</h2>
-    
-    <div class="grid">
-      <div class="card">
-        <h3>📱 精简版（jin18）</h3>
-        <p><strong>原始 JSON：</strong><br><code class="copyable">${currentOrigin}?format=0&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="0">复制</button></p>
-        <p><strong>中转代理 JSON：</strong><br><code class="copyable">${currentOrigin}?format=1&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="1">复制</button></p>
-        <p><strong>原始 Base58：</strong><br><code class="copyable">${currentOrigin}?format=2&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="2">复制</button></p>
-        <p><strong>中转 Base58：</strong><br><code class="copyable">${currentOrigin}?format=3&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="3">复制</button></p>
-        <p><strong>TV剥削原始订阅：</strong><br><code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="12">复制</button></p>
-        <p><strong>TV剥削中转订阅：</strong><br><code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="13">复制</button></p>
+    <!-- 登录表单 -->
+    <div id="login-container" class="card">
+      <h2>🔐 请输入密码</h2>
+      <div style="max-width: 400px; margin: 0 auto;">
+        <div style="margin-bottom: 16px;">
+          <label for="password" style="display: block; margin-bottom: 8px; font-weight: bold;">密码：</label>
+          <input type="password" id="password" placeholder="请输入访问密码" style="width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
+        </div>
+        <button id="login-btn" class="btn" style="width: 100%; padding: 12px; font-size: 16px;">登录</button>
+        <p id="login-error" style="color: #dc3545; margin-top: 12px; text-align: center; display: none;">密码错误，请重试</p>
       </div>
-      
-      <div class="card">
-        <h3>📺 精简版+成人（jingjian）</h3>
-        <p><strong>原始 JSON：</strong><br><code class="copyable">${currentOrigin}?format=0&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="4">复制</button></p>
-        <p><strong>中转代理 JSON：</strong><br><code class="copyable">${currentOrigin}?format=1&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="5">复制</button></p>
-        <p><strong>原始 Base58：</strong><br><code class="copyable">${currentOrigin}?format=2&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="6">复制</button></p>
-        <p><strong>中转 Base58：</strong><br><code class="copyable">${currentOrigin}?format=3&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="7">复制</button></p>
-        <p><strong>TV剥削原始订阅：</strong><br><code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="14">复制</button></p>
-        <p><strong>TV剥削中转订阅：</strong><br><code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="15">复制</button></p>
-      </div>
-      
-
     </div>
     
-    <div class="card">
-      <h2>✨ 支持的功能</h2>
-      <ul>
-        <li>✅ 支持 GET、POST、PUT、DELETE 等所有 HTTP 方法</li>
-        <li>✅ 自动转发请求头和请求体</li>
-        <li>✅ 保留原始响应头（除敏感信息）</li>
-        <li>✅ 完整的 CORS 支持</li>
-        <li>✅ 超时保护（9 秒）</li>
-        <li>✅ 支持多种配置源切换</li>
-        <li>✅ 支持 Base58 编码输出</li>
-      </ul>
+    <!-- 订阅链接区域，初始隐藏 -->
+    <div id="subscription-container" style="display: none;">
+      <h2>📋 订阅链接</h2>
+      
+      <div class="grid">
+        <div class="card">
+          <h3>📱 精简版</h3>
+          <div class="subscription-grid">
+            <div class="subscription-item">
+              <strong>原始 Base58订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?format=2&source=jin18</code>
+              <button class="btn btn-copy copy-btn" data-idx="0">复制</button>
+            </div>
+            <div class="subscription-item">
+              <strong>中转 Base58订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?format=3&source=jin18</code>
+              <button class="btn btn-copy copy-btn" data-idx="1">复制</button>
+            </div>
+            <div class="subscription-item tvbox-item">
+              <strong>TVBox原始订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jin18</code>
+              <button class="btn btn-copy copy-btn" data-idx="2">复制</button>
+            </div>
+            <div class="subscription-item tvbox-item">
+              <strong>TVBox中转订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jin18</code>
+              <button class="btn btn-copy copy-btn" data-idx="3">复制</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h3>📺 完整版</h3>
+          <div class="subscription-grid">
+            <div class="subscription-item">
+              <strong>原始 Base58订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?format=2&source=jingjian</code>
+              <button class="btn btn-copy copy-btn" data-idx="4">复制</button>
+            </div>
+            <div class="subscription-item">
+              <strong>中转 Base58订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?format=3&source=jingjian</code>
+              <button class="btn btn-copy copy-btn" data-idx="5">复制</button>
+            </div>
+            <div class="subscription-item tvbox-item">
+              <strong>TVBox原始订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jingjian</code>
+              <button class="btn btn-copy copy-btn" data-idx="6">复制</button>
+            </div>
+            <div class="subscription-item tvbox-item">
+              <strong>TVBox中转订阅：</strong><br>
+              <code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jingjian</code>
+              <button class="btn btn-copy copy-btn" data-idx="7">复制</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
   </div>
   
   <div id="notification" class="notification">已复制到剪贴板！</div>
   
   <script>
+    // 密码配置 - 请自行修改此密码
+    const CORRECT_PASSWORD = '121314';
+    
+    // 登录功能
+    document.getElementById('login-btn').addEventListener('click', () => {
+      const passwordInput = document.getElementById('password');
+      const loginError = document.getElementById('login-error');
+      const loginContainer = document.getElementById('login-container');
+      const subscriptionContainer = document.getElementById('subscription-container');
+      
+      if (passwordInput.value === CORRECT_PASSWORD) {
+        // 密码正确，显示订阅链接
+        loginContainer.style.display = 'none';
+        subscriptionContainer.style.display = 'block';
+        loginError.style.display = 'none';
+      } else {
+        // 密码错误，显示错误信息
+        loginError.style.display = 'block';
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    });
+    
+    // 回车键登录
+    document.getElementById('password').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        document.getElementById('login-btn').click();
+      }
+    });
+    
+    // 复制功能
     document.querySelectorAll('.copy-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const idx = parseInt(btn.getAttribute('data-idx'));
