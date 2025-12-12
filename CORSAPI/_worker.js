@@ -26,8 +26,7 @@ const EXCLUDE_HEADERS = new Set([
 // 使用当前仓库的配置文件URL，确保能获取到最新的配置数据
 const JSON_SOURCES = {
   'jin18': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/main/jin18.json',
-  'jingjian': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/main/jingjian.json',
-  'full': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/main/LunaTV-config.json'
+  'jingjian': 'https://raw.githubusercontent.com/hafrey1/LunaTV-config/main/jingjian.json'
 }
 
 const FORMAT_CONFIG = {
@@ -522,7 +521,7 @@ async function handleFormatRequest(formatParam, sourceParam, prefixParam, defaul
       return errorResponse('Invalid format parameter', { format: formatParam }, 400)
     }
     
-    const selectedSource = JSON_SOURCES[sourceParam] || JSON_SOURCES['full']
+    const selectedSource = JSON_SOURCES[sourceParam] || JSON_SOURCES['jingjian']
     // 添加调试日志
     console.log('Fetching data from:', selectedSource)
     
