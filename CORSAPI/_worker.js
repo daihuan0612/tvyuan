@@ -101,19 +101,25 @@ function generateTvboxConfig(
   } = options || {};
 
   // 过滤掉禁用的源和根据需要过滤成人源
-  let sourcesToUse = sources.filter((s) => !s.disabled);
+  // 注意：实际数据源可能没有disabled和is_adult属性，所以需要提供默认值
+  let sourcesToUse = sources.filter((s) => !(s.disabled === true));
   if (filterAdult) {
-    sourcesToUse = sourcesToUse.filter((s) => !s.is_adult);
+    sourcesToUse = sourcesToUse.filter((s) => !(s.is_adult === true));
   }
 
   // 转换视频源为TVBOX格式
-  const sites = sourcesToUse.map((s) => {
-    const apiType = detectApiType(s.api);
+  const sites = sourcesToUse.map((s, index) => {
+    // 确保site有必要的属性
+    const siteKey = s.key || `site_${index}`;
+    const siteName = s.name || `未知站点_${index}`;
+    const siteApi = s.api || '';
+    
+    const apiType = detectApiType(siteApi);
     const site = {
-      key: s.key,
-      name: s.name,
+      key: siteKey,
+      name: siteName,
       type: apiType,
-      api: s.api,
+      api: siteApi,
       searchable: 1,
       quickSearch: 1,
       filterable: 1
@@ -139,7 +145,7 @@ function generateTvboxConfig(
     // 启用智能搜索代理（如果配置）
     if (useSmartProxy && (apiType === ApiType.MACCMS_XML || apiType === ApiType.MACCMS_JSON) && baseUrl) {
       site.original_api = site.api;
-      site.api = `${baseUrl}/api/tvbox/search?source=${encodeURIComponent(s.key)}&filter=${filterAdult ? 'on' : 'off'}&wd=`;
+      site.api = `${baseUrl}/api/tvbox/search?source=${encodeURIComponent(siteKey)}&filter=${filterAdult ? 'on' : 'off'}&wd=`;
     }
 
     return site;
@@ -148,11 +154,11 @@ function generateTvboxConfig(
   // 转换直播源为TVBOX格式
   const lives = liveSources
     ? liveSources
-        .filter((l) => !l.disabled)
+        .filter((l) => !(l.disabled === true))
         .map((l) => ({
-          name: l.name,
+          name: l.name || `未知直播源_${Math.random().toString(36).substr(2, 5)}`,
           type: 0, // 0-m3u格式
-          url: l.url,
+          url: l.url || '',
           ua: l.ua || 'Mozilla/5.0 (Linux; Android 11; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Mobile Safari/537.36',
           epg: l.epg || '',
           logo: '',
