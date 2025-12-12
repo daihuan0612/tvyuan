@@ -95,7 +95,6 @@ function generateTvboxConfig(
   const {
     mode = 'standard',
     filterAdult = false,
-    spiderJar = 'https://deco-spider.oss-cn-hangzhou.aliyuncs.com/XC.jar;md5;e53eb37c4dc3dce1c8ee0c996ca3a024',
     baseUrl = '',
     useSmartProxy = true
   } = options || {};
@@ -172,7 +171,7 @@ function generateTvboxConfig(
     if (mode === 'yingshicang') {
       // 影视仓专用优化配置
       tvboxConfig = {
-        spider: spiderJar,
+        // 移除spider jar配置，让TVBox使用默认spider
         sites: sites.map((site) => {
           const optimizedSite = { ...site };
 
@@ -210,7 +209,7 @@ function generateTvboxConfig(
         {
           name: '默认解析',
           type: 0,
-          url: 'https://jx.haoduoge.com/?url=',
+          url: 'https://jx.youkuapi.cc/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'iqiyi'],
             header: { 'User-Agent': 'Mozilla/5.0' }
@@ -219,7 +218,7 @@ function generateTvboxConfig(
         {
           name: '备用解析',
           type: 0,
-          url: 'https://jx.m3u8tx.com/?url=',
+          url: 'https://jx.bingdou.net/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv'],
             header: { 'User-Agent': 'Mozilla/5.0' }
@@ -253,7 +252,7 @@ function generateTvboxConfig(
   } else if (mode === 'fast') {
     // 快速模式：优化切换体验
     tvboxConfig = {
-      spider: spiderJar,
+      // 移除spider jar配置，让TVBox使用默认spider
       sites: sites.map((site) => {
         const fastSite = { ...site };
         // 移除可能导致卡顿的配置（如果存在）
@@ -278,7 +277,7 @@ function generateTvboxConfig(
       }),
       lives: liveSources,
       parses: [
-        { name: '极速解析', type: 0, url: 'https://jx.haoduoge.com/?url=', ext: { flag: ['all'] } },
+        { name: '极速解析', type: 0, url: 'https://jx.youkuapi.cc/?url=', ext: { flag: ['all'] } },
         { name: 'Json并发', type: 2, url: 'Parallel' }
       ],
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'mgtv'],
@@ -288,18 +287,18 @@ function generateTvboxConfig(
   } else if (mode === 'safe') {
     // 安全模式：仅输出必要字段
     tvboxConfig = {
-      spider: spiderJar,
+      // 移除spider jar配置，让TVBox使用默认spider
       sites,
       lives: liveSources,
       parses: [
-        { name: '默认解析', type: 0, url: 'https://jx.haoduoge.com/?url=' },
-        { name: '备用解析', type: 0, url: 'https://jx.m3u8tx.com/?url=' }
+        { name: '默认解析', type: 0, url: 'https://jx.youkuapi.cc/?url=' },
+        { name: '备用解析', type: 0, url: 'https://jx.bingdou.net/?url=' }
       ]
     };
   } else {
     // 标准模式：完整配置
     tvboxConfig = {
-      spider: spiderJar,
+      // 移除spider jar配置，让TVBox使用默认spider
       wallpaper: 'https://picsum.photos/1920/1080/?blur=2',
       sites,
       lives: liveSources,
@@ -307,7 +306,7 @@ function generateTvboxConfig(
         {
           name: '默认解析',
           type: 0,
-          url: 'https://jx.haoduoge.com/?url=',
+          url: 'https://jx.youkuapi.cc/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'xigua', 'cntv'],
             header: { 'User-Agent': 'Mozilla/5.0' }
@@ -316,7 +315,7 @@ function generateTvboxConfig(
         {
           name: '备用解析',
           type: 0,
-          url: 'https://jx.m3u8tx.com/?url=',
+          url: 'https://jx.bingdou.net/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu'],
             header: { 'User-Agent': 'Mozilla/5.0' }
@@ -325,7 +324,7 @@ function generateTvboxConfig(
         {
           name: '紧急解析',
           type: 0,
-          url: 'https://jx.one97.one/?url=',
+          url: 'https://jx.nine49.cn/?url=',
           ext: {
             flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv'],
             header: { 'User-Agent': 'Mozilla/5.0' }
