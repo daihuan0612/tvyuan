@@ -199,7 +199,7 @@ function generateTvboxConfig(
 
           return optimizedSite;
         }),
-      lives,
+      lives: liveSources,
       parses: [
         {
           name: '默认解析',
@@ -270,7 +270,7 @@ function generateTvboxConfig(
 
         return fastSite;
       }),
-      lives,
+      lives: liveSources,
       parses: [
         { name: '极速解析', type: 0, url: 'https://jx.xmflv.com/?url=', ext: { flag: ['all'] } },
         { name: 'Json并发', type: 2, url: 'Parallel' }
@@ -284,7 +284,7 @@ function generateTvboxConfig(
     tvboxConfig = {
       spider: spiderJar,
       sites,
-      lives,
+      lives: liveSources,
       parses: [
         { name: '默认解析', type: 0, url: 'https://jx.xmflv.com/?url=' },
         { name: '夜幕解析', type: 0, url: 'https://www.yemu.xyz/?url=' }
@@ -296,7 +296,7 @@ function generateTvboxConfig(
       spider: spiderJar,
       wallpaper: 'https://picsum.photos/1920/1080/?blur=2',
       sites,
-      lives,
+      lives: liveSources,
       parses: [
         {
           name: '默认解析',
