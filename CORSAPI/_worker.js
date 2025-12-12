@@ -675,6 +675,11 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
       margin-bottom: 8px; 
     }
     
+    h1 .subtitle {
+      font-size: 1.5rem; /* 比h1小两号 */
+      opacity: 0.8; /* 可选：添加透明度，让主标题更突出 */
+    }
+    
     h2 { 
       color: var(--text-primary); 
       font-size: 1.5rem; 
@@ -895,7 +900,7 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
 <body>
   <div class="container">
     <header>
-      <h1>API自动搜集中转代理服务</h1>
+      <h1>小苹果TV<br><span class="subtitle">API自动搜集中转代理服务</span></h1>
       <p>API自动搜集中转代理服务，用于访问被墙或限制的接口</p>
     </header>
     
