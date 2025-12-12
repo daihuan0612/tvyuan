@@ -41,6 +41,301 @@ const FORMAT_CONFIG = {
   'proxy-base58': { proxy: true, base58: true }
 }
 
+// TVBOX/影视仓转换工具核心功能
+
+// API类型常量
+const ApiType = {
+  MACCMS_XML: 0,
+  MACCMS_JSON: 1,
+  CSP_SOURCE: 3
+}
+
+// 智能检测 API 类型
+function detectApiType(api) {
+  const url = api.toLowerCase().trim();
+
+  // CSP 源（插件源，优先判断）
+  if (url.startsWith('csp_')) return ApiType.CSP_SOURCE;
+
+  // XML 采集接口 - 更精确匹配
+  if (
+    url.includes('.xml') ||
+    url.includes('xml.php') ||
+    url.includes('api.php/provide/vod/at/xml') ||
+    url.includes('provide/vod/at/xml') ||
+    (url.includes('maccms') && url.includes('xml'))
+  ) {
+    return ApiType.MACCMS_XML;
+  }
+
+  // JSON 采集接口 - 标准苹果CMS格式
+  if (
+    url.includes('.json') ||
+    url.includes('json.php') ||
+    url.includes('api.php/provide/vod') ||
+    url.includes('provide/vod') ||
+    url.includes('api.php') ||
+    url.includes('maccms') ||
+    url.includes('/api/') ||
+    url.match(/\/provide.*vod/) ||
+    url.match(/\/api.*vod/)
+  ) {
+    return ApiType.MACCMS_JSON;
+  }
+
+  // 默认为JSON类型（苹果CMS最常见）
+  return ApiType.MACCMS_JSON;
+}
+
+// 生成TVBOX/影视仓配置
+function generateTvboxConfig(
+  sources,
+  liveSources,
+  options
+) {
+  const {
+    mode = 'standard',
+    filterAdult = false,
+    spiderJar = 'https://deco-spider.oss-cn-hangzhou.aliyuncs.com/XC.jar;md5;e53eb37c4dc3dce1c8ee0c996ca3a024',
+    baseUrl = '',
+    useSmartProxy = true
+  } = options || {};
+
+  // 过滤掉禁用的源和根据需要过滤成人源
+  let sourcesToUse = sources.filter((s) => !s.disabled);
+  if (filterAdult) {
+    sourcesToUse = sourcesToUse.filter((s) => !s.is_adult);
+  }
+
+  // 转换视频源为TVBOX格式
+  const sites = sourcesToUse.map((s) => {
+    const apiType = detectApiType(s.api);
+    const site = {
+      key: s.key,
+      name: s.name,
+      type: apiType,
+      api: s.api,
+      searchable: 1,
+      quickSearch: 1,
+      filterable: 1
+    };
+
+    // 根据API类型设置默认请求头
+    if (apiType === ApiType.CSP_SOURCE) {
+      site.header = {
+        'User-Agent': 'okhttp/3.15',
+        Accept: '*/*',
+        Connection: 'close'
+      };
+    } else {
+      site.header = {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 11; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Mobile Safari/537.36',
+        Accept: 'application/json, text/plain, */*',
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Cache-Control': 'no-cache',
+        Connection: 'close'
+      };
+    }
+
+    // 启用智能搜索代理（如果配置）
+    if (useSmartProxy && (apiType === ApiType.MACCMS_XML || apiType === ApiType.MACCMS_JSON) && baseUrl) {
+      site.original_api = site.api;
+      site.api = `${baseUrl}/api/tvbox/search?source=${encodeURIComponent(s.key)}&filter=${filterAdult ? 'on' : 'off'}&wd=`;
+    }
+
+    return site;
+  });
+
+  // 转换直播源为TVBOX格式
+  const lives = liveSources
+    ? liveSources
+        .filter((l) => !l.disabled)
+        .map((l) => ({
+          name: l.name,
+          type: 0, // 0-m3u格式
+          url: l.url,
+          ua: l.ua || 'Mozilla/5.0 (Linux; Android 11; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Mobile Safari/537.36',
+          epg: l.epg || '',
+          logo: '',
+          group: '直播'
+        }))
+    : [];
+
+  // 根据模式生成不同的配置
+    let tvboxConfig;
+
+    if (mode === 'yingshicang') {
+      // 影视仓专用优化配置
+      tvboxConfig = {
+        spider: spiderJar,
+        sites: sites.map((site) => {
+          const optimizedSite = { ...site };
+
+          // 影视仓优化：删除可能冲突的字段（如果存在）
+          if ('timeout' in optimizedSite) {
+            delete optimizedSite.timeout;
+          }
+          if ('retry' in optimizedSite) {
+            delete optimizedSite.retry;
+          }
+
+          // 影视仓稳定配置
+          if (optimizedSite.type === ApiType.CSP_SOURCE) {
+            optimizedSite.header = {
+              'User-Agent': 'okhttp/3.15',
+              Accept: '*/*'
+            };
+          } else {
+            optimizedSite.header = {
+              'User-Agent': 'Mozilla/5.0 (Linux; Android 11; SM-G973F) AppleWebKit/537.36',
+              Accept: 'application/json, */*',
+              Connection: 'close'
+            };
+          }
+
+          // 强制启用所有搜索功能
+          optimizedSite.searchable = 1;
+          optimizedSite.quickSearch = 1;
+          optimizedSite.filterable = 1;
+
+          return optimizedSite;
+        }),
+      lives,
+      parses: [
+        {
+          name: '默认解析',
+          type: 0,
+          url: 'https://jx.xmflv.com/?url=',
+          ext: {
+            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'iqiyi'],
+            header: { 'User-Agent': 'Mozilla/5.0' }
+          }
+        },
+        {
+          name: '备用解析',
+          type: 0,
+          url: 'https://www.yemu.xyz/?url=',
+          ext: {
+            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv'],
+            header: { 'User-Agent': 'Mozilla/5.0' }
+          }
+        },
+        { name: 'Json并发', type: 2, url: 'Parallel' },
+        { name: 'Json轮询', type: 2, url: 'Sequence' }
+      ],
+      flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi'],
+      rules: [
+        {
+          name: '量子资源',
+          hosts: ['vip.lz', 'hd.lz', 'v.cdnlz.com'],
+          regex: [
+            '#EXT-X-DISCONTINUITY\r?\n\#EXTINF:6.433333,[\\s\\S]*?#EXT-X-DISCONTINUITY',
+            '#EXTINF.*?\s+.*?1o.*?\.ts\s+'
+          ]
+        },
+        {
+          name: '非凡资源',
+          hosts: ['vip.ffzy', 'hd.ffzy', 'v.ffzyapi.com'],
+          regex: [
+            '#EXT-X-DISCONTINUITY\r?\n\#EXTINF:6.666667,[\\s\\S]*?#EXT-X-DISCONTINUITY',
+            '#EXTINF.*?\s+.*?1o.*?\.ts\s+'
+          ]
+        }
+      ],
+      wallpaper: 'https://picsum.photos/1920/1080/?blur=1',
+      maxHomeVideoContent: '20'
+    };
+  } else if (mode === 'fast') {
+    // 快速模式：优化切换体验
+    tvboxConfig = {
+      spider: spiderJar,
+      sites: sites.map((site) => {
+        const fastSite = { ...site };
+        // 移除可能导致卡顿的配置（如果存在）
+        if ('timeout' in fastSite) {
+          delete fastSite.timeout;
+        }
+        if ('retry' in fastSite) {
+          delete fastSite.retry;
+        }
+
+        // 优化请求头，提升响应速度
+        if (fastSite.type === ApiType.CSP_SOURCE) {
+          fastSite.header = { 'User-Agent': 'okhttp/3.15' };
+        } else {
+          fastSite.header = {
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 11) AppleWebKit/537.36',
+            Connection: 'close'
+          };
+        }
+
+        return fastSite;
+      }),
+      lives,
+      parses: [
+        { name: '极速解析', type: 0, url: 'https://jx.xmflv.com/?url=', ext: { flag: ['all'] } },
+        { name: 'Json并发', type: 2, url: 'Parallel' }
+      ],
+      flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'mgtv'],
+      wallpaper: '',
+      maxHomeVideoContent: '15'
+    };
+  } else if (mode === 'safe') {
+    // 安全模式：仅输出必要字段
+    tvboxConfig = {
+      spider: spiderJar,
+      sites,
+      lives,
+      parses: [
+        { name: '默认解析', type: 0, url: 'https://jx.xmflv.com/?url=' },
+        { name: '夜幕解析', type: 0, url: 'https://www.yemu.xyz/?url=' }
+      ]
+    };
+  } else {
+    // 标准模式：完整配置
+    tvboxConfig = {
+      spider: spiderJar,
+      wallpaper: 'https://picsum.photos/1920/1080/?blur=2',
+      sites,
+      lives,
+      parses: [
+        {
+          name: '默认解析',
+          type: 0,
+          url: 'https://jx.xmflv.com/?url=',
+          ext: {
+            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'xigua', 'cntv'],
+            header: { 'User-Agent': 'Mozilla/5.0' }
+          }
+        },
+        {
+          name: '夜幕解析',
+          type: 0,
+          url: 'https://www.yemu.xyz/?url=',
+          ext: {
+            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu'],
+            header: { 'User-Agent': 'Mozilla/5.0' }
+          }
+        },
+        {
+          name: '爱豆解析',
+          type: 0,
+          url: 'https://jx.aidouer.net/?url=',
+          ext: {
+            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv'],
+            header: { 'User-Agent': 'Mozilla/5.0' }
+          }
+        },
+        { name: 'Json并发', type: 2, url: 'Parallel' },
+        { name: 'Json轮询', type: 2, url: 'Sequence' }
+      ],
+      flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi', 'xigua', 'cntv']
+    };
+  }
+
+  return tvboxConfig;
+}
+
 // Base58 编码函数
 const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 function base58Encode(obj) {
@@ -130,6 +425,7 @@ async function handleRequest(request) {
   const formatParam = reqUrl.searchParams.get('format')
   const prefixParam = reqUrl.searchParams.get('prefix')
   const sourceParam = reqUrl.searchParams.get('source')
+  const tvboxParam = reqUrl.searchParams.get('tvbox')
   
   const currentOrigin = reqUrl.origin
   const defaultPrefix = currentOrigin + '/?url='
@@ -142,6 +438,11 @@ async function handleRequest(request) {
   // 通用代理请求处理
   if (targetUrlParam) {
     return handleProxyRequest(request, targetUrlParam, currentOrigin)
+  }
+  
+  // TVBOX 配置输出处理
+  if (tvboxParam !== null) {
+    return handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultPrefix)
   }
   
   // JSON 格式输出处理
@@ -244,6 +545,47 @@ async function handleFormatRequest(formatParam, sourceParam, prefixParam, defaul
   } catch (err) {
     await logError('json', { message: err.message, stack: err.stack })
     return errorResponse('Failed to fetch or process JSON data: ' + err.message, {}, 500)
+  }
+}
+
+// ---------- TVBOX 配置输出处理子模块 ----------
+async function handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultPrefix) {
+  try {
+    // 解析 tvbox 参数，格式：mode:proxy:base58，例如：standard:true:false
+    const [mode = 'standard', proxyStr = 'false', base58Str = 'false'] = tvboxParam.split(':')
+    const proxy = proxyStr === 'true'
+    const base58 = base58Str === 'true'
+    
+    const selectedSource = JSON_SOURCES[sourceParam] || JSON_SOURCES['full']
+    console.log('Fetching TVBOX data from:', selectedSource)
+    
+    const data = await getCachedJSON(selectedSource)
+    
+    // 从数据源中提取视频源列表
+    const sources = data.api_site || []
+    const apiSites = Array.isArray(sources) ? sources : Object.values(sources)
+    
+    // 生成 TVBOX 配置
+    let tvboxConfig = generateTvboxConfig(apiSites, [], { mode })
+    
+    // 如果需要代理，替换 API 前缀
+    if (proxy) {
+      tvboxConfig = addOrReplacePrefix(tvboxConfig, prefixParam || defaultPrefix)
+    }
+    
+    if (base58) {
+      const encoded = base58Encode(tvboxConfig)
+      return new Response(encoded, {
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8', ...CORS_HEADERS },
+      })
+    } else {
+      return new Response(JSON.stringify(tvboxConfig), {
+        headers: { 'Content-Type': 'application/json;charset=UTF-8', ...CORS_HEADERS },
+      })
+    }
+  } catch (err) {
+    await logError('tvbox', { message: err.message, stack: err.stack })
+    return errorResponse('Failed to fetch or process TVBOX data: ' + err.message, {}, 500)
   }
 }
 
@@ -503,6 +845,8 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
         <p><strong>中转代理 JSON：</strong><br><code class="copyable">${currentOrigin}?format=1&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="1">复制</button></p>
         <p><strong>原始 Base58：</strong><br><code class="copyable">${currentOrigin}?format=2&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="2">复制</button></p>
         <p><strong>中转 Base58：</strong><br><code class="copyable">${currentOrigin}?format=3&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="3">复制</button></p>
+        <p><strong>TV剥削原始订阅：</strong><br><code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="12">复制</button></p>
+        <p><strong>TV剥削中转订阅：</strong><br><code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jin18</code> <button class="btn btn-copy copy-btn" data-idx="13">复制</button></p>
       </div>
       
       <div class="card">
@@ -511,15 +855,11 @@ async function handleHomePage(currentOrigin, defaultPrefix) {
         <p><strong>中转代理 JSON：</strong><br><code class="copyable">${currentOrigin}?format=1&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="5">复制</button></p>
         <p><strong>原始 Base58：</strong><br><code class="copyable">${currentOrigin}?format=2&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="6">复制</button></p>
         <p><strong>中转 Base58：</strong><br><code class="copyable">${currentOrigin}?format=3&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="7">复制</button></p>
+        <p><strong>TV剥削原始订阅：</strong><br><code class="copyable">${currentOrigin}?tvbox=standard:false:false&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="14">复制</button></p>
+        <p><strong>TV剥削中转订阅：</strong><br><code class="copyable">${currentOrigin}?tvbox=standard:true:false&source=jingjian</code> <button class="btn btn-copy copy-btn" data-idx="15">复制</button></p>
       </div>
       
-      <div class="card">
-        <h3>🎬 完整版（full，默认）</h3>
-        <p><strong>原始 JSON：</strong><br><code class="copyable">${currentOrigin}?format=0&source=full</code> <button class="btn btn-copy copy-btn" data-idx="8">复制</button></p>
-        <p><strong>中转代理 JSON：</strong><br><code class="copyable">${currentOrigin}?format=1&source=full</code> <button class="btn btn-copy copy-btn" data-idx="9">复制</button></p>
-        <p><strong>原始 Base58：</strong><br><code class="copyable">${currentOrigin}?format=2&source=full</code> <button class="btn btn-copy copy-btn" data-idx="10">复制</button></p>
-        <p><strong>中转 Base58：</strong><br><code class="copyable">${currentOrigin}?format=3&source=full</code> <button class="btn btn-copy copy-btn" data-idx="11">复制</button></p>
-      </div>
+
     </div>
     
     <div class="card">
