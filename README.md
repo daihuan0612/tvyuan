@@ -247,21 +247,21 @@ https://<你的域名>/?tvbox=standard:true:false&source=jingjian
 </details>
 
 <details>
-<summary>⚠️ 重要提醒：关于TV剥削订阅</summary>
+<summary>⚠️ 重要提醒：关于TVBox订阅</summary>
   
 # 
   
 项目现在支持TV剥削订阅功能，可以直接生成适合TVBOX/影视仓使用的配置：
 
-1. **TV剥削原始订阅**：
+1. **TVBox原始订阅**：
    - 链接：`https://<你的域名>/?tvbox=standard:false:false&source=<配置源>`
    - 特点：生成原始TVBOX配置，不经过代理中转
 
-2. **TV剥削中转订阅**：
+2. **TVBox中转订阅**：
    - 链接：`https://<你的域名>/?tvbox=standard:true:false&source=<配置源>`
    - 特点：生成经过代理中转的TVBOX配置，适合访问受限资源
 
-3. **TV剥削高级订阅**：
+3. **TVBox高级订阅**：
    - 链接：`https://<你的域名>/?tvbox=yingshicang:true:false&source=<配置源>`
    - 特点：影视仓专用优化配置，适合影视仓应用
 
