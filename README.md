@@ -150,7 +150,6 @@ https://api.example.workers.dev/?format=1&source=full&prefix=https://my-proxy.co
 | --- | --- | --- | --- |
 | **jin18** | 动态更新 | ❌ 否 | 家庭使用、轻量级应用 |
 | **jingjian** | 动态更新 | ✅ 是 | 个人使用、中等需求 |
-| **full** | 已移除 | ✅ 是 | 不再提供，建议使用经过健康度检测的版本 |
 
 
 🧩 **前缀替换逻辑**  
@@ -177,11 +176,6 @@ https://api.example.workers.dev/?format=1&source=full&prefix=https://my-proxy.co
 ### 精简版（jin18）
 
 ```jsx
-# 原始 JSON
-https://<你的域名>/?format=0&source=jin18
-
-# 带代理前缀的 JSON
-https://<你的域名>/?format=1&source=jin18
 
 # 原始 Base58 编码
 https://<你的域名>/?format=2&source=jin18
@@ -192,21 +186,11 @@ https://<你的域名>/?format=3&source=jin18
 # TVBox原始订阅
 https://<你的域名>/?tvbox=standard:false:false&source=jin18
 
-# TVBox中转订阅
-https://<你的域名>/?tvbox=standard:true:false&source=jin18
-```
-
 > **说明**：精简版仅包含普通内容，经过健康度检测，适合家庭使用。
 
 ### 精简+成人版（jingjian）
 
 ```jsx
-# 原始 JSON
-https://<你的域名>/?format=0&source=jingjian
-
-# 带代理前缀的 JSON
-https://<你的域名>/?format=1&source=jingjian
-
 # 原始 Base58 编码
 https://<你的域名>/?format=2&source=jingjian
 
@@ -216,17 +200,8 @@ https://<你的域名>/?format=3&source=jingjian
 # TVBox原始订阅
 https://<你的域名>/?tvbox=standard:false:false&source=jingjian
 
-# TVBox中转订阅
-https://<你的域名>/?tvbox=standard:true:false&source=jingjian
-```
 
 > **说明**：精简+成人版包含成人内容，经过健康度检测，适合个人使用。
-
-### 完整版（full）
-
-> **说明**：完整版已移除，不再提供未经健康度检测的完整版本，建议使用经过健康度检测的jin18或jingjian版本。
-
----   
 
 </details>
 
@@ -248,18 +223,12 @@ https://<你的域名>/?tvbox=standard:true:false&source=jingjian
 
 <details>
 <summary>⚠️ 重要提醒：关于TVBox订阅</summary>
-  
 # 
-  
 项目现在支持TVBox订阅功能，可以直接生成适合TVBOX/影视仓使用的配置：
 
-1. **TVBox原始订阅**：
+**TVBox原始订阅**：
    - 链接：`https://<你的域名>/?tvbox=standard:false:false&source=<配置源>`
    - 特点：生成原始TVBOX配置，不经过代理中转
-
-2. **TVBox中转订阅**：
-   - 链接：`https://<你的域名>/?tvbox=standard:true:false&source=<配置源>`
-   - 特点：生成经过代理中转的TVBOX配置，适合访问受限资源
 
 > **关键要点**：
 > - 配置源可选择 `jin18`（仅普通内容）或 `jingjian`（含成人内容）
@@ -339,7 +308,7 @@ console.log(`Request from: ${request.headers.get('cf-connecting-ip')}`)
 
 ## 🆕 更新内容
 - 📄 **自动过滤不可搜索API源**：添加自动过滤不可搜索API源功能。(2025.12.12)
-- 📄 **密码登录功能**：添加自动简单的密码登录功能。(2025.12.12)   
+- 📄 **密码登录功能**：添加简单的密码登录功能。(2025.12.12)   
 - 📄 **TVBox/影视仓订阅**：添加自动转换为TVBox/影视仓订阅链接。(2025.12.12)    
 - 🕵️ **自动搜集网络API**：定期从网络搜集新的API资源，验证有效性后自动添加到配置中。(2025.12.10)  
 - 🔍 **自动检测API状态**：每天凌晨1点检测一次 API 可用性，并记录最近 100 次测试报告。  
