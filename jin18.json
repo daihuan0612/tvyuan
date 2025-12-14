@@ -316,6 +316,11 @@
       "name": "🎬虎牙资源",
       "api": "https://www.huyaapi.com/api.php/provide/vod/at/json",
       "detail": "https://www.huyaapi.com"
+    },
+    "hongniuzy2资源": {
+      "name": "🎬 hongniuzy2资源",
+      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
+      "detail": "https://www.hongniuzy2.com"
     }
   }
 }

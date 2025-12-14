@@ -409,6 +409,11 @@
       "name": "🔞杏吧资源",
       "api": "https://xingba111.com/api.php/provide/vod",
       "detail": "https://xingba111.com"
+    },
+    "hongniuzy2资源": {
+      "name": "🎬 hongniuzy2资源",
+      "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
+      "detail": "https://www.hongniuzy2.com"
     }
   }
 }
