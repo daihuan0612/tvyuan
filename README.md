@@ -387,7 +387,7 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 <!-- API_TABLE_START -->
 | 状态 | 资源名称 | 地址 | API | 搜索功能 | 成功次数 | 失败次数 | 成功率 | 最近7天趋势 |
 |------|---------|-----|-----|---------|---------:|--------:|-------:|--------------|
-| ✅ | 🎬 hongniuzy2资源 | [Link](https://www.hongniuzy2.com) | [Link](https://www.hongniuzy2.com/api.php/provide/vod/) | ✅ | 4 | 0 | 100.0% | ---✅✅✅✅ |
+| ✅ | 🎬 红牛资源2 | [Link](https://www.hongniuzy2.com) | [Link](https://www.hongniuzy2.com/api.php/provide/vod/) | ✅ | 4 | 0 | 100.0% | ---✅✅✅✅ |
 | ✅ | 🎬 新浪资源 | [Link](https://api.xinlangapi.com) | [Link](https://api.xinlangapi.com/xinlangapi.php/provide/vod/) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 无尽资源 | [Link](https://api.wujinapi.com) | [Link](https://api.wujinapi.com/api.php/provide/vod/) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 无尽资源2 | [Link](https://api.wujinapi.me) | [Link](https://api.wujinapi.me/api.php/provide/vod/) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
@@ -431,7 +431,7 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 | ✅ | 小苹果无广源 | [Link](http://121.40.174.45:199/api.php/provide/vod/) | [Link](http://121.40.174.45:199/api.php/provide/vod/) | ❌ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 iKun资源 | [Link](https://www.ikunzy.com) | [Link](https://www.ikunzy.com/api.php/provide/vod/) | ✅ | 12 | 1 | 92.3% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬爱奇艺 | [Link](https://iqiyizyapi.com) | [Link](https://iqiyizyapi.com/api.php/provide/vod) | ✅ | 12 | 1 | 92.3% | ✅✅✅✅✅✅✅ |
-| ✅ | 🔞-老色逼- | [Link](https://apilsbzy1.com) | [Link](https://apilsbzy1.com/api.php/provide/vod) | ✅ | 12 | 1 | 92.3% | ✅✅✅✅✅✅✅ |
+| ✅ | 🔞老色逼 | [Link](https://apilsbzy1.com) | [Link](https://apilsbzy1.com/api.php/provide/vod) | ✅ | 12 | 1 | 92.3% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞155-资源 | [Link](https://155zy2.com) | [Link](https://155api.com/api.php/provide/vod) | ✅ | 12 | 1 | 92.3% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞玉兔资源 | [Link](https://apiyutu.com) | [Link](https://apiyutu.com/api.php/provide/vod) | ✅ | 12 | 1 | 92.3% | ✅✅✅✅✅✅✅ |
 | ✅ | TV-U酷资源88 | [Link](https://api.ukuapi88.com) | [Link](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 12 | 1 | 92.3% | ✅✅❌✅✅✅✅ |
