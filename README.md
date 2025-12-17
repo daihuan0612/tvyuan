@@ -410,8 +410,8 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 | ✅ | 🎬量子影视 | [Link](https://lzizy.net) | [Link](https://cj.lziapi.com/api.php/provide/vod) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬金鹰资源 | [Link](https://jinyingzy.net) | [Link](https://jyzyapi.com/provide/vod/from/jinyingyun/at/json) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬魔都资源 | [Link](https://www.moduzy.net) | [Link](https://www.mdzyapi.com/api.php/provide/vod) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
-| ✅ | 🔞-幸资源- | [Link](https://xzytv.com) | [Link](https://xzybb2.com/api.php/provide/vod) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
-| ✅ | 🔞-黄AVZY | [Link](https://www.pgxdy.com) | [Link](https://www.pgxdy.com/api/json.php) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
+| ✅ | 🔞幸资源 | [Link](https://xzytv.com) | [Link](https://xzybb2.com/api.php/provide/vod) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
+| ✅ | 🔞黄AVZY| [Link](https://www.pgxdy.com) | [Link](https://www.pgxdy.com/api/json.php) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞jkun资源 | [Link](https://jkunzyapi.com) | [Link](https://jkunzyapi.com/api.php/provide/vod) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞乐播资源 | [Link](https://lbapi9.com) | [Link](https://lbapi9.com/api.php/provide/vod) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞奶香资源 | [Link](https://Naixxzy.com) | [Link](https://Naixxzy.com/api.php/provide/vod) | ✅ | 13 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
