@@ -371,13 +371,13 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
   
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2025-12-17 12:06 CST）
+## API 状态（最近更新：2025-12-17 12:07 CST）
 
-- 总 API 数量：79
-- 成功 API 数量：48
+- 总 API 数量：78
+- 成功 API 数量：47
 - 失败 API 数量：31
-- 平均可用率：65.2%
-- 完美可用率（100%）：39 个
+- 平均可用率：64.7%
+- 完美可用率（100%）：38 个
 - 高可用率（80%-99%）：11 个
 - 中等可用率（50%-79%）：3 个
 - 低可用率（<50%）：1 个
@@ -416,7 +416,6 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 | ✅ | 🔞幸资源 | [Link](https://xzytv.com) | [Link](https://xzybb2.com/api.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞杏吧资源 | [Link](https://xingba111.com) | [Link](https://xingba111.com/api.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞色猫资源 | [Link](https://semaozy1.com) | [Link](https://caiji.semaozy.net/inc/apijson_vod.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
-| ✅ | 🔞黄AVZY | [Link](https://www.pgxdy.com) | [Link](https://www.pgxdy.com/api/json.php) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞黄色仓库 | [Link](https://hsckzy.xyz) | [Link](https://hsckzy.xyz/api.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞黑料资源 | [Link](https://heiliaozy.cc) | [Link](https://www.heiliaozyapi.com/api.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | TV-光速资源 | [Link](https://api.guangsuapi.com) | [Link](https://api.guangsuapi.com/api.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |

@@ -1,8 +1,8 @@
 # 源接口健康检测报告
 
-最近更新时间：2025-12-17 12:05 CST
+最近更新时间：2025-12-17 12:06 CST
 
-**总源数:** 79 | **检测关键词:** 你好
+**总源数:** 78 | **检测关键词:** 你好
 
 | 状态 | 资源名称 | 地址 | API | 搜索功能 | 成功次数 | 失败次数 | 成功率 | 最近7天趋势 |
 |------|---------|-----|-----|---------|---------:|--------:|-------:|--------------|
@@ -45,7 +45,6 @@
 | ✅ | 🔞幸资源 | [Link](https://xzytv.com) | [Link](https://xzybb2.com/api.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞滴滴资源 | [Link](https://didizy.com) | [Link](https://api.ddapi.cc/api.php/provide/vod) | ✅ | 10 | 4 | 71.4% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞黑料资源 | [Link](https://heiliaozy.cc) | [Link](https://www.heiliaozyapi.com/api.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
-| ✅ | 🔞黄AVZY | [Link](https://www.pgxdy.com) | [Link](https://www.pgxdy.com/api/json.php) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞色猫资源 | [Link](https://semaozy1.com) | [Link](https://caiji.semaozy.net/inc/apijson_vod.php/provide/vod) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 iKun资源 | [Link](https://www.ikunzy.com) | [Link](https://www.ikunzy.com/api.php/provide/vod/) | ✅ | 13 | 1 | 92.9% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 量子资源 | [Link](https://cj.lziapi.com) | [Link](https://cj.lziapi.com/api.php/provide/vod/) | ✅ | 14 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
@@ -9272,13 +9271,6 @@
       {
         "name": "🔞黑料资源",
         "api": "https://www.heiliaozyapi.com/api.php/provide/vod",
-        "disabled": false,
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "name": "🔞黄AVZY",
-        "api": "https://www.pgxdy.com/api/json.php",
         "disabled": false,
         "success": true,
         "searchStatus": "✅"
