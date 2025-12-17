@@ -154,7 +154,7 @@
       "is_adult": false
     },
     "ukuapi88": {
-      "name": "TV-U酷资源88",
+      "name": "TV-U酷资源",
       "api": "https://api.ukuapi88.com/api.php/provide/vod",
       "detail": "https://api.ukuapi88.com",
       "is_adult": false
@@ -317,8 +317,8 @@
       "api": "https://www.huyaapi.com/api.php/provide/vod/at/json",
       "detail": "https://www.huyaapi.com"
     },
-    "hongniuzy2资源": {
-      "name": "🎬 hongniuzy2资源",
+    "hongniuzy2": {
+      "name": "🎬 红牛资源2",
       "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
       "detail": "https://www.hongniuzy2.com"
     }

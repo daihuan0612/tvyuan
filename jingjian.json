@@ -127,7 +127,7 @@
       "detail": "https://apiyutu.com"
     },
     "apilsbzy1.com": {
-      "name": "🔞-老色逼-",
+      "name": "🔞老色逼",
       "api": "https://apilsbzy1.com/api.php/provide/vod",
       "detail": "https://apilsbzy1.com"
     },
@@ -162,7 +162,7 @@
       "detail": "https://slapibf.com"
     },
     "xzytv.com": {
-      "name": "🔞-幸资源-",
+      "name": "🔞幸资源",
       "api": "https://xzybb2.com/api.php/provide/vod",
       "detail": "https://xzytv.com"
     },
@@ -175,6 +175,16 @@
       "name": "🔞黑料资源",
       "api": "https://www.heiliaozyapi.com/api.php/provide/vod",
       "detail": "https://heiliaozy.cc"
+    },
+    "www.pgxdy.com": {
+      "name": "🔞黄AVZY",
+      "api": "https://www.pgxdy.com/api/json.php",
+      "detail": "https://www.pgxdy.com"
+    },
+    "semaozy1.com": {
+      "name": "🔞色猫资源",
+      "api": "https://caiji.semaozy.net/inc/apijson_vod.php/provide/vod",
+      "detail": "https://semaozy1.com"
     },
     "www_ikunzy_com": {
       "name": "🎬 iKun资源",
@@ -224,7 +234,7 @@
       "is_adult": false
     },
     "ukuapi88": {
-      "name": "TV-U酷资源88",
+      "name": "TV-U酷资源",
       "api": "https://api.ukuapi88.com/api.php/provide/vod",
       "detail": "https://api.ukuapi88.com",
       "is_adult": false
@@ -392,8 +402,8 @@
       "api": "https://xingba111.com/api.php/provide/vod",
       "detail": "https://xingba111.com"
     },
-    "hongniuzy2资源": {
-      "name": "🎬 hongniuzy2资源",
+    "hongniuzy2": {
+      "name": "🎬 红牛资源2",
       "api": "https://www.hongniuzy2.com/api.php/provide/vod/",
       "detail": "https://www.hongniuzy2.com"
     }
