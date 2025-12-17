@@ -137,7 +137,7 @@
       "detail": "https://iqiyizyapi.com"
     },
     "2k_source": {
-      "name": "小苹果无广源",
+      "name": "🎬小苹果源",
       "api": "http://121.40.174.45:199/api.php/provide/vod/",
       "detail": "http://121.40.174.45:199/api.php/provide/vod/",
       "is_adult": false
@@ -301,11 +301,6 @@
       "name": "🎬无尽资源1",
       "api": "https://api.wujinapi.com/api.php/provide/vod",
       "detail": "https://wujinzy.com"
-    },
-    "hhzyapi": {
-      "name": "🎬豪华资源",
-      "api": "https://hhzyapi.com/api.php/provide/vod",
-      "detail": "https://www.haohuazy.com"
     },
     "subocaiji": {
       "name": "🎬速播资源",
