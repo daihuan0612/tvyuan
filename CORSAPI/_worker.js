@@ -25,8 +25,8 @@ const EXCLUDE_HEADERS = new Set([
 
 // 使用当前仓库的配置文件URL，确保能获取到最新的配置数据
 const JSON_SOURCES = {
-  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json',
-  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json'
+  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan-main/main/jin18.json',
+  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan-main/main/jingjian.json'
 }
 
 const FORMAT_CONFIG = {
@@ -420,13 +420,9 @@ const CACHE_TTL = 300000; // 5分钟缓存
 
 // ---------- 安全版：KV 缓存 ----------
 async function getCachedJSON(url) {
-  // 确保url是字符串，防止后续操作出错
-  const originalUrl = url || '';
-  let cleanUrl = '';
-  
   try {
-    // 移除URL中的反引号，防止URL格式错误
-    cleanUrl = originalUrl.replace(/[`]/g, '').trim();
+    // 确保url是字符串，移除URL中的反引号，防止URL格式错误
+    const cleanUrl = (typeof url === 'string' ? url : '').replace(/[`]/g, '').trim();
     
     // 检查内存缓存
     const cached = MEMORY_CACHE.get(cleanUrl);
@@ -460,6 +456,8 @@ async function getCachedJSON(url) {
     return data;
   } catch (error) {
     console.error('Error fetching JSON:', error);
+    // 确保url是字符串，移除URL中的反引号，防止URL格式错误
+    const cleanUrl = (typeof url === 'string' ? url : '').replace(/[`]/g, '').trim();
     
     // 如果获取失败，检查是否有过期缓存可以使用
     const cached = MEMORY_CACHE.get(cleanUrl);
