@@ -472,9 +472,13 @@ const CACHE_TTL = 300000; // 5分钟缓存
 
 // ---------- 安全版：KV 缓存 ----------
 async function getCachedJSON(urls) {
-  // 递归清理对象中所有URL字段的反引号
+  // 递归清理对象中所有字段的反引号，包括字符串本身
   const cleanObject = (obj) => {
     if (typeof obj !== 'object' || obj === null) {
+      // 直接清理字符串值
+      if (typeof obj === 'string') {
+        return obj.replace(/[`]/g, '').trim();
+      }
       return obj;
     }
     
@@ -484,12 +488,7 @@ async function getCachedJSON(urls) {
     
     const cleaned = {};
     for (const [key, value] of Object.entries(obj)) {
-      if (typeof value === 'string') {
-        // 移除字符串值中的反引号
-        cleaned[key] = value.replace(/[`]/g, '').trim();
-      } else {
-        cleaned[key] = cleanObject(value);
-      }
+      cleaned[key] = cleanObject(value);
     }
     return cleaned;
   };
@@ -703,13 +702,34 @@ async function handleFormatRequest(formatParam, sourceParam, prefixParam, defaul
       ? addOrReplacePrefix(data, prefixParam || defaultPrefix)
       : data
     
+    // 递归清理整个配置对象中的所有反引号，确保输出的配置完全干净
+    const deepClean = (obj) => {
+      if (typeof obj !== 'object' || obj === null) {
+        if (typeof obj === 'string') {
+          return obj.replace(/[`]/g, '').trim();
+        }
+        return obj;
+      }
+      if (Array.isArray(obj)) {
+        return obj.map(deepClean);
+      }
+      const cleaned = {};
+      for (const [key, value] of Object.entries(obj)) {
+        cleaned[key] = deepClean(value);
+      }
+      return cleaned;
+    };
+    
+    // 对整个配置对象进行深度清理，确保所有字段中的反引号都被移除
+    const cleanedData = deepClean(newData);
+    
     if (config.base58) {
-      const encoded = base58Encode(newData)
+      const encoded = base58Encode(cleanedData)
       return new Response(encoded, {
         headers: { 'Content-Type': 'text/plain;charset=UTF-8', ...CORS_HEADERS },
       })
     } else {
-      return new Response(JSON.stringify(newData), {
+      return new Response(JSON.stringify(cleanedData), {
         headers: { 'Content-Type': 'application/json;charset=UTF-8', ...CORS_HEADERS },
       })
     }
@@ -758,28 +778,34 @@ async function handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultP
       tvboxConfig = addOrReplacePrefix(tvboxConfig, prefixParam || defaultPrefix)
     }
     
-    // 确保所有URL不包含反引号的辅助函数
-    const cleanUrl = (url) => {
-      if (typeof url === 'string') {
-        return url.replace(/[`]/g, '').trim();
+    // 递归清理整个配置对象中的所有反引号，确保输出的配置完全干净
+    const deepClean = (obj) => {
+      if (typeof obj !== 'object' || obj === null) {
+        if (typeof obj === 'string') {
+          return obj.replace(/[`]/g, '').trim();
+        }
+        return obj;
       }
-      return url;
+      if (Array.isArray(obj)) {
+        return obj.map(deepClean);
+      }
+      const cleaned = {};
+      for (const [key, value] of Object.entries(obj)) {
+        cleaned[key] = deepClean(value);
+      }
+      return cleaned;
     };
     
-    // 清理所有URL字段
-    tvboxConfig.wallpaper = cleanUrl(tvboxConfig.wallpaper);
-    tvboxConfig.parses = tvboxConfig.parses.map(parse => ({
-      ...parse,
-      url: cleanUrl(parse.url)
-    }));
+    // 对整个配置对象进行深度清理，确保所有字段中的反引号都被移除
+    const cleanedTvboxConfig = deepClean(tvboxConfig);
     
     if (base58) {
-      const encoded = base58Encode(tvboxConfig)
+      const encoded = base58Encode(cleanedTvboxConfig)
       return new Response(encoded, {
         headers: { 'Content-Type': 'text/plain;charset=UTF-8', ...CORS_HEADERS },
       })
     } else {
-      return new Response(JSON.stringify(tvboxConfig), {
+      return new Response(JSON.stringify(cleanedTvboxConfig), {
         headers: { 'Content-Type': 'application/json;charset=UTF-8', ...CORS_HEADERS },
       })
     }
