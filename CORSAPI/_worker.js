@@ -420,9 +420,13 @@ const CACHE_TTL = 300000; // 5分钟缓存
 
 // ---------- 安全版：KV 缓存 ----------
 async function getCachedJSON(url) {
+  // 确保url是字符串，防止后续操作出错
+  const originalUrl = url || '';
+  let cleanUrl = '';
+  
   try {
     // 移除URL中的反引号，防止URL格式错误
-    const cleanUrl = url.replace(/[`]/g, '').trim();
+    cleanUrl = originalUrl.replace(/[`]/g, '').trim();
     
     // 检查内存缓存
     const cached = MEMORY_CACHE.get(cleanUrl);
@@ -456,6 +460,7 @@ async function getCachedJSON(url) {
     return data;
   } catch (error) {
     console.error('Error fetching JSON:', error);
+    
     // 如果获取失败，检查是否有过期缓存可以使用
     const cached = MEMORY_CACHE.get(cleanUrl);
     if (cached) {
