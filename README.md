@@ -371,7 +371,7 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2025-12-23 20:51 CST）
+## API 状态（最近更新：2025-12-23 20:58 CST）
 
 - 总 API 数量：54
 - 成功 API 数量：52
@@ -387,8 +387,8 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 <!-- API_TABLE_START -->
 | 状态 | 资源名称                       | API   | 搜索功能 | 成功次数 | 失败 | 成功率 | 最近7天趋势 |
 |------|--------------------------------|-------|---------|---------:|------:|-------:|--------------|
-| ✅ | 🎬 ikunzy 资源 | [链接](https://www.ikunzy.com/api.php/provide/vod/) | ✅ | 27 | 0 | 100% | --✅✅✅✅✅ |
-| ✅ | 🎬 七星秒播2 资源 | [链接](http://cj.lziapi.com/api.php/provide/vod/) | ✅ | 8 | 0 | 100% | ✅✅✅✅✅✅✅ |
+| ✅ | 🎬 ikunzy 资源 | [链接](https://www.ikunzy.com/api.php/provide/vod/) | ✅ | 27 | 0 | 100% | -✅✅✅✅✅✅ |
+| ✅ | 🎬 七星秒播2 资源 | [链接](http://cj.lziapi.com/api.php/provide/vod/) | ✅ | 9 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 最大 资源 | [链接](https://api.zuidapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 最大点播 资源 | [链接](https://zuidazy.me/api.php/provide/vod) | ✅ | 12 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 卧龙 资源 | [链接](https://wolongzyw.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
@@ -403,7 +403,7 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 | ✅ | 🎬 少广6线 (速播) | [链接](https://subocaiji.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 少广7线 (金鹰) | [链接](https://jinyingzy.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 少广8线 (红牛) | [链接](https://www.hongniuzy2.com/api.php/provide/vod) | ✅ | 12 | 0 | 100% | ✅✅✅✅✅✅✅ |
-| ✅ | 🎬 少广9线 (360) | [链接](https://360zy.com/api.php/provide/vod?) | ❌ | 8 | 0 | 100% | ✅✅✅✅✅✅✅ |
+| ✅ | 🎬 少广9线 (360) | [链接](https://360zy.com/api.php/provide/vod?) | ❌ | 9 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 新浪点播 资源 | [链接](https://api.xinlangapi.com/xinlangapi.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 无尽影视 资源 | [链接](https://api.wujinapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
@@ -437,11 +437,13 @@ GitHub Actions工作流会每周自动运行API搜集任务，搜集到的新API
 | ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 飘零 资源 | [链接](https://p2100.net/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 森林 资源 | [链接](https://beiyong.slapibf.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
+| ✅ | 🔞 滴滴 资源 | [链接](https://api.ddapi.cc/api.php/provide/vod) | ✅ | 28 | 2 | 93.3% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 豆瓣 资源 | [链接](https://caiji.dbzy5.com/api.php/provide/vod) | ✅ | 27 | 3 | 90% | ✅✅✅✅✅✅✅ |
-| ✅ | 🔞 滴滴 资源 | [链接](https://api.ddapi.cc/api.php/provide/vod) | ✅ | 27 | 3 | 90% | ✅✅✅✅✅✅✅ |
 | 🚨 | 🎬 如意 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod) | ❌ | 0 | 12 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 12 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
+
+
 
 
 
