@@ -24,20 +24,10 @@ const EXCLUDE_HEADERS = new Set([
 ])
 
 // 使用当前仓库的配置文件URL，确保能获取到最新的配置数据
-// 添加多个CDN源作为备选，提高可靠性
+// 仓库已公开，使用原始GitHub Raw地址
 const JSON_SOURCES = {
-  'jin18': [
-    'https://cdn.jsdelivr.net/gh/daihuan0612/tvyuan/jin18.json',
-    'https://raw.fgit.ml/daihuan0612/tvyuan/main/jin18.json',
-    'https://raw.githubusercontent.com.cnpmjs.org/daihuan0612/tvyuan/main/jin18.json',
-    'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json'
-  ],
-  'jingjian': [
-    'https://cdn.jsdelivr.net/gh/daihuan0612/tvyuan/jingjian.json',
-    'https://raw.fgit.ml/daihuan0612/tvyuan/main/jingjian.json',
-    'https://raw.githubusercontent.com.cnpmjs.org/daihuan0612/tvyuan/main/jingjian.json',
-    'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json'
-  ]
+  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json',
+  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json'
 }
 
 const FORMAT_CONFIG = {
