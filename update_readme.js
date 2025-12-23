@@ -37,7 +37,6 @@ let tableMd = tableEnd === -1 ? reportContent.substring(tableStart).trim() : rep
 
 // 拆分表格行
 const lines = tableMd.split('\n');
-const header = lines.slice(0, 2); // 表头部分
 const rows = lines.slice(2); // 数据部分
 
 // 解析每一行数据，提取可用率
@@ -45,26 +44,38 @@ const rowsWithData = rows.map(line => {
     const cols = line.split('|').map(c => c.trim());
     const status = cols[1]; // 状态列
     const apiName = cols[2]; // API名称列
-    const apiAddress = cols[4]; // API地址列
+    
+    // 提取纯API地址，去掉[Link]()包装
+    const apiLink = cols[4]; // API地址列（带[Link]()包装）
+    let apiAddress = apiLink;
+    const linkMatch = apiLink.match(/\[Link\]\((.*?)\)/);
+    if (linkMatch) {
+        apiAddress = linkMatch[1]; // 提取纯链接
+    }
+    
     const successCount = parseInt(cols[6]) || 0; // 成功次数
     const failCount = parseInt(cols[7]) || 0; // 失败次数
     const availabilityStr = cols[8]; // 可用率列
-    const consecutiveFailDays = parseInt(cols[8]) || 0; // 连续失败天数
-
+    
     // 提取可用率数字（去掉%符号）
     const availabilityMatch = availabilityStr.match(/(\d+\.?\d*)%/);
     const availability = availabilityMatch ? parseFloat(availabilityMatch[1]) : 0;
-
+    
+    // 提取搜索状态
+    const searchStatus = cols[5]; // 搜索功能列
+    
+    // 提取趋势
+    const trend = cols[9]; // 最近7天趋势列
+    
     return {
-        line: line,
-        cols: cols,
         status: status,
         apiName: apiName,
         apiAddress: apiAddress,
+        searchStatus: searchStatus,
         successCount: successCount,
         failCount: failCount,
         availability: availability,
-        consecutiveFailDays: consecutiveFailDays,
+        trend: trend,
         isSuccess: status.includes('✅')
     };
 });
@@ -77,11 +88,19 @@ rowsWithData.sort((a, b) => {
     return a.apiName.localeCompare(b.apiName); // 可用率相同时按API名称升序
 });
 
+// 生成新的表头
+const newHeader = [
+    '| 状态 | 资源名称 | API | 搜索功能 | 成功次数 | 失败次数 | 成功率 | 最近7天趋势 |',
+    '|------|---------|-----|---------|---------:|--------:|-------:|--------------|'
+];
+
 // 生成排序后的表格行
-const sortedRows = rowsWithData.map(row => row.line);
+const sortedRows = rowsWithData.map(row => {
+    return `| ${row.status} | ${row.apiName} | ${row.apiAddress} | ${row.searchStatus} | ${row.successCount} | ${row.failCount} | ${row.availability}% | ${row.trend} |`;
+});
 
 // 更新表格
-tableMd = [...header, ...sortedRows].join('\n');
+tableMd = [...newHeader, ...sortedRows].join('\n');
 
 // 统计数据 - 使用配置文件中的实际API数量
 const totalApis = totalApisInConfig > 0 ? totalApisInConfig : rowsWithData.length;
