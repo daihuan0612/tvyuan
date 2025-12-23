@@ -109,11 +109,21 @@ function generateTvboxConfig(
     if (!hasValidName && !hasValidApi) {
       return false;
     }
-    // 过滤掉被禁用的站点
+    // 不要过滤掉包含错误信息的站点，即使它们被禁用
+    if (s.name && s.name.includes('⚠️')) {
+      return true;
+    }
+    // 过滤掉被禁用的普通站点
     return !(s.disabled === true);
   });
   if (filterAdult) {
-    sourcesToUse = sourcesToUse.filter((s) => !(s.is_adult === true));
+    sourcesToUse = sourcesToUse.filter((s) => {
+      // 不要过滤掉包含错误信息的站点，即使它们是成人站点
+      if (s.name && s.name.includes('⚠️')) {
+        return true;
+      }
+      return !(s.is_adult === true);
+    });
   }
   
   // 如果过滤后没有站点，添加一个提示站点
@@ -411,11 +421,14 @@ const CACHE_TTL = 300000; // 5分钟缓存
 // ---------- 安全版：KV 缓存 ----------
 async function getCachedJSON(url) {
   try {
+    // 移除URL中的反引号，防止URL格式错误
+    const cleanUrl = url.replace(/[`]/g, '').trim();
+    
     // 检查内存缓存
-    const cached = MEMORY_CACHE.get(url);
+    const cached = MEMORY_CACHE.get(cleanUrl);
     const now = Date.now();
     if (cached && (now - cached.timestamp < CACHE_TTL)) {
-      console.log('Using cached data for:', url);
+      console.log('Using cached data for:', cleanUrl);
       return cached.data;
     }
     
@@ -424,18 +437,18 @@ async function getCachedJSON(url) {
     const timeoutId = setTimeout(() => controller.abort(), 3000);
     
     // 直接从网络获取数据，使用配置的URL
-    const response = await fetch(url, { signal: controller.signal });
+    const response = await fetch(cleanUrl, { signal: controller.signal });
     clearTimeout(timeoutId);
     
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${url}: ${response.status}`);
+      throw new Error(`Failed to fetch ${cleanUrl}: ${response.status}`);
     }
     
     // 解析获取到的JSON数据
     const data = await response.json();
     
     // 存入内存缓存
-    MEMORY_CACHE.set(url, {
+    MEMORY_CACHE.set(cleanUrl, {
       data: data,
       timestamp: Date.now()
     });
@@ -444,13 +457,13 @@ async function getCachedJSON(url) {
   } catch (error) {
     console.error('Error fetching JSON:', error);
     // 如果获取失败，检查是否有过期缓存可以使用
-    const cached = MEMORY_CACHE.get(url);
+    const cached = MEMORY_CACHE.get(cleanUrl);
     if (cached) {
-      console.log('Using stale cache for:', url);
+      console.log('Using stale cache for:', cleanUrl);
       return cached.data;
     }
     // 否则返回包含错误信息的配置，而不是空配置
-    console.error(`Failed to fetch ${url}, returning default error config`);
+    console.error(`Failed to fetch ${cleanUrl}, returning default error config`);
     return {
       "cache_time": 7200,
       "api_site": {
@@ -459,7 +472,7 @@ async function getCachedJSON(url) {
           "api": "",
           "disabled": true,
           "is_adult": false,
-          "_comment": `无法获取配置源: ${url}`
+          "_comment": `无法获取配置源: ${cleanUrl}`
         }
       }
     };
