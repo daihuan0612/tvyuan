@@ -223,6 +223,11 @@
       "name": "🎬 虎牙资源",
       "api": "https://www.huyaapi.com/api.php/provide/vod/at/json",
       "detail": "https://www.huyaapi.com"
+    },
+    "ikunzy资源": {
+      "name": "🎬 ikunzy资源",
+      "api": "https://www.ikunzy.com/api.php/provide/vod/",
+      "detail": "https://www.ikunzy.com"
     }
   }
 }

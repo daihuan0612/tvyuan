@@ -288,6 +288,11 @@
       "name": "🔞 杏吧资源",
       "api": "https://xingba111.com/api.php/provide/vod",
       "detail": "https://xingba111.com"
+    },
+    "ikunzy资源": {
+      "name": "🎬 ikunzy资源",
+      "api": "https://www.ikunzy.com/api.php/provide/vod/",
+      "detail": "https://www.ikunzy.com"
     }
   }
 }
