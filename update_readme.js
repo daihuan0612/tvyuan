@@ -55,6 +55,18 @@ const rowsWithData = rows.map(line => {
         }
     }
     
+    // 2. 清理更复杂的重复情况，例如"🎬 金鹰Json 资源  🎬 金鹰 Json 资源"
+    const complexDuplicatePattern = /((🎬|🔞)\s*[^\|]+?)\s*\1/gi;
+    while (complexDuplicatePattern.test(apiName)) {
+        apiName = apiName.replace(complexDuplicatePattern, '$1');
+    }
+    
+    // 3. 特别处理金鹰Json资源的重复情况
+    const jinYingPattern = /🎬\s*金鹰\s*Json\s*资源\s*🎬\s*金鹰\s*Json\s*资源/gi;
+    if (jinYingPattern.test(apiName)) {
+        apiName = apiName.replace(jinYingPattern, '🎬 金鹰Json 资源');
+    }
+    
     // 2. 清理多余的空格，统一名称格式
     apiName = apiName.replace(/\s+/g, ' ').trim();
     
