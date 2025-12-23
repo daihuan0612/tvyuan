@@ -43,7 +43,48 @@ const rows = lines.slice(2); // 数据部分
 const rowsWithData = rows.map(line => {
     const cols = line.split('|').map(c => c.trim());
     const status = cols[1]; // 状态列
-    const apiName = cols[2]; // API名称列
+    let apiName = cols[2]; // API名称列
+    
+    // 1. 清理明显的重复模式，例如"🎬 ikunzy资源  🎬 ikunzy 资源" → "🎬 ikunzy资源"
+    const duplicatePattern = /(🎬|🔞)\s*(.+?)\s*(?:\1\s*\2|\s+\1\s*\2)/gi;
+    if (duplicatePattern.test(apiName)) {
+        // 提取唯一的资源名称部分
+        const match = apiName.match(/(🎬|🔞)\s*(.+?)\s*/i);
+        if (match && match[2]) {
+            apiName = `${match[1]} ${match[2].trim()}`;
+        }
+    }
+    
+    // 2. 清理多余的空格，统一名称格式
+    apiName = apiName.replace(/\s+/g, ' ').trim();
+    
+    // 3. 确保资源名称格式统一，避免重复
+    if (!apiName.includes('资源') && !apiName.includes('线')) {
+        apiName = `${apiName.trim()} 资源`;
+    }
+    
+    // 4. 处理特殊情况：将"金鹰Json"和"金鹰 Json"统一格式为"金鹰Json 资源"
+    apiName = apiName.replace(/\s*Json\s*/i, 'Json ');
+    
+    // 5. 移除可能的重复"资源"后缀
+    apiName = apiName.replace(/(资源)\s*\1/gi, '$1');
+    
+    // 6. 统一"Json"的大小写
+    apiName = apiName.replace(/json/gi, 'Json');
+    
+    // 7. 清理多余的空格，确保格式美观
+    apiName = apiName.replace(/\s+/g, ' ').trim();
+    
+    // 8. 确保"资源"后缀前有一个空格
+    if (apiName.endsWith('资源') && !apiName.endsWith(' 资源')) {
+        const lastChar = apiName.charAt(apiName.length - 2);
+        if (lastChar !== ' ') {
+            apiName = apiName.replace(/资源$/, ' 资源');
+        }
+    }
+    
+    // 7. 清理首尾空格
+    apiName = apiName.trim();
     
     // 提取纯API地址，去掉[Link]()包装
     const apiLink = cols[4]; // API地址列（带[Link]()包装）
