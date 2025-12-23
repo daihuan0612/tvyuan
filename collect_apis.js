@@ -82,6 +82,49 @@ const validateApi = async (apiUrl) => {
   }
 };
 
+// 计算API的有效性分数
+const calculateApiScore = (apiUrl) => {
+  let score = 0;
+  
+  // 1. 基于路径模式的分数
+  const commonPaths = API_PATTERNS.slice(0, 5); // 最常见的前5个路径
+  for (let i = 0; i < commonPaths.length; i++) {
+    if (apiUrl.includes(commonPaths[i])) {
+      score += (5 - i) * 10; // 越常见的路径分数越高
+      break;
+    }
+  }
+  
+  // 2. 基于域名关键词的分数
+  const highQualityKeywords = [
+    'ikun', 'iqiyi', 'dbzy', 'tyys', 'mtzy', 'wolong', 'dytt',
+    'maoyan', 'lz', '360', 'jszy', 'modu', 'ffzy', 'bfzy'
+  ];
+  
+  for (const keyword of highQualityKeywords) {
+    if (apiUrl.includes(keyword)) {
+      score += 15;
+      break;
+    }
+  }
+  
+  // 3. 基于域名后缀的分数
+  const goodSuffixes = ['com', 'cn', 'net', 'tv'];
+  for (const suffix of goodSuffixes) {
+    if (apiUrl.endsWith(suffix)) {
+      score += 10;
+      break;
+    }
+  }
+  
+  // 4. 基于域名格式的分数（排除明显无效的格式）
+  if (apiUrl.match(/^https:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\/.+$/)) {
+    score += 20;
+  }
+  
+  return score;
+};
+
 // 生成唯一的主机名键值
 const generateUniqueKey = (hostname, existingKeys) => {
   let key = hostname;
@@ -146,37 +189,34 @@ const fetchApisFromSources = async () => {
 
 // 生成潜在的API地址
 const generatePotentialApis = () => {
-  // 常见的实际视频API域名后缀
+  // 常见的实际视频API域名后缀（只保留最常用的）
   const domainSuffixes = [
-    'com', 'cn', 'net', 'tv', 'me', 'cc', 'vip'
+    'com', 'cn', 'net', 'tv', 'me'
   ];
   
-  // 常见的实际视频API域名关键词（基于现有配置文件中的真实API）
+  // 精选的视频API域名关键词（只保留最有可能有效的）
   const domainKeywords = [
-    'zy', 'api', 'vod', 'movie', 'tv', 'cj', 'caiji',
     'ikun', 'iqiyi', 'dbzy', 'tyys', 'mtzy', 'wolong', 'dytt',
     'maoyan', 'lz', '360', 'jszy', 'modu', 'ffzy', 'bfzy',
-    'zuida', 'wujin', 'xinlang', 'wwzy', 'subo', 'jinying', 'p2100',
+    'zuida', 'wujin', 'xinlang', 'wwzy', 'subo', 'jinying',
     'uku', 'guangsu', 'hongniu', 'ryzy', 'haohua', 'bdzy', 'lzi'
   ];
   
   // 生成更实际的域名组合
   const potentialDomains = [];
   
-  // 方式1: 直接使用关键词 + 后缀
+  // 只生成有效的域名格式（keyword.suffix），移除无效的组合
   for (const keyword of domainKeywords) {
     for (const suffix of domainSuffixes) {
-      potentialDomains.push(`${keyword}${suffix}`);
+      // 只添加有效的域名格式，移除如 "zycom" 这样的无效格式
       potentialDomains.push(`${keyword}.${suffix}`);
     }
   }
   
-  // 方式2: 前缀 + 关键词 + 后缀
-  for (const prefix of ['api', 'vod', 'cj']) {
-    for (const keyword of domainKeywords) {
+  // 只保留最常用的前缀组合
+  for (const prefix of ['api', 'cj']) {
+    for (const keyword of domainKeywords.slice(0, 15)) { // 只使用前15个关键词
       for (const suffix of domainSuffixes) {
-        potentialDomains.push(`${prefix}${keyword}${suffix}`);
-        potentialDomains.push(`${prefix}-${keyword}.${suffix}`);
         potentialDomains.push(`${prefix}.${keyword}.${suffix}`);
       }
     }
@@ -188,7 +228,7 @@ const generatePotentialApis = () => {
   // 生成潜在的API URL
   const potentialApis = [];
   for (const domain of uniqueDomains) {
-    for (const pattern of API_PATTERNS) {
+    for (const pattern of API_PATTERNS.slice(0, 5)) { // 只使用前5个最常用的API路径
       potentialApis.push(`https://${domain}${pattern}`);
     }
   }
@@ -272,23 +312,42 @@ const EXCLUDE_KEYWORDS = [
   
   // 去重
   const uniquePotentialApis = [...new Set(potentialApis)];
-  console.log(`🔍 总共发现 ${uniquePotentialApis.length} 个不重复的潜在API`);
   
-  if (uniquePotentialApis.length === 0) {
+  // 设置最大潜在API数量限制
+  const MAX_POTENTIAL_APIS = 20; // 根据用户要求，限制最大潜在API数量为20个
+  let finalPotentialApis = uniquePotentialApis;
+  
+  // 优化1：根据API有效性概率排序，优先验证最有可能有效的API
+  finalPotentialApis = finalPotentialApis.sort((a, b) => {
+    // 计算API的有效性分数
+    const scoreA = calculateApiScore(a);
+    const scoreB = calculateApiScore(b);
+    return scoreB - scoreA; // 降序排列，分数高的优先测试
+  });
+  
+  // 优化2：限制最大API数量
+  if (finalPotentialApis.length > MAX_POTENTIAL_APIS) {
+    finalPotentialApis = finalPotentialApis.slice(0, MAX_POTENTIAL_APIS);
+    console.log(`🔍 总共发现 ${uniquePotentialApis.length} 个不重复的潜在API，已筛选为 ${finalPotentialApis.length} 个进行测试`);
+  } else {
+    console.log(`🔍 总共发现 ${finalPotentialApis.length} 个不重复的潜在API`);
+  }
+  
+  if (finalPotentialApis.length === 0) {
     console.log('⚠️ 未发现任何潜在API，结束执行');
     return;
   }
   
-  console.log(`🔍 发现 ${uniquePotentialApis.length} 个潜在API`);
+  console.log(`🔍 发现 ${finalPotentialApis.length} 个潜在API`);
   
   // 3. 验证新API的有效性
   console.log('=== 第二阶段：验证API有效性 ===');
   console.log('🧪 开始验证API有效性...');
   const validApis = [];
   let processedCount = 0;
-  const totalApis = uniquePotentialApis.length;
+  const totalApis = finalPotentialApis.length;
   
-  for (const api of uniquePotentialApis) {
+  for (const api of finalPotentialApis) {
     processedCount++;
     // 显示进度
     if (processedCount % 10 === 0 || processedCount === totalApis) {
