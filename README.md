@@ -174,7 +174,7 @@ https://api.example.workers.dev/?format=1&source=full&prefix=https://my-proxy.co
 
 > **域名说明**：
 > - **分配域名**：Cloudflare自动分配的域名，如 `xpgyuan.pages.dev`
-> - **自定义域名**：您绑定的个性化域名，如 `xfl.de5.net`
+> - **自定义域名**：您绑定的个性化域名，如 `<你的域名>`
 > 
 > 无论使用哪种域名，订阅链接的格式和功能完全相同，您可以根据需要选择使用。
 
