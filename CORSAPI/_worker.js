@@ -24,9 +24,20 @@ const EXCLUDE_HEADERS = new Set([
 ])
 
 // 使用当前仓库的配置文件URL，确保能获取到最新的配置数据
+// 添加多个CDN源作为备选，提高可靠性
 const JSON_SOURCES = {
-  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json',
-  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json'
+  'jin18': [
+    'https://cdn.jsdelivr.net/gh/daihuan0612/tvyuan/jin18.json',
+    'https://raw.fgit.ml/daihuan0612/tvyuan/main/jin18.json',
+    'https://raw.githubusercontent.com.cnpmjs.org/daihuan0612/tvyuan/main/jin18.json',
+    'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json'
+  ],
+  'jingjian': [
+    'https://cdn.jsdelivr.net/gh/daihuan0612/tvyuan/jingjian.json',
+    'https://raw.fgit.ml/daihuan0612/tvyuan/main/jingjian.json',
+    'https://raw.githubusercontent.com.cnpmjs.org/daihuan0612/tvyuan/main/jingjian.json',
+    'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json'
+  ]
 }
 
 const FORMAT_CONFIG = {
@@ -436,67 +447,102 @@ const MEMORY_CACHE = new Map();
 const CACHE_TTL = 300000; // 5分钟缓存
 
 // ---------- 安全版：KV 缓存 ----------
-async function getCachedJSON(url) {
-  try {
-    // 确保url是字符串，移除URL中的反引号，防止URL格式错误
-    const cleanUrl = (typeof url === 'string' ? url : '').replace(/[`]/g, '').trim();
-    
-    // 检查内存缓存
-    const cached = MEMORY_CACHE.get(cleanUrl);
-    const now = Date.now();
-    if (cached && (now - cached.timestamp < CACHE_TTL)) {
-      console.log('Using cached data for:', cleanUrl);
-      return cached.data;
+async function getCachedJSON(urls) {
+  // 递归清理对象中所有URL字段的反引号
+  const cleanObject = (obj) => {
+    if (typeof obj !== 'object' || obj === null) {
+      return obj;
     }
     
-    // 设置3秒超时，优化用户体验
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
-    
-    // 直接从网络获取数据，使用配置的URL
-    const response = await fetch(cleanUrl, { signal: controller.signal });
-    clearTimeout(timeoutId);
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${cleanUrl}: ${response.status}`);
+    if (Array.isArray(obj)) {
+      return obj.map(cleanObject);
     }
     
-    // 解析获取到的JSON数据
-    const data = await response.json();
-    
-    // 存入内存缓存
-    MEMORY_CACHE.set(cleanUrl, {
-      data: data,
-      timestamp: Date.now()
-    });
-    
-    return data;
-  } catch (error) {
-    console.error('Error fetching JSON:', error);
-    // 确保url是字符串，移除URL中的反引号，防止URL格式错误
+    const cleaned = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof value === 'string') {
+        // 移除字符串值中的反引号
+        cleaned[key] = value.replace(/[`]/g, '').trim();
+      } else {
+        cleaned[key] = cleanObject(value);
+      }
+    }
+    return cleaned;
+  };
+  
+  // 将单个URL转换为数组，以便统一处理
+  const urlList = Array.isArray(urls) ? urls : [urls];
+  
+  // 尝试从每个URL获取数据，直到成功
+  for (const url of urlList) {
+    try {
+      // 确保url是字符串，移除URL中的反引号，防止URL格式错误
+      const cleanUrl = (typeof url === 'string' ? url : '').replace(/[`]/g, '').trim();
+      
+      // 检查内存缓存
+      const cached = MEMORY_CACHE.get(cleanUrl);
+      const now = Date.now();
+      if (cached && (now - cached.timestamp < CACHE_TTL)) {
+        console.log('Using cached data for:', cleanUrl);
+        // 清理缓存数据中的反引号
+        return cleanObject(cached.data);
+      }
+      
+      // 设置3秒超时，优化用户体验
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+      
+      // 直接从网络获取数据，使用配置的URL
+      const response = await fetch(cleanUrl, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${cleanUrl}: ${response.status}`);
+      }
+      
+      // 解析获取到的JSON数据
+      const data = await response.json();
+      
+      // 清理数据中的反引号
+      const cleanedData = cleanObject(data);
+      
+      // 存入内存缓存
+      MEMORY_CACHE.set(cleanUrl, {
+        data: cleanedData,
+        timestamp: Date.now()
+      });
+      
+      return cleanedData;
+    } catch (error) {
+      console.error(`Error fetching from ${url}:`, error);
+      // 继续尝试下一个URL
+    }
+  }
+  
+  // 所有URL都尝试失败后，检查是否有任何过期缓存可以使用
+  for (const url of urlList) {
     const cleanUrl = (typeof url === 'string' ? url : '').replace(/[`]/g, '').trim();
-    
-    // 如果获取失败，检查是否有过期缓存可以使用
     const cached = MEMORY_CACHE.get(cleanUrl);
     if (cached) {
       console.log('Using stale cache for:', cleanUrl);
-      return cached.data;
+      return cleanObject(cached.data);
     }
-    // 否则返回包含错误信息的配置，而不是空配置
-    console.error(`Failed to fetch ${cleanUrl}, returning default error config`);
-    return {
-      "cache_time": 7200,
-      "api_site": {
-        "error_source": {
-          "name": "⚠️ 配置源获取失败",
-          "api": "",
-          "disabled": true,
-          "is_adult": false,
-          "_comment": `无法获取配置源: ${cleanUrl}`
-        }
-      }
-    };
   }
+  
+  // 否则返回包含错误信息的配置，而不是空配置
+  console.error(`All URLs failed, returning default error config`);
+  return {
+    "cache_time": 7200,
+    "api_site": {
+      "error_source": {
+        "name": "⚠️ 配置源获取失败",
+        "api": "",
+        "disabled": true,
+        "is_adult": false,
+        "_comment": `无法获取配置源: ${urlList.join(', ')}`
+      }
+    }
+  };
 }
 
 // ---------- 安全版：错误日志 ----------
@@ -688,6 +734,21 @@ async function handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultP
       tvboxConfig = addOrReplacePrefix(tvboxConfig, prefixParam || defaultPrefix)
     }
     
+    // 确保所有URL不包含反引号的辅助函数
+    const cleanUrl = (url) => {
+      if (typeof url === 'string') {
+        return url.replace(/[`]/g, '').trim();
+      }
+      return url;
+    };
+    
+    // 清理所有URL字段
+    tvboxConfig.wallpaper = cleanUrl(tvboxConfig.wallpaper);
+    tvboxConfig.parses = tvboxConfig.parses.map(parse => ({
+      ...parse,
+      url: cleanUrl(parse.url)
+    }));
+    
     if (base58) {
       const encoded = base58Encode(tvboxConfig)
       return new Response(encoded, {
@@ -725,7 +786,23 @@ async function handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultP
         }
       ],
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi', 'xigua', 'cntv']
-    }
+    };
+    
+    // 确保所有URL不包含反引号的辅助函数
+    const cleanUrl = (url) => {
+      if (typeof url === 'string') {
+        return url.replace(/[`]/g, '').trim();
+      }
+      return url;
+    };
+    
+    // 清理所有URL字段
+    errorTvboxConfig.wallpaper = cleanUrl(errorTvboxConfig.wallpaper);
+    errorTvboxConfig.parses = errorTvboxConfig.parses.map(parse => ({
+      ...parse,
+      url: cleanUrl(parse.url)
+    }));
+    
     return new Response(JSON.stringify(errorTvboxConfig), {
       headers: { 'Content-Type': 'application/json;charset=UTF-8', ...CORS_HEADERS },
     })
