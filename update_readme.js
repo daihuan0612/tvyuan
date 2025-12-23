@@ -88,15 +88,18 @@ rowsWithData.sort((a, b) => {
     return a.apiName.localeCompare(b.apiName); // 可用率相同时按API名称升序
 });
 
-// 生成新的表头
+// 生成新的表头，调整列宽提示
 const newHeader = [
-    '| 状态 | 资源名称 | API | 搜索功能 | 成功次数 | 失败次数 | 成功率 | 最近7天趋势 |',
-    '|------|---------|-----|---------|---------:|--------:|-------:|--------------|'
+    '| 状态 | 资源名称                       | API   | 搜索功能 | 成功次数 | 失败 | 成功率 | 最近7天趋势 |',
+    '|------|--------------------------------|-------|---------|---------:|------:|-------:|--------------|'
 ];
 
 // 生成排序后的表格行
 const sortedRows = rowsWithData.map(row => {
-    return `| ${row.status} | ${row.apiName} | ${row.apiAddress} | ${row.searchStatus} | ${row.successCount} | ${row.failCount} | ${row.availability}% | ${row.trend} |`;
+    // 将API地址显示为"链接"超链接格式
+    const apiLink = `[链接](${row.apiAddress})`;
+    // 调整列名：将"失败次数"改为"失败"，与新表头保持一致
+    return `| ${row.status} | ${row.apiName} | ${apiLink} | ${row.searchStatus} | ${row.successCount} | ${row.failCount} | ${row.availability}% | ${row.trend} |`;
 });
 
 // 更新表格
@@ -139,17 +142,26 @@ const tableBlock =
 // 读取 README.md（可能不存在）
 let readmeContent = fs.existsSync(readmePath) ? fs.readFileSync(readmePath, 'utf-8') : "";
 
-// 替换或追加
-if (readmeContent.includes("<!-- API_TABLE_START -->") && readmeContent.includes("<!-- API_TABLE_END -->")) {
+// 确保只保留一个 API 状态表格，先移除所有现有的表格
+readmeContent = readmeContent.replace(
+    /## API 状态（最近更新：[^\n]+）[\s\S]*?<!-- API_TABLE_END -->/g,
+    ''
+);
+
+// 然后在合适的位置添加新表格
+const apiHealthSectionStart = "# API 健康报告（每日自动检测API状态）";
+if (readmeContent.includes(apiHealthSectionStart)) {
+    // 在 API 健康报告标题后添加表格
     readmeContent = readmeContent.replace(
-        /## API 状态（最近更新：[^\n]+）[\s\S]*?<!-- API_TABLE_END -->/,
-        tableBlock
+        apiHealthSectionStart,
+        `${apiHealthSectionStart}\n\n${tableBlock}`
     );
-    console.log("✅ README.md 已更新 API 状态表格（按可用率排序）");
 } else {
-    readmeContent += `\n\n${tableBlock}\n`;
-    console.log("⚠️ README.md 未找到标记，已自动追加 API 状态表格到末尾");
+    // 如果没有找到标题，添加到文件末尾
+    readmeContent += `\n\n# API 健康报告（每日自动检测API状态）\n\n${tableBlock}\n`;
 }
+
+console.log("✅ README.md 已更新 API 状态表格（按可用率排序）");
 
 // 写回文件
 fs.writeFileSync(readmePath, readmeContent, 'utf-8');
