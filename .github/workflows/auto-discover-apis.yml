@@ -2,7 +2,7 @@ name: Auto Discover and Add APIs
 
 on:
   schedule:
-    - cron: "0 16 * * 0"  # 每周北京时间周日凌晨0点运行 (UTC 16点周日)
+    - cron: "0 16 1 * *"  # 每月北京时间1日凌晨0点运行 (UTC 16点)
   workflow_dispatch:
 
 jobs:
