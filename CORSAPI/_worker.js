@@ -281,6 +281,8 @@ function generateTvboxConfig(
           }
         }
       ],
+      // flags：TVBOX播放器支持的视频网站标志，用于显示对应网站图标和应用处理逻辑
+      // 这些是TVBOX播放器内置支持的网站，与用户仓库中的API无关
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi'],
       rules: [
         {
@@ -334,6 +336,8 @@ function generateTvboxConfig(
         { name: 'Json并发', type: 2, url: 'Parallel' },
         { name: '极速解析', type: 0, url: 'https://jx.aidouer.net/?url=', ext: { flag: ['all'] } }
       ],
+      // flags：TVBOX播放器支持的视频网站标志，用于显示对应网站图标和应用处理逻辑
+      // 这些是TVBOX播放器内置支持的网站，与用户仓库中的API无关
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'mgtv'],
       wallpaper: cleanUrl(''),
       maxHomeVideoContent: '15'
@@ -368,6 +372,8 @@ function generateTvboxConfig(
           }
         }
       ],
+      // flags：TVBOX播放器支持的视频网站标志，用于显示对应网站图标和应用处理逻辑
+      // 这些是TVBOX播放器内置支持的网站，与用户仓库中的API无关
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi', 'xigua', 'cntv']
     };
   }
@@ -378,7 +384,25 @@ function generateTvboxConfig(
     url: cleanUrl(parse.url)
   }));
 
-  return tvboxConfig;
+  // 递归清理整个配置对象中的所有反引号，确保输出的配置完全干净
+  const deepClean = (obj) => {
+    if (typeof obj !== 'object' || obj === null) {
+      if (typeof obj === 'string') {
+        return obj.replace(/[`]/g, '').trim();
+      }
+      return obj;
+    }
+    if (Array.isArray(obj)) {
+      return obj.map(deepClean);
+    }
+    const cleaned = {};
+    for (const [key, value] of Object.entries(obj)) {
+      cleaned[key] = deepClean(value);
+    }
+    return cleaned;
+  };
+
+  return deepClean(tvboxConfig);
 }
 
 // Base58 编码函数
@@ -803,7 +827,27 @@ async function handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultP
       url: cleanUrl(parse.url)
     }));
     
-    return new Response(JSON.stringify(errorTvboxConfig), {
+    // 递归清理整个配置对象中的所有反引号，确保输出的配置完全干净
+    const deepClean = (obj) => {
+      if (typeof obj !== 'object' || obj === null) {
+        if (typeof obj === 'string') {
+          return obj.replace(/[`]/g, '').trim();
+        }
+        return obj;
+      }
+      if (Array.isArray(obj)) {
+        return obj.map(deepClean);
+      }
+      const cleaned = {};
+      for (const [key, value] of Object.entries(obj)) {
+        cleaned[key] = deepClean(value);
+      }
+      return cleaned;
+    };
+    
+    const cleanedConfig = deepClean(errorTvboxConfig);
+    
+    return new Response(JSON.stringify(cleanedConfig), {
       headers: { 'Content-Type': 'application/json;charset=UTF-8', ...CORS_HEADERS },
     })
   }
