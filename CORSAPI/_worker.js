@@ -101,8 +101,12 @@ function generateTvboxConfig(
   // 过滤掉禁用的源和根据需要过滤成人源
   // 注意：实际数据源可能没有disabled和is_adult属性，所以需要提供默认值
   let sourcesToUse = sources.filter((s) => {
-    // 只保留有效的站点：必须有api和name字段
-    if (!s.api || typeof s.api !== 'string' || !s.name || typeof s.name !== 'string') {
+    // 修复：放宽站点验证条件，确保至少有name或api字段
+    const hasValidName = s.name && typeof s.name === 'string' && s.name.trim() !== '';
+    const hasValidApi = s.api && typeof s.api === 'string' && s.api.trim() !== '';
+    
+    // 只保留有有效名称或API的站点
+    if (!hasValidName && !hasValidApi) {
       return false;
     }
     // 过滤掉被禁用的站点
@@ -112,52 +116,70 @@ function generateTvboxConfig(
     sourcesToUse = sourcesToUse.filter((s) => !(s.is_adult === true));
   }
   
+  // 如果过滤后没有站点，添加一个提示站点
+  if (sourcesToUse.length === 0) {
+    sourcesToUse = [{
+      name: '⚠️ 暂无可用站点',
+      api: '',
+      disabled: true
+    }];
+  }
+  
   // 限制最大站点数量，避免配置过大导致加载缓慢
   sourcesToUse = sourcesToUse.slice(0, 50);
 
   // 转换视频源为TVBOX格式
-  const sites = sourcesToUse.map((s, index) => {
-    // 确保site有必要的属性
-    const siteKey = s.key || `site_${index}`;
-    const siteName = s.name || `未知站点_${index}`;
-    const siteApi = s.api || '';
-    
-    const apiType = detectApiType(siteApi);
-    const site = {
-      key: siteKey,
-      name: siteName,
-      type: apiType,
-      api: siteApi,
-      searchable: 1,
-      quickSearch: 1,
-      filterable: 1
-    };
-
-    // 根据API类型设置默认请求头
-    if (apiType === ApiType.CSP_SOURCE) {
-      site.header = {
-        'User-Agent': 'okhttp/3.15',
-        Accept: '*/*',
-        Connection: 'close'
+    const sites = sourcesToUse.map((s, index) => {
+      // 确保site有必要的属性
+      const siteKey = s.key || `site_${index}`;
+      const siteName = s.name || `未知站点_${index}`;
+      let siteApi = s.api || '';
+      
+      // 确保API地址包含?ac=list参数
+      if (siteApi && !siteApi.includes('?')) {
+        siteApi += '?ac=list';
+      } else if (siteApi && !siteApi.includes('ac=')) {
+        siteApi += '&ac=list';
+      }
+      
+      const apiType = detectApiType(siteApi);
+      const site = {
+        key: siteKey,
+        name: siteName,
+        type: apiType,
+        api: siteApi,
+        searchable: 1,
+        quickSearch: 1,
+        filterable: 1,
+        // 添加默认分类列表，与用户示例保持一致
+        categories: []
       };
-    } else {
-      site.header = {
-        'User-Agent': 'Mozilla/5.0 (Linux; Android 11; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Mobile Safari/537.36',
-        Accept: 'application/json, text/plain, */*',
-        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-        'Cache-Control': 'no-cache',
-        Connection: 'close'
-      };
-    }
 
-    // 启用智能搜索代理（如果配置）
-    if (useSmartProxy && (apiType === ApiType.MACCMS_XML || apiType === ApiType.MACCMS_JSON) && baseUrl) {
-      site.original_api = site.api;
-      site.api = `${baseUrl}/api/tvbox/search?source=${encodeURIComponent(siteKey)}&filter=${filterAdult ? 'on' : 'off'}&wd=`;
-    }
+      // 根据API类型设置默认请求头
+      if (apiType === ApiType.CSP_SOURCE) {
+        site.header = {
+          'User-Agent': 'okhttp/3.15',
+          Accept: '*/*',
+          Connection: 'close'
+        };
+      } else {
+        site.header = {
+          'User-Agent': 'Mozilla/5.0 (Linux; Android 11; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Mobile Safari/537.36',
+          Accept: 'application/json, text/plain, */*',
+          'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+          'Cache-Control': 'no-cache',
+          Connection: 'close'
+        };
+      }
 
-    return site;
-  });
+      // 启用智能搜索代理（如果配置）
+      if (useSmartProxy && (apiType === ApiType.MACCMS_XML || apiType === ApiType.MACCMS_JSON) && baseUrl) {
+        site.original_api = site.api;
+        site.api = `${baseUrl}/api/tvbox/search?source=${encodeURIComponent(siteKey)}&filter=${filterAdult ? 'on' : 'off'}&wd=`;
+      }
+
+      return site;
+    });
 
   // 转换直播源为TVBOX格式
   const lives = liveSources
@@ -607,9 +629,23 @@ async function handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultP
     
     const data = await getCachedJSON(selectedSource)
     
-    // 从数据源中提取视频源列表
-    const sources = data.api_site || []
-    const apiSites = Array.isArray(sources) ? sources : Object.values(sources)
+    // 从数据源中提取视频源列表 - 更健壮的处理
+    let apiSites = []
+    if (data && data.api_site) {
+      const sources = data.api_site
+      apiSites = Array.isArray(sources) ? sources : Object.values(sources)
+      console.log('Found', apiSites.length, 'API sites from source')
+    } else {
+      console.error('No api_site found in data:', JSON.stringify(data))
+      // 添加错误信息站点
+      apiSites = [{
+        name: '⚠️ 配置源获取失败',
+        api: '',
+        disabled: true,
+        is_adult: false,
+        _comment: `无法获取配置源: ${selectedSource}`
+      }]
+    }
     
     // 生成 TVBOX 配置
     let tvboxConfig = generateTvboxConfig(apiSites, [], { mode })
@@ -631,7 +667,35 @@ async function handleTvboxRequest(tvboxParam, sourceParam, prefixParam, defaultP
     }
   } catch (err) {
     await logError('tvbox', { message: err.message, stack: err.stack })
-    return errorResponse('Failed to fetch or process TVBOX data: ' + err.message, {}, 500)
+    // 返回包含错误信息的TVBOX配置，而不是JSON错误
+    const errorTvboxConfig = {
+      wallpaper: 'https://picsum.photos/1920/1080/?blur=2',
+      sites: [{
+        name: '⚠️ 生成配置失败',
+        api: '',
+        disabled: true,
+        is_adult: false,
+        _comment: err.message
+      }],
+      lives: [],
+      parses: [
+        { name: 'Json并发', type: 2, url: 'Parallel' },
+        { name: 'Json轮询', type: 2, url: 'Sequence' },
+        {
+          name: '默认解析',
+          type: 0,
+          url: 'https://jx.aidouer.net/?url=',
+          ext: {
+            flag: ['qq', 'qiyi', 'mgtv', 'youku', 'letv', 'sohu', 'xigua', 'cntv'],
+            header: { 'User-Agent': 'Mozilla/5.0' }
+          }
+        }
+      ],
+      flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi', 'xigua', 'cntv']
+    }
+    return new Response(JSON.stringify(errorTvboxConfig), {
+      headers: { 'Content-Type': 'application/json;charset=UTF-8', ...CORS_HEADERS },
+    })
   }
 }
 
