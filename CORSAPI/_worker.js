@@ -25,8 +25,8 @@ const EXCLUDE_HEADERS = new Set([
 
 // 使用当前仓库的配置文件URL，确保能获取到最新的配置数据
 const JSON_SOURCES = {
-  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan-main/main/jin18.json',
-  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan-main/main/jingjian.json'
+  'jin18': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jin18.json',
+  'jingjian': 'https://raw.githubusercontent.com/daihuan0612/tvyuan/main/jingjian.json'
 }
 
 const FORMAT_CONFIG = {
