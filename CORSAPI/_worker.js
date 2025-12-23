@@ -145,6 +145,9 @@ function generateTvboxConfig(
       const siteName = s.name || `未知站点_${index}`;
       let siteApi = s.api || '';
       
+      // 移除API地址中的反引号，防止URL格式错误
+      siteApi = siteApi.replace(/[`]/g, '').trim();
+      
       // 确保API地址包含?ac=list参数
       if (siteApi && !siteApi.includes('?')) {
         siteApi += '?ac=list';
@@ -208,6 +211,14 @@ function generateTvboxConfig(
 
   // 根据模式生成不同的配置
   let tvboxConfig;
+
+  // 确保所有URL不包含反引号的辅助函数
+  const cleanUrl = (url) => {
+    if (typeof url === 'string') {
+      return url.replace(/[`]/g, '').trim();
+    }
+    return url;
+  };
 
   if (mode === 'yingshicang') {
     // 影视仓专用优化配置
@@ -278,7 +289,7 @@ function generateTvboxConfig(
           ]
         }
       ],
-      wallpaper: 'https://picsum.photos/1920/1080/?blur=1',
+      wallpaper: cleanUrl('https://picsum.photos/1920/1080/?blur=1'),
       maxHomeVideoContent: '20'
     };
   } else if (mode === 'fast') {
@@ -313,7 +324,7 @@ function generateTvboxConfig(
         { name: '极速解析', type: 0, url: 'https://jx.aidouer.net/?url=', ext: { flag: ['all'] } }
       ],
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'mgtv'],
-      wallpaper: '',
+      wallpaper: cleanUrl(''),
       maxHomeVideoContent: '15'
     };
   } else if (mode === 'safe') {
@@ -330,7 +341,7 @@ function generateTvboxConfig(
     // 标准模式：完整配置
     tvboxConfig = {
       // 移除spider jar配置，让TVBox使用默认spider
-      wallpaper: 'https://picsum.photos/1920/1080/?blur=2',
+      wallpaper: cleanUrl('https://picsum.photos/1920/1080/?blur=2'),
       sites,
       lives: lives,
       parses: [
@@ -349,6 +360,12 @@ function generateTvboxConfig(
       flags: ['youku', 'qq', 'iqiyi', 'qiyi', 'letv', 'sohu', 'tudou', 'pptv', 'mgtv', 'wasu', 'bilibili', 'renrenmi', 'xigua', 'cntv']
     };
   }
+  
+  // 清理所有解析器的URL，确保它们不包含反引号
+  tvboxConfig.parses = tvboxConfig.parses.map(parse => ({
+    ...parse,
+    url: cleanUrl(parse.url)
+  }));
 
   return tvboxConfig;
 }
