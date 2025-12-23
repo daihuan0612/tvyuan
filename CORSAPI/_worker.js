@@ -427,10 +427,19 @@ async function getCachedJSON(url) {
       console.log('Using stale cache for:', url);
       return cached.data;
     }
-    // 否则返回默认的空配置
+    // 否则返回包含错误信息的配置，而不是空配置
+    console.error(`Failed to fetch ${url}, returning default error config`);
     return {
       "cache_time": 7200,
-      "api_site": {}
+      "api_site": {
+        "error_source": {
+          "name": "⚠️ 配置源获取失败",
+          "api": "",
+          "disabled": true,
+          "is_adult": false,
+          "_comment": `无法获取配置源: ${url}`
+        }
+      }
     };
   }
 }
