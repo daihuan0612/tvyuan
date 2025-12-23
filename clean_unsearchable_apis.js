@@ -46,7 +46,7 @@ const testSearch = async (api, keyword) => {
 
 // === 主逻辑 ===
 (async () => {
-  console.log('🔍 开始清理无法搜索的API...');
+  console.log('🔍 开始检测API搜索功能...');
   
   // 1. 加载配置文件
   if (!fs.existsSync(CONFIG_PATH)) {
@@ -61,6 +61,7 @@ const testSearch = async (api, keyword) => {
   
   // 2. 检查API的搜索功能
   const searchResults = [];
+  const reachableResults = [];
   
   for (let [key, site] of apiEntries) {
     console.log(`🧪 检查API搜索功能: ${site.name} (${site.api})`);
@@ -82,44 +83,33 @@ const testSearch = async (api, keyword) => {
       // 检查搜索功能
       const searchStatus = await testSearch(site.api, SEARCH_KEYWORD);
       searchResults.push({ key, name: site.name, api: site.api, searchStatus });
+      reachableResults.push({ key, name: site.name, api: site.api, searchStatus });
       
     } catch (error) {
       searchResults.push({ key, name: site.name, api: site.api, searchStatus: "❌", reason: error.message });
     }
   }
   
-  // 3. 筛选出可搜索的API
-  const searchableApis = {};
-  const unsearchableApis = [];
+  // 3. 统计搜索功能结果
+  const searchableApis = reachableResults.filter(result => result.searchStatus === "✅");
+  const unsearchableApis = reachableResults.filter(result => result.searchStatus !== "✅");
   
-  for (const result of searchResults) {
-    if (result.searchStatus === "✅") {
-      // 保留可搜索的API
-      searchableApis[result.key] = config.api_site[result.key];
-    } else {
-      // 记录无法搜索的API
-      unsearchableApis.push(result);
-    }
-  }
-  
-  // 4. 更新配置文件
+  // 4. 不直接删除无法搜索的API，而是生成报告
   if (unsearchableApis.length > 0) {
-    console.log(`🗑️  发现 ${unsearchableApis.length} 个无法搜索的API，将被移除:`);
+    console.log(`⚠️  发现 ${unsearchableApis.length} 个搜索功能异常的API，将在报告中显示:`);
     unsearchableApis.forEach(api => {
-      console.log(`- ${api.name} (${api.api}) - 原因: ${api.searchStatus}${api.reason ? ` (${api.reason})` : ''}`);
+      console.log(`- ${api.name} (${api.api}) - 搜索状态: ${api.searchStatus}`);
     });
     
-    // 更新配置文件，只保留可搜索的API
-    config.api_site = searchableApis;
-    
-    // 保存更新后的配置文件
-    fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), 'utf-8');
-    console.log(`✅ 配置文件已更新，保留了 ${Object.keys(searchableApis).length} 个可搜索的API`);
+    console.log(`✅ 配置文件保持不变，所有API均被保留`);
+    console.log(`✅ 可搜索API数量: ${searchableApis.length}`);
+    console.log(`✅ 搜索异常API数量: ${unsearchableApis.length}`);
+    console.log(`✅ 总API数量: ${apiEntries.length}`);
   } else {
-    console.log(`✅ 所有API都可以搜索，无需清理`);
+    console.log(`✅ 所有可访问的API搜索功能正常，无需处理`);
   }
   
-  // 5. 更新报告文件，添加清理记录
+  // 5. 更新报告文件，添加搜索功能检测记录
   let report = '';
   if (fs.existsSync(REPORT_PATH)) {
     report = fs.readFileSync(REPORT_PATH, 'utf-8');
@@ -130,25 +120,37 @@ const testSearch = async (api, keyword) => {
     .replace('T', ' ')
     .slice(0, 16) + ' CST';
   
-  const cleanRecord = `
-## 🧹 API清理记录
-**清理时间:** ${now}
-**清理结果:** 移除了 ${unsearchableApis.length} 个无法搜索的API
-**保留API数量:** ${Object.keys(searchableApis).length}
+  const searchRecord = `
+## 🔍 API搜索功能检测记录
+**检测时间:** ${now}
+**检测关键词:** ${SEARCH_KEYWORD}
+**总API数:** ${apiEntries.length}
+**可搜索API:** ${searchableApis.length}
+**搜索异常API:** ${unsearchableApis.length}
 
-**移除的API列表:**
-${unsearchableApis.map(api => `- ${api.name} (${api.api}) - 原因: ${api.searchStatus}${api.reason ? ` (${api.reason})` : ''}`).join('\n') || '无'}
+**搜索异常API列表:**
+${unsearchableApis.map(api => `- ${api.name} (${api.api}) - 搜索状态: ${api.searchStatus}`).join('\n') || '无'}
+
+**可搜索API列表:**
+${searchableApis.map(api => `- ${api.name} (${api.api})`).join('\n') || '无'}
 `;
   
-  // 将清理记录添加到报告顶部
+  // 将搜索检测记录添加到报告顶部
   const updatedReport = `# API健康报告
 
-${cleanRecord}
+${searchRecord}
 
 ${report.replace('# API健康报告', '').trim()}`;
   
   fs.writeFileSync(REPORT_PATH, updatedReport, 'utf-8');
-  console.log('📄 报告已更新，添加了API清理记录');
+  console.log('📄 报告已更新，添加了API搜索功能检测记录');
   
-  console.log('🎉 API清理完成！');
+  console.log('\n📊 检测统计：');
+  console.log(`- 总API数：${apiEntries.length}`);
+  console.log(`- 可访问API：${reachableResults.length}`);
+  console.log(`- 可搜索API：${searchableApis.length}`);
+  console.log(`- 搜索异常API：${unsearchableApis.length}`);
+  console.log(`- 不可访问API：${searchResults.length - reachableResults.length}`);
+  
+  console.log('🎉 API搜索功能检测完成！');
 })();
