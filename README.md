@@ -1,9 +1,9 @@
 
-## 根据：hafrey1  https://github.com/hafrey1/LunaTV-config 的代码魔改的
-## 因为之前一直想私密使用，但是不公开仓库拉取不了仓库json，所以才公开的，
-## 这也是为什么没有Fork的原因。
-## 再次感谢 hafrey1
-## 我不需要点赞，如果你觉得项目好，去给https://github.com/hafrey1/LunaTV-config点赞
+#### 根据：hafrey1  https://github.com/hafrey1/LunaTV-config 的代码魔改的
+#### 因为之前一直想私密使用，但是不公开仓库拉取不了仓库json，所以才公开的，
+#### 这也是为什么没有Fork的原因。
+#### 再次感谢 hafrey1
+#### 我不需要点赞，如果你觉得项目好，去给https://github.com/hafrey1/LunaTV-config点赞
 
 # API 自动搜集 & API 代理 & JSON 订阅器
 
