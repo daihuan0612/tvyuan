@@ -1,8 +1,8 @@
 # 源接口健康检测报告
 
-最近更新时间：2026-01-02 00:19 CST
+最近更新时间：2026-01-02 00:26 CST
 
-**总源数:** 54 | **检测关键词:** 斗罗大陆
+**总源数:** 55 | **检测关键词:** 斗罗大陆
 
 | 状态 | 资源名称 | 地址 | API | 搜索功能 | 成功次数 | 失败次数 | 成功率 | 最近7天趋势 |
 |------|---------|-----|-----|---------|---------:|--------:|-------:|--------------|
@@ -60,6 +60,7 @@
 | ✅ | 🔞 黑料资源 | [Link](https://heiliaozy.cc) | [Link](https://www.heiliaozyapi.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 色猫资源 | [Link](https://semaozy1.com) | [Link](https://caiji.semaozy.net/inc/apijson_vod.php/provide/vod) | ✅ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 杏吧资源 | [Link](https://xingba111.com) | [Link](https://xingba111.com/api.php/provide/vod) | ✅ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
+| ✅ | 🆕 新增资源-dbzy.tv_1 | [Link](https://dbzy.tv) | [Link](https://dbzy.tv/api.php/provide/vod) | ✅ | 9 | 3 | 75.0% | ------✅ |
 
 <details>
 <summary>📜 点击展开查看历史检测数据 (JSON)</summary>
@@ -13172,6 +13173,13 @@
         "disabled": false,
         "success": false,
         "searchStatus": "❌"
+      },
+      {
+        "name": "🆕 新增资源-dbzy.tv_1",
+        "api": "https://dbzy.tv/api.php/provide/vod",
+        "disabled": false,
+        "success": true,
+        "searchStatus": "✅"
       }
     ]
   }

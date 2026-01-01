@@ -228,6 +228,11 @@
       "name": "🎬 ikunzy资源",
       "api": "https://www.ikunzy.com/api.php/provide/vod/",
       "detail": "https://www.ikunzy.com"
+    },
+    "dbzy.tv_1": {
+      "name": "🆕 新增资源-dbzy.tv_1",
+      "api": "https://dbzy.tv/api.php/provide/vod",
+      "detail": "https://dbzy.tv"
     }
   }
 }

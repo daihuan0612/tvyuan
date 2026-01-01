@@ -384,15 +384,15 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2026-01-02 00:20 CST）
+## API 状态（最近更新：2026-01-02 00:27 CST）
 
-- 总 API 数量：54
-- 成功 API 数量：49
+- 总 API 数量：55
+- 成功 API 数量：50
 - 失败 API 数量：5
-- 平均可用率：95.5%
+- 平均可用率：95.1%
 - 完美可用率（100%）：42 个
 - 高可用率（80%-99%）：10 个
-- 中等可用率（50%-79%）：0 个
+- 中等可用率（50%-79%）：1 个
 - 低可用率（<50%）：2 个
 
 <div style="font-size: 11px;">
@@ -452,6 +452,7 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ❌ | 🎬 少广3线 (iKun) | [链接](https://ikunzyapi.com/api.php/provide/vod) | ❌ | 18 | 1 | 94.7% | ✅✅✅✅✅✅❌ |
 | ✅ | 🔞 老色逼 资源 | [链接](https://apilsbzy1.com/api.php/provide/vod) | ✅ | 28 | 2 | 93.3% | ❌❌✅✅✅✅✅ |
 | ✅ | 🎬 豆瓣 资源 | [链接](https://caiji.dbzy5.com/api.php/provide/vod) | ✅ | 27 | 3 | 90% | ✅✅✅✅✅✅✅ |
+| ✅ | 🆕 新增资源-dbzy.tv_1 | [链接](https://dbzy.tv/api.php/provide/vod) | ✅ | 9 | 3 | 75% | ------✅ |
 | 🚨 | 🎬 如意 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod) | ❌ | 0 | 19 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 19 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
