@@ -25,7 +25,7 @@ npm run collect
 ### 自动运行
 
 GitHub Actions工作流会按照设定的时间自动运行API搜集任务：
-- **频率**：每周运行一次
+- **频率**：每周运行一次（已改为每月）
 - **时间**：北京时间每周日凌晨0点
 - **工作流文件**：`.github/workflows/collect-apis.yml`
 
