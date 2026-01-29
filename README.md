@@ -384,12 +384,12 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2026-01-29 01:26 CST）
+## API 状态（最近更新：2026-01-30 01:30 CST）
 
 - 总 API 数量：55
-- 成功 API 数量：52
-- 失败 API 数量：3
-- 平均可用率：95.0%
+- 成功 API 数量：50
+- 失败 API 数量：5
+- 平均可用率：94.9%
 - 完美可用率（100%）：46 个
 - 高可用率（80%-99%）：6 个
 - 中等可用率（50%-79%）：1 个
@@ -445,17 +445,19 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ✅ | 🔞 老色逼 资源 | [链接](https://apilsbzy1.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 色猫 资源 | [链接](https://caiji.semaozy.net/inc/apijson_vod.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 黑料 资源 | [链接](https://www.heiliaozyapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
-| ✅ | 🆕 新增资源-dbzy.tv_1 | [链接](https://dbzy.tv/api.php/provide/vod) | ✅ | 29 | 0 | 100% | ✅✅✅✅✅✅✅ |
+| ✅ | 🆕 新增资源-dbzy.tv_1 | [链接](https://dbzy.tv/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 ikunzy 资源 | [链接](https://www.ikunzy.com/api.php/provide/vod/) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 天涯 资源 | [链接](https://tyyszy.com/api.php/provide/vod) | ❌ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 少广3线 (iKun) | [链接](https://ikunzyapi.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 jkun 资源 | [链接](https://jkunzyapi.com/api.php/provide/vod) | ✅ | 28 | 2 | 93.3% | ✅✅✅✅✅✅✅ |
-| ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 27 | 3 | 90% | ❌✅✅❌✅✅✅ |
-| ✅ | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ✅ | 25 | 5 | 83.3% | ❌❌✅❌❌✅✅ |
-| 🚨 | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ❌ | 21 | 9 | 70% | ❌❌❌❌❌❌❌ |
+| ❌ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ❌ | 26 | 4 | 86.7% | ✅✅❌✅✅✅❌ |
+| ❌ | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ❌ | 24 | 6 | 80% | ❌✅❌❌✅✅❌ |
+| 🚨 | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ❌ | 20 | 10 | 66.7% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 如意 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
+
+
 
 
 
