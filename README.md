@@ -384,12 +384,12 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2026-02-03 01:31 CST）
+## API 状态（最近更新：2026-02-04 01:45 CST）
 
 - 总 API 数量：55
 - 成功 API 数量：51
 - 失败 API 数量：4
-- 平均可用率：94.5%
+- 平均可用率：94.4%
 - 完美可用率（100%）：48 个
 - 高可用率（80%-99%）：3 个
 - 中等可用率（50%-79%）：2 个
@@ -400,7 +400,7 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 <!-- API_TABLE_START -->
 | 状态 | 资源名称                       | API   | 搜索功能 | 成功次数 | 失败 | 成功率 | 最近7天趋势 |
 |------|--------------------------------|-------|---------|---------:|------:|-------:|--------------|
-| ✅ | 🎬 360 资源 | [链接](https://360zy.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
+| ✅ | 🎬 360 资源 | [链接](https://360zy.com/api.php/provide/vod) | 不匹配 | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 ikunzy 资源 | [链接](https://www.ikunzy.com/api.php/provide/vod/) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 七星秒播2 资源 | [链接](http://cj.lziapi.com/api.php/provide/vod/) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 最大 资源 | [链接](https://api.zuidapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
@@ -450,12 +450,14 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ✅ | 🆕 新增资源-dbzy.tv_1 | [链接](https://dbzy.tv/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 天涯 资源 | [链接](https://tyyszy.com/api.php/provide/vod) | ❌ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 jkun 资源 | [链接](https://jkunzyapi.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
-| ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 26 | 4 | 86.7% | ✅✅❌✅✅✅✅ |
-| 🚨 | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ❌ | 20 | 10 | 66.7% | ✅✅❌❌❌❌❌ |
-| 🚨 | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ❌ | 16 | 14 | 53.3% | ❌❌❌❌❌❌❌ |
+| ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 26 | 4 | 86.7% | ✅❌✅✅✅✅✅ |
+| 🚨 | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ❌ | 19 | 11 | 63.3% | ✅❌❌❌❌❌❌ |
+| 🚨 | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ❌ | 15 | 15 | 50% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 如意 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
+
+
 
 
 
