@@ -384,7 +384,7 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2026-02-16 01:18 CST）
+## API 状态（最近更新：2026-02-17 01:32 CST）
 
 - 总 API 数量：55
 - 成功 API 数量：52
@@ -451,11 +451,13 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ✅ | 🆕 新增资源-dbzy.tv_1 | [链接](https://dbzy.tv/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 森林 资源 | [链接](https://beiyong.slapibf.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 27 | 3 | 90% | ✅✅✅✅✅✅✅ |
-| ✅ | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ✅ | 14 | 16 | 46.7% | ❌❌✅❌✅✅✅ |
-| 🚨 | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ❌ | 3 | 27 | 10% | ❌❌❌❌❌❌❌ |
+| ✅ | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ✅ | 14 | 16 | 46.7% | ❌✅❌✅✅✅✅ |
+| 🚨 | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ❌ | 2 | 28 | 6.7% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 如意 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
+
+
 
 
 
