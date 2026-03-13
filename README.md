@@ -384,12 +384,12 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2026-03-13 01:42 CST）
+## API 状态（最近更新：2026-03-14 01:27 CST）
 
 - 总 API 数量：55
 - 成功 API 数量：51
 - 失败 API 数量：4
-- 平均可用率：92.7%
+- 平均可用率：92.6%
 - 完美可用率（100%）：43 个
 - 高可用率（80%-99%）：8 个
 - 中等可用率（50%-79%）：0 个
@@ -423,7 +423,7 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ✅ | 🎬 爱奇艺 资源 | [链接](https://iqiyizyapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 电影天堂 资源 | [链接](http://caiji.dyttzyapi.com/api.php/provide/vod) | ❌ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 百度云 资源 | [链接](https://pz.168188.dpdns.org/?url=https://api.apibdzy.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
-| ✅ | 🎬 茅台 资源 | [链接](https://caiji.maotaizy.cc/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
+| ✅ | 🎬 茅台 资源 | [链接](https://caiji.maotaizy.cc/api.php/provide/vod) | 不匹配 | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 虎牙 资源 | [链接](https://www.huyaapi.com/api.php/provide/vod/at/json) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 豆瓣 资源 | [链接](https://caiji.dbzy5.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 金鹰 资源 | [链接](https://jyzyapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
@@ -447,15 +447,17 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ✅ | 🎬 少广3线 (iKun) | [链接](https://ikunzyapi.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 少广6线 (速播) | [链接](https://subocaiji.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 极速 资源 | [链接](https://jszyapi.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
-| ✅ | 🎬 飘零 资源 | [链接](https://p2100.net/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅❌✅ |
+| ✅ | 🎬 飘零 资源 | [链接](https://p2100.net/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅❌✅✅ |
 | ✅ | 🔞 老色逼 资源 | [链接](https://apilsbzy1.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 无广4线 (猫眼) | [链接](https://api.maoyanapi.top/api.php/provide/vod) | ✅ | 28 | 2 | 93.3% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 26 | 4 | 86.7% | ✅✅✅✅✅✅✅ |
-| 🚨 | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ❌ | 11 | 19 | 36.7% | ❌❌❌❌❌❌❌ |
+| 🚨 | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ❌ | 10 | 20 | 33.3% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 如意 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
+
+
 
 
 
