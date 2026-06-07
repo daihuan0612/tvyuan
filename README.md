@@ -380,7 +380,7 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2026-06-07 02:00 CST）
+## API 状态（最近更新：2026-06-08 01:59 CST）
 
 - 总 API 数量：55
 - 成功 API 数量：47
@@ -430,21 +430,21 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ✅ | 🔞 色猫 资源 | [链接](https://caiji.semaozy.net/inc/apijson_vod.php/provide/vod) | 无结果 | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 黑料 资源 | [链接](https://www.heiliaozyapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🆕 新增资源-dbzy.tv_1 | [链接](https://dbzy.tv/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
-| ✅ | 🎬 360 资源 | [链接](https://360zy.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅❌✅✅✅ |
-| ✅ | 🎬 ikunzy 资源 | [链接](https://www.ikunzy.com/api.php/provide/vod/) | ✅ | 29 | 1 | 96.7% | ✅✅✅❌✅✅✅ |
+| ✅ | 🎬 360 资源 | [链接](https://360zy.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅❌✅✅✅✅ |
+| ✅ | 🎬 ikunzy 资源 | [链接](https://www.ikunzy.com/api.php/provide/vod/) | ✅ | 29 | 1 | 96.7% | ✅✅❌✅✅✅✅ |
 | ✅ | 🎬 少广6线 (速播) | [链接](https://subocaiji.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
-| ✅ | 🎬 少广9线 (360) | [链接](https://360zy.com/api.php/provide/vod?) | 不匹配 | 29 | 1 | 96.7% | ✅✅✅❌✅✅✅ |
-| ✅ | 🎬 爱奇艺 资源 | [链接](https://iqiyizyapi.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅❌✅✅✅ |
+| ✅ | 🎬 少广9线 (360) | [链接](https://360zy.com/api.php/provide/vod?) | 不匹配 | 29 | 1 | 96.7% | ✅✅❌✅✅✅✅ |
+| ✅ | 🎬 爱奇艺 资源 | [链接](https://iqiyizyapi.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅❌✅✅✅✅ |
 | ✅ | 🎬 茅台 资源 | [链接](https://caiji.maotaizy.cc/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 豆瓣 资源 | [链接](https://caiji.dbzy5.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 飘零 资源 | [链接](https://p2100.net/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 森林 资源 | [链接](https://beiyong.slapibf.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 无广4线 (猫眼) | [链接](https://api.maoyanapi.top/api.php/provide/vod) | ✅ | 28 | 2 | 93.3% | ✅✅✅✅✅✅✅ |
-| 🚨 | 🎬 少广7线 (金鹰) | [链接](https://jinyingzy.com/api.php/provide/vod) | ❌ | 27 | 3 | 90% | ✅✅✅✅❌❌❌ |
-| ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 25 | 5 | 83.3% | ✅✅✅❌✅✅✅ |
-| ✅ | 🎬 金鹰 资源 | [链接](https://jyzyapi.com/api.php/provide/vod) | ✅ | 25 | 5 | 83.3% | ✅✅✅✅✅✅✅ |
+| 🚨 | 🎬 少广7线 (金鹰) | [链接](https://jinyingzy.com/api.php/provide/vod) | ❌ | 26 | 4 | 86.7% | ✅✅✅❌❌❌❌ |
+| ✅ | 🎬 金鹰 资源 | [链接](https://jyzyapi.com/api.php/provide/vod) | ✅ | 26 | 4 | 86.7% | ✅✅✅✅✅✅✅ |
+| ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 25 | 5 | 83.3% | ✅✅❌✅✅✅✅ |
 | ✅ | 🎬 卧龙 资源 | [链接](https://wolongzyw.com/api.php/provide/vod) | ❌ | 23 | 7 | 76.7% | ✅✅✅✅✅✅✅ |
-| 🚨 | 🎬 卧龙点播 资源 | [链接](https://collect.wolongzyw.com/api.php/provide/vod) | ❌ | 7 | 23 | 23.3% | ❌❌❌❌❌❌❌ |
+| 🚨 | 🎬 卧龙点播 资源 | [链接](https://collect.wolongzyw.com/api.php/provide/vod) | ❌ | 6 | 24 | 20% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 如意 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 少广2线 (备用) | [链接](http://121.40.174.45:199/api.php/provide/vod/) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 山海 资源 | [链接](https://zy.sh0o.cn/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
@@ -452,6 +452,8 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
+
+
 
 
 
