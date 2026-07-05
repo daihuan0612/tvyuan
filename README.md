@@ -380,12 +380,12 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2026-07-05 01:55 CST）
+## API 状态（最近更新：2026-07-06 01:54 CST）
 
 - 总 API 数量：55
-- 成功 API 数量：44
-- 失败 API 数量：11
-- 平均可用率：84.2%
+- 成功 API 数量：48
+- 失败 API 数量：7
+- 平均可用率：84.3%
 - 完美可用率（100%）：37 个
 - 高可用率（80%-99%）：10 个
 - 中等可用率（50%-79%）：0 个
@@ -406,7 +406,7 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ✅ | 🎬 少广1线 (小苹果) | [链接](https://bfzyapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 少广4线 (无尽) | [链接](https://api.wujinapi.me/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 少广5线 (光速) | [链接](https://api.guangsuapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
-| ✅ | 🎬 少广9线 (360) | [链接](https://360zy.com/api.php/provide/vod?) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
+| ✅ | 🎬 少广9线 (360) | [链接](https://360zy.com/api.php/provide/vod?) | 不匹配 | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 新浪点播 资源 | [链接](https://api.xinlangapi.com/xinlangapi.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 无尽影视 资源 | [链接](https://api.wujinapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 无广1线 (非凡) | [链接](https://yonghu.ffzyapi8.com/api.php/provide/vod/from/ffm3u8/at/json/) | ✅ | 30 | 0 | 100% | ✅✅✅✅✅✅✅ |
@@ -437,14 +437,14 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | ✅ | 🎬 少广3线 (iKun) | [链接](https://ikunzyapi.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🎬 少广8线 (红牛) | [链接](https://www.hongniuzy2.com/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
 | ✅ | 🔞 森林 资源 | [链接](https://beiyong.slapibf.com/api.php/provide/vod) | ❌ | 29 | 1 | 96.7% | ✅✅✅✅✅✅✅ |
-| ❌ | 🎬 少广6线 (速播) | [链接](https://subocaiji.com/api.php/provide/vod) | ❌ | 27 | 3 | 90% | ✅✅✅✅❌✅❌ |
-| 🚨 | 🎬 极速 资源 | [链接](https://jszyapi.com/api.php/provide/vod) | ❌ | 27 | 3 | 90% | ✅✅✅✅❌❌❌ |
-| ❌ | 🎬 茅台 资源 | [链接](https://caiji.maotaizy.cc/api.php/provide/vod) | ❌ | 25 | 5 | 83.3% | ❌✅✅✅✅✅❌ |
-| ❌ | 🎬 豆瓣 资源 | [链接](https://caiji.dbzy5.com/api.php/provide/vod) | ❌ | 25 | 5 | 83.3% | ❌✅✅✅✅✅❌ |
+| ✅ | 🎬 少广6线 (速播) | [链接](https://subocaiji.com/api.php/provide/vod) | ✅ | 27 | 3 | 90% | ✅✅✅❌✅❌✅ |
+| 🚨 | 🎬 极速 资源 | [链接](https://jszyapi.com/api.php/provide/vod) | ❌ | 26 | 4 | 86.7% | ✅✅✅❌❌❌❌ |
+| ✅ | 🎬 茅台 资源 | [链接](https://caiji.maotaizy.cc/api.php/provide/vod) | 无结果 | 25 | 5 | 83.3% | ✅✅✅✅✅❌✅ |
+| ✅ | 🎬 豆瓣 资源 | [链接](https://caiji.dbzy5.com/api.php/provide/vod) | 无结果 | 25 | 5 | 83.3% | ✅✅✅✅✅❌✅ |
 | ✅ | 🎬 U酷 资源 | [链接](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 24 | 6 | 80% | ✅✅✅✅✅✅✅ |
-| ❌ | 🆕 新增资源-dbzy.tv_1 | [链接](https://dbzy.tv/api.php/provide/vod) | ❌ | 24 | 6 | 80% | ❌✅✅✅✅✅❌ |
-| ✅ | 🎬 卧龙点播 资源 | [链接](https://collect.wolongzyw.com/api.php/provide/vod) | ❌ | 9 | 21 | 30% | ✅✅✅✅✅✅✅ |
-| ✅ | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ❌ | 3 | 27 | 10% | ❌❌❌❌✅✅✅ |
+| ✅ | 🆕 新增资源-dbzy.tv_1 | [链接](https://dbzy.tv/api.php/provide/vod) | 无结果 | 24 | 6 | 80% | ✅✅✅✅✅❌✅ |
+| ✅ | 🎬 卧龙点播 资源 | [链接](https://collect.wolongzyw.com/api.php/provide/vod) | ❌ | 10 | 20 | 33.3% | ✅✅✅✅✅✅✅ |
+| ✅ | 🔞 幸 资源 | [链接](https://xzybb2.com/api.php/provide/vod) | ❌ | 4 | 26 | 13.3% | ❌❌❌✅✅✅✅ |
 | 🚨 | 🎬 如意 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 少广2线 (备用) | [链接](http://121.40.174.45:199/api.php/provide/vod/) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 少广7线 (金鹰) | [链接](https://jinyingzy.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
@@ -452,6 +452,8 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | 🚨 | 🎬 百度云 资源 | [链接](https://pz.168188.dpdns.org/?url=https://api.apibdzy.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
+
+
 
 
 
