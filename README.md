@@ -380,7 +380,7 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 
 # API 健康报告（每日自动检测API状态）
 
-## API 状态（最近更新：2026-10-02 04:45 CST）
+## API 状态（最近更新：2026-10-01 05:06 CST）
 
 - 总 API 数量：55
 - 成功 API 数量：49
@@ -452,8 +452,6 @@ GitHub Actions工作流会每月自动运行API搜集任务，搜集到的新API
 | 🚨 | 🎬 百度云 资源 | [链接](https://pz.168188.dpdns.org/?url=https://api.apibdzy.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 | 🚨 | 🎬 豪华 资源 | [链接](https://jjpz.hafrey.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod) | ❌ | 0 | 30 | 0% | ❌❌❌❌❌❌❌ |
 <!-- API_TABLE_END -->
-
-
 
 
 
